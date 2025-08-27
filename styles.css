@@ -174,22 +174,30 @@ footer{
 .meta-list li{ margin:6px 0 }
 @media (max-width:900px){ .meta-card{ grid-template-columns: 1fr; } }
 
-/* ---- Metakognition: Farben Default ---- */
+/* ---- Default-Farben ---- */
 .meta-card { color: var(--fg); }
 .meta-list { color: var(--mut); }
 .meta-list li { color: var(--mut); }
 .meta-list strong { color: var(--sub); font-weight: 700; }
 
-/* === Varianten-System (intelligent) ===================== */
-/* Gemeinsame Verbesserungen */
+/* === INTELLIGENTES VARIANTENSYSTEM ===================== */
+/* Basis */
 .meta .meta-card { align-items:start; }
 .meta .meta-list { list-style:disc; }
 .meta .meta-list li { margin:6px 0; }
 
-/* Grund-API: data-accent steuert alle Farben der Box */
+/* data-accent steuert ALLES in der Box */
 .meta[data-accent]{
-  --accent: var(--sub);    /* Überschrieben je Variante */
-  --body:   var(--mut);    /* Fließtext-/Listenfarbe */
+  --accent: var(--sub);  /* wird je Variante überschrieben */
+  --body:   color-mix(in srgb, var(--accent) 35%, var(--mut));
+}
+.meta[data-accent] .meta-card{ 
+  border-color: color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,.06));
+}
+.meta[data-accent] .meta-card:before{
+  background:
+    radial-gradient(280px 140px at 0% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 55%),
+    radial-gradient(260px 140px at 100% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%);
 }
 .meta[data-accent] .meta-card h3{ color:var(--accent); }
 .meta[data-accent] .badge{
@@ -203,9 +211,9 @@ footer{
 .meta[data-accent] .meta-list li::marker{ color:var(--accent); }
 
 /* Vordefinierte Paletten */
-.meta[data-accent="cyan"]  { --accent: var(--pri); --body: var(--sub); }
-.meta[data-accent="amber"] { --accent: var(--cta); --body: var(--mut); }
-/* (Optional) Weitere Presets:
-.meta[data-accent="green"] { --accent:#35e27a; --body:#9fe7c1; }
-.meta[data-accent="violet"]{ --accent:#a78bfa; --body:#c4b5fd; }
+.meta[data-accent="cyan"]  { --accent: var(--pri);  --body: color-mix(in srgb, var(--pri) 40%, var(--sub)); }
+.meta[data-accent="amber"] { --accent: var(--cta);  --body: color-mix(in srgb, var(--cta) 35%, var(--mut)); }
+/* Weitere Presets möglich:
+.meta[data-accent="green"] { --accent:#35e27a; --body:color-mix(in srgb,#35e27a 35%, var(--mut)); }
+.meta[data-accent="violet"]{ --accent:#a78bfa; --body:color-mix(in srgb,#a78bfa 40%, var(--mut)); }
 */
