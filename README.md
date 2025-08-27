@@ -2,6 +2,12 @@
   <img src="img/AEON_4K_neuron_4k_light.png?v=1" alt="AEON Hero" width="900">
 </p>
 
+<p align="center">
+  <a href="#"><img alt="Status" src="https://img.shields.io/badge/Status-experimentell-00e0ff"></a>
+  <a href="#"><img alt="Python" src="https://img.shields.io/badge/Python-3.9-3776ab"></a>
+  <a href="https://github.com/Wendel007639/AEON-Engine/actions"><img alt="CI" src="https://img.shields.io/badge/CI-coming_soon-555"></a>
+</p>
+
 # A.E.O.N – Adaptives Emotionales Optimiertes Netzwerk
 
 **Beta 1.0 – Feinschliff Phase**  
