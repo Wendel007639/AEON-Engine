@@ -1,17 +1,22 @@
-// main.js
-
 // Footer-Jahr
 document.getElementById('y').textContent = new Date().getFullYear();
 
-// Auto-Akzent: falls kein data-accent gesetzt ist, aus Badge-Text ableiten
+// ===== Akzentsteuerung =====
+// Für jetzt ALLES in CYAN halten:
+const FORCE_CYAN = true;
+
+// Wenn später gewünscht, auf false setzen, dann greift die Auto-Zuordnung.
 document.querySelectorAll('section.meta').forEach(sec => {
-  if (sec.dataset.accent) return; // bereits gesetzt
-  const badge = sec.querySelector('.badge');
-  if (!badge) return;
-  const t = badge.textContent.trim().toLowerCase();
-  if (/(introspection|introspektion|metakognition)/.test(t)) {
+  if (FORCE_CYAN) {
     sec.dataset.accent = 'cyan';
-  } else if (/(decision|entscheid|context|kontext)/.test(t)) {
+    return;
+  }
+  // Auto-Mapping (nur wenn kein data-accent gesetzt)
+  if (sec.dataset.accent) return;
+  const label = (sec.querySelector('.badge')?.textContent || '').toLowerCase();
+  if (/(introspection|introspektion)/.test(label)) {
+    sec.dataset.accent = 'cyan';
+  } else if (/(decision|entscheid|context)/.test(label)) {
     sec.dataset.accent = 'amber';
   }
 });
