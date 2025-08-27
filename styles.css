@@ -180,27 +180,32 @@ footer{
 .meta-list li { color: var(--mut); }
 .meta-list strong { color: var(--sub); font-weight: 700; }
 
-/* === Varianten für die Sonder-Boxen ===================== */
+/* === Varianten-System (intelligent) ===================== */
+/* Gemeinsame Verbesserungen */
+.meta .meta-card { align-items:start; }
+.meta .meta-list { list-style:disc; }
+.meta .meta-list li { margin:6px 0; }
 
-/* Gemeinsame kleine Verbesserungen */
-.meta .meta-card { align-items: start; }
-.meta .meta-list { list-style: disc; }
-.meta .meta-list li { margin: 6px 0; }
+/* Grund-API: data-accent steuert alle Farben der Box */
+.meta[data-accent]{
+  --accent: var(--sub);    /* Überschrieben je Variante */
+  --body:   var(--mut);    /* Fließtext-/Listenfarbe */
+}
+.meta[data-accent] .meta-card h3{ color:var(--accent); }
+.meta[data-accent] .badge{
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+.meta[data-accent] .meta-card p,
+.meta[data-accent] .meta-list,
+.meta[data-accent] .meta-list li{ color:var(--body); }
+.meta[data-accent] .meta-list strong{ color:var(--accent); }
+.meta[data-accent] .meta-list li::marker{ color:var(--accent); }
 
-/* -------- INTROSPEKTION (Cyan-Akzent) -------- */
-.meta.introspection .meta-card h3 { color: var(--pri); }
-.meta.introspection .badge { background: rgba(0,224,255,.18); color: var(--pri); }
-.meta.introspection .meta-card p,
-.meta.introspection .meta-list,
-.meta.introspection .meta-list li { color: var(--sub); }
-.meta.introspection .meta-list strong { color: var(--pri); }
-.meta.introspection .meta-list li::marker { color: var(--pri); }
-
-/* -------- DECISION CONTEXT (Amber-Akzent) -------- */
-.meta.decision .meta-card h3 { color: var(--cta); }
-.meta.decision .badge { background: rgba(255,179,71,.18); color: var(--cta); }
-.meta.decision .meta-card p,
-.meta.decision .meta-list,
-.meta.decision .meta-list li { color: var(--mut); }
-.meta.decision .meta-list strong { color: var(--cta); }
-.meta.decision .meta-list li::marker { color: var(--cta); }
+/* Vordefinierte Paletten */
+.meta[data-accent="cyan"]  { --accent: var(--pri); --body: var(--sub); }
+.meta[data-accent="amber"] { --accent: var(--cta); --body: var(--mut); }
+/* (Optional) Weitere Presets:
+.meta[data-accent="green"] { --accent:#35e27a; --body:#9fe7c1; }
+.meta[data-accent="violet"]{ --accent:#a78bfa; --body:#c4b5fd; }
+*/
