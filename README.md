@@ -94,7 +94,7 @@ A.E.O.N befindet sich in einer experimentellen Forschungs und Entwicklungsphase
 Nicht für den produktiven Einsatz vorgesehen.
 
 
-# Installation über build.sh:
+# Installation über start.sh:
 
 ./start.sh
 
