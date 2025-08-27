@@ -59,7 +59,6 @@ a{color:inherit;text-decoration:none}
   box-shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
   overflow:hidden;
 }
-/* Watermark – ohne Blend-Modi/Filter */
 .hero::before{
   content:"";
   position:absolute; inset:0;
@@ -68,7 +67,6 @@ a{color:inherit;text-decoration:none}
   pointer-events:none;
   z-index:0;
 }
-/* Vignette */
 .hero::after{
   content:"";
   position:absolute; inset:0;
@@ -176,46 +174,33 @@ footer{
 .meta-list li{ margin:6px 0 }
 @media (max-width:900px){ .meta-card{ grid-template-columns: 1fr; } }
 
-/* ---- Metakognition: Farben für Liste & Labels (Default) ---- */
+/* ---- Metakognition: Farben Default ---- */
 .meta-card { color: var(--fg); }
 .meta-list { color: var(--mut); }
 .meta-list li { color: var(--mut); }
-.meta-list strong {
-  color: var(--sub);
-  font-weight: 700;
-}
+.meta-list strong { color: var(--sub); font-weight: 700; }
 
-/* === Variants für die beiden Sonder-Boxen ===================== */
+/* === Varianten für die Sonder-Boxen ===================== */
 
 /* Gemeinsame kleine Verbesserungen */
 .meta .meta-card { align-items: start; }
 .meta .meta-list { list-style: disc; }
 .meta .meta-list li { margin: 6px 0; }
 
-/* -------- INTROSPEKTION (cyan Akzent) -------- */
+/* -------- INTROSPEKTION (Cyan-Akzent) -------- */
 .meta.introspection .meta-card h3 { color: var(--pri); }
-.meta.introspection .badge {
-  background: rgba(0,224,255,.18);
-  color: var(--pri);
-}
+.meta.introspection .badge { background: rgba(0,224,255,.18); color: var(--pri); }
 .meta.introspection .meta-card p,
 .meta.introspection .meta-list,
-.meta.introspection .meta-list li { 
-  color: var(--sub);
-}
+.meta.introspection .meta-list li { color: var(--sub); }
 .meta.introspection .meta-list strong { color: var(--pri); }
 .meta.introspection .meta-list li::marker { color: var(--pri); }
 
-/* -------- DECISION CONTEXT (CTA/Amber Akzent) -------- */
+/* -------- DECISION CONTEXT (Amber-Akzent) -------- */
 .meta.decision .meta-card h3 { color: var(--cta); }
-.meta.decision .badge {
-  background: rgba(255,179,71,.18);
-  color: var(--cta);
-}
+.meta.decision .badge { background: rgba(255,179,71,.18); color: var(--cta); }
 .meta.decision .meta-card p,
 .meta.decision .meta-list,
-.meta.decision .meta-list li { 
-  color: var(--mut);
-}
+.meta.decision .meta-list li { color: var(--mut); }
 .meta.decision .meta-list strong { color: var(--cta); }
 .meta.decision .meta-list li::marker { color: var(--cta); }
