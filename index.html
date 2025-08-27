@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AEON | Adaptive Emotional Optimized Network</title>
   <meta name="description" content="AEON ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
-  
+
   <!-- Favicon & Social Vorschau -->
   <link rel="icon" href="img/favicon.png">
   <meta property="og:title" content="AEON, Adaptive Emotional Optimized Network">
@@ -15,7 +15,7 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  
+
   <style>
     :root{
       --bg:#070d1a;
@@ -66,12 +66,32 @@
 
     /* HERO */
     .hero{
+      position:relative;
       display:grid;gap:22px;padding:56px 24px 24px;border-radius:18px;
       background:
         linear-gradient(180deg, rgba(10,15,30,.15) 0%, rgba(10,15,30,.60) 65%, rgba(10,15,30,.85) 100%),
         url("img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
       box-shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+      overflow:hidden;
     }
+    /* Favicon als zentrales Watermark */
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:url("img/favicon.png") center/60% no-repeat;
+      opacity:.22;
+      mix-blend-mode:screen;
+      filter:drop-shadow(0 0 16px rgba(0,224,255,.25));
+      pointer-events:none;
+    }
+    /* leichte Vignette für mehr Fokus auf Text */
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background:radial-gradient(120% 80% at 50% 40%, transparent 0%, rgba(7,13,26,.35) 70%);
+      pointer-events:none;
+    }
+
     .kicker{
       color:var(--sub);font:600 14px Poppins,sans-serif;letter-spacing:.12em;
       text-transform:uppercase;opacity:.95
@@ -148,7 +168,7 @@
         <h1>AEON</h1>
       </div>
       <div style="display:flex; gap:10px;">
-        <a class="btn" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Repository</a>
+        <!-- Repository-Button entfernt -->
         <a class="btn" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
       </div>
     </nav>
@@ -194,7 +214,7 @@
     <footer>
       <div>© <span id="y"></span> Timothy Langer, AEON</div>
       <div>
-        <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> | 
+        <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
         <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
       </div>
     </footer>
