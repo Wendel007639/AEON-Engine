@@ -1,4 +1,8 @@
-# A.E.O.N – Adaptives Emotionales Optimiertes Netzwerk  
+<p align="center">
+  <img src="img/AEON_4K_neuron_4k_light.png?v=1" alt="AEON Hero" width="900">
+</p>
+
+# A.E.O.N – Adaptives Emotionales Optimiertes Netzwerk
 
 **Beta 1.0 – Feinschliff Phase**  
 Eine modulare Plattform für adaptive Kognition, Emotion und multimodale Wahrnehmung. 
