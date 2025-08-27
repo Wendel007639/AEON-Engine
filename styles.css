@@ -185,20 +185,37 @@ footer{
   font-weight: 700;
 }
 
-/* ---- Introspektion: cyan statt Weiß/Grau (nur diese Section) ---- */
-.meta.introspection .meta-card h3 { color: var(--pri); }
+/* === Variants für die beiden Sonder-Boxen ===================== */
 
+/* Gemeinsame kleine Verbesserungen */
+.meta .meta-card { align-items: start; }
+.meta .meta-list { list-style: disc; }
+.meta .meta-list li { margin: 6px 0; }
+
+/* -------- INTROSPEKTION (cyan Akzent) -------- */
+.meta.introspection .meta-card h3 { color: var(--pri); }
 .meta.introspection .badge {
   background: rgba(0,224,255,.18);
   color: var(--pri);
 }
-
 .meta.introspection .meta-card p,
 .meta.introspection .meta-list,
-.meta.introspection .meta-list li {
+.meta.introspection .meta-list li { 
   color: var(--sub);
 }
+.meta.introspection .meta-list strong { color: var(--pri); }
+.meta.introspection .meta-list li::marker { color: var(--pri); }
 
-.meta.introspection .meta-list strong {
-  color: var(--pri);
+/* -------- DECISION CONTEXT (CTA/Amber Akzent) -------- */
+.meta.decision .meta-card h3 { color: var(--cta); }
+.meta.decision .badge {
+  background: rgba(255,179,71,.18);
+  color: var(--cta);
 }
+.meta.decision .meta-card p,
+.meta.decision .meta-list,
+.meta.decision .meta-list li { 
+  color: var(--mut);
+}
+.meta.decision .meta-list strong { color: var(--cta); }
+.meta.decision .meta-list li::marker { color: var(--cta); }
