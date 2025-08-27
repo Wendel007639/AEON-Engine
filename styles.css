@@ -1,3 +1,4 @@
+/* styles.css */
 :root{
   --bg:#070d1a;
   --fg:#e7f9ff;
@@ -174,3 +175,30 @@ footer{
 .meta-list{ margin:0; padding-left:18px; color:var(--mut); font:400 15px/1.6 Inter,sans-serif }
 .meta-list li{ margin:6px 0 }
 @media (max-width:900px){ .meta-card{ grid-template-columns: 1fr; } }
+
+/* ---- Metakognition: Farben für Liste & Labels (Default) ---- */
+.meta-card { color: var(--fg); }
+.meta-list { color: var(--mut); }
+.meta-list li { color: var(--mut); }
+.meta-list strong {
+  color: var(--sub);
+  font-weight: 700;
+}
+
+/* ---- Introspektion: cyan statt Weiß/Grau (nur diese Section) ---- */
+.meta.introspection .meta-card h3 { color: var(--pri); }
+
+.meta.introspection .badge {
+  background: rgba(0,224,255,.18);
+  color: var(--pri);
+}
+
+.meta.introspection .meta-card p,
+.meta.introspection .meta-list,
+.meta.introspection .meta-list li {
+  color: var(--sub);
+}
+
+.meta.introspection .meta-list strong {
+  color: var(--pri);
+}
