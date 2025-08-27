@@ -11,7 +11,7 @@ Es kombiniert KI Modelle, Systemdienste und Sicherheitsmechanismen in einem einh
 
 
 
-# ✨ Kern-Features  
+# ✨ Kern Features  
 🧠 Core und Brain: Emotion, Gedächtnis, Lernen, Reasoning, Global Workspace  
 🎭 Emotion: Sentiment Analyse, Empathie Modelle, Stress Adaption  
 👁️ Perception: Multimodale Wahrnehmung visuell, akustisch, haptisch  
