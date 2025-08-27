@@ -106,13 +106,4 @@ docker logs -f aeon_api
 bash clean.sh
 
 
-# Lösche dein altes venv Verzeichnis:
-
-rm -rf A.E.O.N
-
-
-# Lege das venv NEU an
-
-python -m venv A.E.O.N
-
 
