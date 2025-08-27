@@ -67,7 +67,7 @@
     /* HERO */
     .hero{
       position:relative;
-      isolation:isolate;               /* eigener Stacking-Context */
+      isolation:isolate;                    /* eigener Stacking-Context */
       display:grid;gap:22px;padding:56px 24px 24px;border-radius:18px;
       background:
         linear-gradient(180deg, rgba(10,15,30,.15) 0%, rgba(10,15,30,.60) 65%, rgba(10,15,30,.85) 100%),
@@ -75,24 +75,24 @@
       box-shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
       overflow:hidden;
     }
+    /* Watermark – ohne blend-mode/Filter, damit es nicht in den Text „reinblendet“ */
     .hero::before{
       content:"";
       position:absolute; inset:0;
       background:url("img/favicon.png") center/60% no-repeat;
-      opacity:.22;
-      mix-blend-mode:screen;
-      filter:drop-shadow(0 0 16px rgba(0,224,255,.25));
+      opacity:.16;                          /* etwas dezenter */
       pointer-events:none;
-      z-index:0;                        /* sicher hinter dem Text */
+      z-index:0;
     }
+    /* Vignette */
     .hero::after{
       content:"";
       position:absolute; inset:0;
       background:radial-gradient(120% 80% at 50% 40%, transparent 0%, rgba(7,13,26,.35) 70%);
       pointer-events:none;
-      z-index:0;                        /* sicher hinter dem Text */
+      z-index:0;
     }
-    .hero > *{ position:relative; z-index:1; }  /* Text über die Overlays */
+    .hero > *{ position:relative; z-index:1; }  /* Text sicher oben */
 
     .kicker{
       color:var(--sub);font:600 14px Poppins,sans-serif;letter-spacing:.12em;
@@ -103,11 +103,13 @@
       line-height:1.05;letter-spacing:.3px;
       background:linear-gradient(180deg,var(--pri),#9feaff);
       -webkit-background-clip:text;background-clip:text;color:transparent;
-      -webkit-text-fill-color:transparent;       /* fix für WebKit */
+      -webkit-text-fill-color:transparent;
       text-shadow:0 10px 40px rgba(0,224,255,.12);
       text-rendering:optimizeLegibility;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      will-change:transform;               /* eigene Compositing-Ebene */
+      transform:translateZ(0);
     }
     .lead{
       max-width:820px;color:var(--mut);font:400 18px/1.6 Inter,sans-serif
