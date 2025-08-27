@@ -6,7 +6,7 @@
   <title>A.E.O.N | Adaptive Emotional Optimized Network</title>
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
 
-  <!-- Favicon & Social Vorschau -->
+  <!-- Favicon & Social -->
   <link rel="icon" href="img/favicon.png">
   <meta property="og:title" content="A.E.O.N, Adaptive Emotional Optimized Network">
   <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
@@ -16,183 +16,8 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#070d1a;
-      --fg:#e7f9ff;
-      --sub:#9fd8ff;
-      --pri:#00e0ff;
-      --pri-2:#00b3cc;
-      --cta:#ffb347;
-      --card:#0b1426;
-      --mut:#b7c6d6;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--fg);
-      background:
-        radial-gradient(1200px 600px at 70% -10%, rgba(0,224,255,.12), transparent 60%),
-        radial-gradient(900px 500px at 20% 110%, rgba(0,179,204,.12), transparent 60%),
-        linear-gradient(180deg, #071024 0%, #060b17 100%);
-      background-color:var(--bg);
-    }
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
-
-    /* NAV */
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:8px 0 4px;border-bottom:1px solid rgba(255,255,255,.06)
-    }
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{
-      width:40px;height:40px;border-radius:10px;
-      display:grid;place-items:center;
-      background: radial-gradient(80% 80% at 50% 50%, rgba(0,224,255,.25), rgba(0,224,255,.06));
-      box-shadow:0 0 0 1px rgba(0,224,255,.25), 0 10px 30px rgba(0,224,255,.12) inset;
-      font-weight:700;color:var(--pri)
-    }
-    .brand h1{
-      font:700 18px Poppins,Inter,sans-serif;margin:0;letter-spacing:.5px;color:var(--fg)
-    }
-    .nav a.btn{
-      padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.06);
-      font-weight:600
-    }
-    .nav a.btn:hover{background:rgba(255,255,255,.12)}
-
-    /* HERO */
-    .hero{
-      position:relative;
-      isolation:isolate;                    /* eigener Stacking-Context */
-      display:grid;gap:22px;padding:56px 24px 24px;border-radius:18px;
-      background:
-        linear-gradient(180deg, rgba(10,15,30,.15) 0%, rgba(10,15,30,.60) 65%, rgba(10,15,30,.85) 100%),
-        url("img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
-      box-shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
-      overflow:hidden;
-    }
-    /* Watermark – ohne blend-mode/Filter, damit es nicht in den Text „reinblendet“ */
-    .hero::before{
-      content:"";
-      position:absolute; inset:0;
-      background:url("img/favicon.png") center/60% no-repeat;
-      opacity:.16;                          /* etwas dezenter */
-      pointer-events:none;
-      z-index:0;
-    }
-    /* Vignette */
-    .hero::after{
-      content:"";
-      position:absolute; inset:0;
-      background:radial-gradient(120% 80% at 50% 40%, transparent 0%, rgba(7,13,26,.35) 70%);
-      pointer-events:none;
-      z-index:0;
-    }
-    .hero > *{ position:relative; z-index:1; }  /* Text sicher oben */
-
-    .kicker{
-      color:var(--sub);font:600 14px Poppins,sans-serif;letter-spacing:.12em;
-      text-transform:uppercase;opacity:.95
-    }
-    .title{
-      font:700 clamp(28px,5vw,48px) Poppins,sans-serif;
-      line-height:1.05;letter-spacing:.3px;
-      background:linear-gradient(180deg,var(--pri),#9feaff);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 10px 40px rgba(0,224,255,.12);
-      text-rendering:optimizeLegibility;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      will-change:transform;               /* eigene Compositing-Ebene */
-      transform:translateZ(0);
-    }
-    .lead{
-      max-width:820px;color:var(--mut);font:400 18px/1.6 Inter,sans-serif
-    }
-    .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
-    .cta{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:12px 18px;border-radius:14px;font:600 15px Inter,sans-serif
-    }
-    .cta.primary{
-      background:linear-gradient(135deg,var(--pri),var(--pri-2));
-      color:#021018;box-shadow:0 10px 24px rgba(0,224,255,.18)
-    }
-    .cta.primary:hover{filter:brightness(1.05)}
-    .cta.ghost{background:rgba(255,255,255,.06)}
-    .cta.ghost:hover{background:rgba(255,255,255,.12)}
-    .note{color:var(--sub);font-size:13px;opacity:.9}
-
-    /* CARDS */
-    .grid{
-      display:grid;gap:16px;margin-top:34px;
-      grid-template-columns:repeat(3,minmax(0,1fr))
-    }
-    @media (max-width:920px){.grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:var(--card);border:1px solid rgba(255,255,255,.06);
-      border-radius:18px;padding:18px 18px 16px;position:relative;overflow:hidden
-    }
-    .card:before{
-      content:"";position:absolute;inset:-1px;
-      background:
-        radial-gradient(200px 100px at 0% 0%, rgba(0,224,255,.10), transparent 50%),
-        radial-gradient(220px 120px at 100% 100%, rgba(0,179,204,.10), transparent 55%);
-      pointer-events:none
-    }
-    .card h3{
-      margin:4px 0 8px;font:700 18px Poppins,sans-serif;letter-spacing:.2px;color:#e9fbff
-    }
-    .card p{margin:0;color:var(--mut);font:400 15px/1.6 Inter,sans-serif}
-
-    .badge{
-      display:inline-block;padding:6px 10px;border-radius:999px;
-      background:rgba(0,224,255,.14);color:var(--pri);font:700 12px Inter,sans-serif;
-      letter-spacing:.08em;text-transform:uppercase
-    }
-
-    /* FOOTER */
-    footer{
-      margin-top:54px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06);
-      color:var(--mut);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
-    }
-
-    @keyframes pulse{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
-    .glow{filter:drop-shadow(0 0 22px rgba(0,224,255,.18));animation:pulse 6s ease-in-out infinite}
-
-    /* --- META BOX (Metakognition) --- */
-    .meta { margin-top: 18px; }
-    .meta-card{
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding: 20px;
-      display: grid;
-      gap: 14px;
-      grid-template-columns: 1.3fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-    .meta-card:before{
-      content:"";
-      position:absolute; inset:-1px;
-      background:
-        radial-gradient(280px 140px at 0% 0%, rgba(0,224,255,.10), transparent 55%),
-        radial-gradient(260px 140px at 100% 100%, rgba(0,179,204,.10), transparent 55%);
-      pointer-events:none;
-    }
-    .meta-card h3{ margin:4px 0 8px; font:700 20px Poppins,Inter,sans-serif; color:#e9fbff }
-    .meta-card p{ margin:0; color:var(--mut); font:400 15px/1.65 Inter,sans-serif }
-    .meta-list{ margin:0; padding-left:18px; color:var(--mut); font:400 15px/1.6 Inter,sans-serif }
-    .meta-list li{ margin:6px 0 }
-    @media (max-width:900px){ .meta-card{ grid-template-columns: 1fr; } }
-  </style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="wrap">
@@ -282,8 +107,6 @@
     </footer>
   </div>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <script defer src="main.js"></script>
 </body>
 </html>
