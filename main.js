@@ -133,6 +133,7 @@ function toggleToTop(){
 }
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
+toTop?.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
 
 // ===== News-Feed rendern =====
 function renderNews(){
