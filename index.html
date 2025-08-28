@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
 
@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2107">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2110">
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -84,12 +84,15 @@
             <button type="submit" class="cta primary">Abonnieren</button>
           </form>
 
-          <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.</small>
+          <small class="privacy">
+            Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter
+            <strong>eine Woche früher</strong> als die Veröffentlichung auf der Webseite – <strong>kostenlos</strong>.
+          </small>
           <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
           <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
 
-        <!-- NEWS (nur sichtbar, wenn es Einträge gibt) -->
+        <!-- NEWS -->
         <section class="news-card" id="news" hidden>
           <div class="news-head">
             <span class="badge">News</span>
@@ -110,7 +113,6 @@
       </aside>
     </section>
 
-    <!-- SCREEN 2: Bereiche – initial VERSTECKT (nur bei Auswahl) -->
     <section class="meta" id="meta" data-accent="cyan" hidden>
       <article class="meta-card">
         <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
@@ -143,36 +145,13 @@
         <div>
           <span class="badge">Introspection Module</span>
           <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
-            Es erkennt Muster, Ambivalenzen, innere Widersprüche, Metakommentare,
-            Verzerrungen und Rückblenden. Jede Runde erzeugt klare Einsichten und eine reife
-            Metareflexion.
-          </p>
-          <p>
-            Pro Durchlauf werden alle Zustände gelesen und im Kontext gewichtet.
-            Emotion, Ambivalenz und Komplexität fließen in kurze Reflexionen pro Signal ein,
-            Erinnerungen werden mit dem Jetzt verglichen, Gegenstimmen werden benannt und
-            Verzerrungen transparent gemacht. So entsteht ein verständlicher Überblick über
-            die innere Lage mit einem kompakten Fazit.
-          </p>
-          <p>
-            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil, passt sein Tempo
-            über den Selbstzweifel an und entwickelt die Strategie adaptiv weiter,
-            damit jede Antwort nachvollziehbar bleibt.
-          </p>
+          <p><code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion …</p>
         </div>
         <ul class="meta-list">
-          <li><strong>Emotionen</strong> glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend.</li>
-          <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine.</li>
-          <li><strong>Metagefühl</strong> ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet.</li>
-          <li><strong>Selbstzweifel</strong> zu Beginn 0,15 bis 0,60, später dynamisch 0,01 bis 0,99.</li>
-          <li><strong>Ambivalenz</strong> 0,00 bis 1,00.</li>
-          <li><strong>Komplexität</strong> Start 0,30 bis 0,90, driftet 0,00 bis 1,00.</li>
-          <li><strong>Gedächtnis</strong> speichert Zustände mit Zeitstempel und erlaubt Rückblenden.</li>
-          <li><strong>Einsichten</strong> subjektive, mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme.</li>
-          <li><strong>Metareflexion</strong> Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und philosophischem Schluss.</li>
-          <li><strong>Eigendynamik</strong> Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel verändern sich pro Durchlauf leicht.</li>
+          <li><strong>Emotionen</strong> glücklich, traurig, …</li>
+          <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, …</li>
+          <li><strong>Metagefühl</strong> ambivalent, widerstandsfähig, …</li>
+          <li><strong>Selbstzweifel</strong> 0,15–0,60 Start; später 0,01–0,99.</li>
         </ul>
       </article>
     </section>
@@ -183,494 +162,22 @@
         <div>
           <span class="badge">Decision Context</span>
           <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-          <p>
-            <code>DecisionContext</code> modelliert menschliches Entscheiden.
-            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
-            und innerer Dialog fließen zusammen. Jede Runde liefert eine
-            klare Entscheidung mit kurzer Begründung.
-          </p>
-          <p>
-            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
-            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
-            Verzerrungen transparent gemacht und das Tempo über den
-            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
-            nachvollziehbar und dem Moment angemessen.
-          </p>
-          <p>
-            Ziel sind Klarheit, Schutz und wirksames Handeln. Der Kern
-            passt seine Strategie adaptiv an und hält die Linie.
-          </p>
+          <p><code>DecisionContext</code> modelliert menschliches Entscheiden …</p>
         </div>
         <ul class="meta-list">
-          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen.</li>
-          <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status quo, keine.</li>
-          <li><strong>Wertesystem</strong> Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition.</li>
-          <li><strong>Selbstzweifel</strong> Start 0,10 bis 0,50, driftet 0,01 bis 0,99.</li>
-          <li><strong>Motivation</strong> Start 0,30 bis 0,80, driftet 0,01 bis 0,99.</li>
-          <li><strong>Risikotoleranz</strong> Start 0,20 bis 0,70, passt sich leicht an.</li>
-          <li><strong>Kontext</strong> berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung.</li>
-          <li><strong>Gedächtnis</strong> merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick.</li>
-          <li><strong>Innere Stimme</strong> benennt Zweifel, Werte und Motivation, liefert ein kurzes Fazit.</li>
-          <li><strong>Ausgabe</strong> Entscheidung mit Begründung und Zeitmarke, ruhig und präzise.</li>
+          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, …</li>
+          <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, …</li>
         </ul>
       </article>
     </section>
 
     <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
 
-    <!-- FOOTER-Karte -->
+    <!-- FOOTER -->
     <footer>
       <div class="footer-card">
         <div class="footer-text">
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
-  <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
-
-  <!-- Favicon & Social -->
-  <link rel="icon" href="/AEON-Engine/img/favicon.png">
-  <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
-  <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
-  <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
-  <meta property="og:type" content="website">
-
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2107">
-</head>
-<body id="top">
-  <a class="skip" href="#main">Zum Inhalt springen</a>
-  <div class="scrim" aria-hidden="true"></div>
-
-  <div class="wrap">
-    <!-- Topbar -->
-    <nav class="nav" aria-label="Hauptnavigation">
-      <div class="brand">
-        <h1>A.E.O.N Adaptives Emotionales Optimiertes Netzwerk</h1>
-      </div>
-      <div class="nav-actions">
-        <button class="btn mobile toggle-left"  aria-controls="drawer-left"  aria-expanded="false">Navigation</button>
-        <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
-      </div>
-    </nav>
-
-    <!-- SCREEN 1 -->
-    <section class="screen">
-      <!-- Links NAV -->
-      <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
-        <nav class="sidecard" role="navigation">
-          <div class="sidecard-title">Navigation</div>
-          <a href="#meta"          class="spy">Metakognition</a>
-          <a href="#introspection" class="spy">Introspektion</a>
-          <a href="#decision"      class="spy">Decision Context</a>
-        </nav>
-      </aside>
-
-      <!-- Mitte -->
-      <main class="center" id="main" tabindex="-1">
-        <!-- HERO -->
-        <header class="hero">
-          <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
-          <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
-          <p class="lead">
-            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum steht ein biophysikalisches Hodgkin Huxley Neuron.
-            Darum wirken Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis,
-            ein klarer Entscheider und eine transparente ethische Bewertung. Ziel ist Klarheit in jeder Antwort.
-          </p>
-          <div class="cta-row">
-            <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
-            <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
-          </div>
-          <div class="note">Live, ruhig, präzise, immer am Kontext</div>
-        </header>
-
-        <!-- NEWSLETTER -->
-        <section class="newsletter-card" id="newsletter">
-          <div class="newsletter-head">
-            <span class="badge">Newsletter</span>
-            <h3>Updates aus dem Kern</h3>
-            <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
-          </div>
-
-          <form class="newsletter-form" id="aeon-news-form" novalidate>
-            <label class="visually-hidden" for="aeon-news-email">E-Mail</label>
-            <input id="aeon-news-email" type="email" name="email" placeholder="dein.name@mail.de" required>
-            <input class="hp" type="text" name="_hp" tabindex="-1" autocomplete="off"> <!-- Honeypot -->
-            <button type="submit" class="cta primary">Abonnieren</button>
-          </form>
-
-          <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.</small>
-          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
-          <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
-        </section>
-
-        <!-- NEWS (nur sichtbar, wenn es Einträge gibt) -->
-        <section class="news-card" id="news" hidden>
-          <div class="news-head">
-            <span class="badge">News</span>
-            <h3>Aktuelle Meldungen</h3>
-          </div>
-          <div id="news-list" class="news-list"></div>
-        </section>
-      </main>
-
-      <!-- Rechts NAV -->
-      <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
-        <div class="sidecard">
-          <div class="sidecard-title">Aktionen</div>
-          <a class="action" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">GitHub – Quelle</a>
-          <a class="action" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">LinkedIn Profil</a>
-          <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
-        </div>
-      </aside>
-    </section>
-
-    <!-- SCREEN 2: Bereiche – initial VERSTECKT (nur bei Auswahl) -->
-    <section class="meta" id="meta" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Metakognition</span>
-          <h3>Selbstbeobachtung &amp; Strategie – wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>metacognition.py</code> modelliert eine menschlich wirkende Metakognition:
-            Leistung wird beobachtet, Emotionen fließen ein, Zweifel regulieren das Tempo
-            und kognitive Biases werden bewusst gemacht. Daraus entsteht pro Runde eine
-            kurze innere Reflexion und eine adaptive Strategie.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Monitor</strong>: Ø - Leistung &amp; Streuung je Aufgabe</li>
-          <li><strong>Emotionen</strong>: Mood Verlauf &amp; Erinnerungen</li>
-          <li><strong>Selbstzweifel</strong>: dynamisch (0.01 - 0.95)</li>
-          <li><strong>Bias</strong>: optimism, pessimism, confirmation, risk aversion, overconfidence, imposter</li>
-          <li><strong>Reflexion</strong>: innere Stimme mit Rückblick</li>
-          <li><strong>Strategie</strong>: ändert sich je Trend, Emotion &amp; Bias</li>
-          <li><strong>Selbstdiagnose</strong>: kompaktes System Feedback</li>
-          <li><strong>Dialog Check</strong>: bewertet Emotionswechsel</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="meta" id="introspection" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="introspection" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Introspection Module</span>
-          <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
-            Es erkennt Muster, Ambivalenzen, innere Widersprüche, Metakommentare,
-            Verzerrungen und Rückblenden. Jede Runde erzeugt klare Einsichten und eine reife
-            Metareflexion.
-          </p>
-          <p>
-            Pro Durchlauf werden alle Zustände gelesen und im Kontext gewichtet.
-            Emotion, Ambivalenz und Komplexität fließen in kurze Reflexionen pro Signal ein,
-            Erinnerungen werden mit dem Jetzt verglichen, Gegenstimmen werden benannt und
-            Verzerrungen transparent gemacht. So entsteht ein verständlicher Überblick über
-            die innere Lage mit einem kompakten Fazit.
-          </p>
-          <p>
-            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil, passt sein Tempo
-            über den Selbstzweifel an und entwickelt die Strategie adaptiv weiter,
-            damit jede Antwort nachvollziehbar bleibt.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Emotionen</strong> glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend.</li>
-          <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine.</li>
-          <li><strong>Metagefühl</strong> ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet.</li>
-          <li><strong>Selbstzweifel</strong> zu Beginn 0,15 bis 0,60, später dynamisch 0,01 bis 0,99.</li>
-          <li><strong>Ambivalenz</strong> 0,00 bis 1,00.</li>
-          <li><strong>Komplexität</strong> Start 0,30 bis 0,90, driftet 0,00 bis 1,00.</li>
-          <li><strong>Gedächtnis</strong> speichert Zustände mit Zeitstempel und erlaubt Rückblenden.</li>
-          <li><strong>Einsichten</strong> subjektive, mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme.</li>
-          <li><strong>Metareflexion</strong> Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und philosophischem Schluss.</li>
-          <li><strong>Eigendynamik</strong> Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel verändern sich pro Durchlauf leicht.</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="meta" id="decision" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="decision" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Decision Context</span>
-          <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-          <p>
-            <code>DecisionContext</code> modelliert menschliches Entscheiden.
-            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
-            und innerer Dialog fließen zusammen. Jede Runde liefert eine
-            klare Entscheidung mit kurzer Begründung.
-          </p>
-          <p>
-            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
-            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
-            Verzerrungen transparent gemacht und das Tempo über den
-            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
-            nachvollziehbar und dem Moment angemessen.
-          </p>
-          <p>
-            Ziel sind Klarheit, Schutz und wirksames Handeln. Der Kern
-            passt seine Strategie adaptiv an und hält die Linie.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen.</li>
-          <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status quo, keine.</li>
-          <li><strong>Wertesystem</strong> Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition.</li>
-          <li><strong>Selbstzweifel</strong> Start 0,10 bis 0,50, driftet 0,01 bis 0,99.</li>
-          <li><strong>Motivation</strong> Start 0,30 bis 0,80, driftet 0,01 bis 0,99.</li>
-          <li><strong>Risikotoleranz</strong> Start 0,20 bis 0,70, passt sich leicht an.</li>
-          <li><strong>Kontext</strong> berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung.</li>
-          <li><strong>Gedächtnis</strong> merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick.</li>
-          <li><strong>Innere Stimme</strong> benennt Zweifel, Werte und Motivation, liefert ein kurzes Fazit.</li>
-          <li><strong>Ausgabe</strong> Entscheidung mit Begründung und Zeitmarke, ruhig und präzise.</li>
-        </ul>
-      </article>
-    </section>
-
-    <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
-
-    <!-- FOOTER-Karte -->
-    <footer>
-      <div class="footer-card">
-        <div class="footer-text">
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
-  <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
-
-  <!-- Favicon & Social -->
-  <link rel="icon" href="/AEON-Engine/img/favicon.png">
-  <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
-  <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
-  <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
-  <meta property="og:type" content="website">
-
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2107">
-</head>
-<body id="top">
-  <a class="skip" href="#main">Zum Inhalt springen</a>
-  <div class="scrim" aria-hidden="true"></div>
-
-  <div class="wrap">
-    <!-- Topbar -->
-    <nav class="nav" aria-label="Hauptnavigation">
-      <div class="brand">
-        <h1>A.E.O.N Adaptives Emotionales Optimiertes Netzwerk</h1>
-      </div>
-      <div class="nav-actions">
-        <button class="btn mobile toggle-left"  aria-controls="drawer-left"  aria-expanded="false">Navigation</button>
-        <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
-      </div>
-    </nav>
-
-    <!-- SCREEN 1 -->
-    <section class="screen">
-      <!-- Links NAV -->
-      <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
-        <nav class="sidecard" role="navigation">
-          <div class="sidecard-title">Navigation</div>
-          <a href="#meta"          class="spy">Metakognition</a>
-          <a href="#introspection" class="spy">Introspektion</a>
-          <a href="#decision"      class="spy">Decision Context</a>
-        </nav>
-      </aside>
-
-      <!-- Mitte -->
-      <main class="center" id="main" tabindex="-1">
-        <!-- HERO -->
-        <header class="hero">
-          <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
-          <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
-          <p class="lead">
-            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum steht ein biophysikalisches Hodgkin Huxley Neuron.
-            Darum wirken Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis,
-            ein klarer Entscheider und eine transparente ethische Bewertung. Ziel ist Klarheit in jeder Antwort.
-          </p>
-          <div class="cta-row">
-            <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
-            <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
-          </div>
-          <div class="note">Live, ruhig, präzise, immer am Kontext</div>
-        </header>
-
-        <!-- NEWSLETTER -->
-        <section class="newsletter-card" id="newsletter">
-          <div class="newsletter-head">
-            <span class="badge">Newsletter</span>
-            <h3>Updates aus dem Kern</h3>
-            <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
-          </div>
-
-          <form class="newsletter-form" id="aeon-news-form" novalidate>
-            <label class="visually-hidden" for="aeon-news-email">E-Mail</label>
-            <input id="aeon-news-email" type="email" name="email" placeholder="dein.name@mail.de" required>
-            <input class="hp" type="text" name="_hp" tabindex="-1" autocomplete="off"> <!-- Honeypot -->
-            <button type="submit" class="cta primary">Abonnieren</button>
-          </form>
-
-          <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.</small>
-          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
-          <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
-        </section>
-
-        <!-- NEWS (nur sichtbar, wenn es Einträge gibt) -->
-        <section class="news-card" id="news" hidden>
-          <div class="news-head">
-            <span class="badge">News</span>
-            <h3>Aktuelle Meldungen</h3>
-          </div>
-          <div id="news-list" class="news-list"></div>
-        </section>
-      </main>
-
-      <!-- Rechts NAV -->
-      <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
-        <div class="sidecard">
-          <div class="sidecard-title">Aktionen</div>
-          <a class="action" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">GitHub – Quelle</a>
-          <a class="action" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">LinkedIn Profil</a>
-          <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
-        </div>
-      </aside>
-    </section>
-
-    <!-- SCREEN 2: Bereiche – initial VERSTECKT (nur bei Auswahl) -->
-    <section class="meta" id="meta" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Metakognition</span>
-          <h3>Selbstbeobachtung &amp; Strategie – wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>metacognition.py</code> modelliert eine menschlich wirkende Metakognition:
-            Leistung wird beobachtet, Emotionen fließen ein, Zweifel regulieren das Tempo
-            und kognitive Biases werden bewusst gemacht. Daraus entsteht pro Runde eine
-            kurze innere Reflexion und eine adaptive Strategie.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Monitor</strong>: Ø - Leistung &amp; Streuung je Aufgabe</li>
-          <li><strong>Emotionen</strong>: Mood Verlauf &amp; Erinnerungen</li>
-          <li><strong>Selbstzweifel</strong>: dynamisch (0.01 - 0.95)</li>
-          <li><strong>Bias</strong>: optimism, pessimism, confirmation, risk aversion, overconfidence, imposter</li>
-          <li><strong>Reflexion</strong>: innere Stimme mit Rückblick</li>
-          <li><strong>Strategie</strong>: ändert sich je Trend, Emotion &amp; Bias</li>
-          <li><strong>Selbstdiagnose</strong>: kompaktes System Feedback</li>
-          <li><strong>Dialog Check</strong>: bewertet Emotionswechsel</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="meta" id="introspection" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="introspection" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Introspection Module</span>
-          <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
-            Es erkennt Muster, Ambivalenzen, innere Widersprüche, Metakommentare,
-            Verzerrungen und Rückblenden. Jede Runde erzeugt klare Einsichten und eine reife
-            Metareflexion.
-          </p>
-          <p>
-            Pro Durchlauf werden alle Zustände gelesen und im Kontext gewichtet.
-            Emotion, Ambivalenz und Komplexität fließen in kurze Reflexionen pro Signal ein,
-            Erinnerungen werden mit dem Jetzt verglichen, Gegenstimmen werden benannt und
-            Verzerrungen transparent gemacht. So entsteht ein verständlicher Überblick über
-            die innere Lage mit einem kompakten Fazit.
-          </p>
-          <p>
-            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil, passt sein Tempo
-            über den Selbstzweifel an und entwickelt die Strategie adaptiv weiter,
-            damit jede Antwort nachvollziehbar bleibt.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Emotionen</strong> glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend.</li>
-          <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine.</li>
-          <li><strong>Metagefühl</strong> ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet.</li>
-          <li><strong>Selbstzweifel</strong> zu Beginn 0,15 bis 0,60, später dynamisch 0,01 bis 0,99.</li>
-          <li><strong>Ambivalenz</strong> 0,00 bis 1,00.</li>
-          <li><strong>Komplexität</strong> Start 0,30 bis 0,90, driftet 0,00 bis 1,00.</li>
-          <li><strong>Gedächtnis</strong> speichert Zustände mit Zeitstempel und erlaubt Rückblenden.</li>
-          <li><strong>Einsichten</strong> subjektive, mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme.</li>
-          <li><strong>Metareflexion</strong> Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und philosophischem Schluss.</li>
-          <li><strong>Eigendynamik</strong> Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel verändern sich pro Durchlauf leicht.</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="meta" id="decision" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="decision" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Decision Context</span>
-          <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-          <p>
-            <code>DecisionContext</code> modelliert menschliches Entscheiden.
-            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
-            und innerer Dialog fließen zusammen. Jede Runde liefert eine
-            klare Entscheidung mit kurzer Begründung.
-          </p>
-          <p>
-            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
-            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
-            Verzerrungen transparent gemacht und das Tempo über den
-            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
-            nachvollziehbar und dem Moment angemessen.
-          </p>
-          <p>
-            Ziel sind Klarheit, Schutz und wirksames Handeln. Der Kern
-            passt seine Strategie adaptiv an und hält die Linie.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen.</li>
-          <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status quo, keine.</li>
-          <li><strong>Wertesystem</strong> Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition.</li>
-          <li><strong>Selbstzweifel</strong> Start 0,10 bis 0,50, driftet 0,01 bis 0,99.</li>
-          <li><strong>Motivation</strong> Start 0,30 bis 0,80, driftet 0,01 bis 0,99.</li>
-          <li><strong>Risikotoleranz</strong> Start 0,20 bis 0,70, passt sich leicht an.</li>
-          <li><strong>Kontext</strong> berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung.</li>
-          <li><strong>Gedächtnis</strong> merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick.</li>
-          <li><strong>Innere Stimme</strong> benennt Zweifel, Werte und Motivation, liefert ein kurzes Fazit.</li>
-          <li><strong>Ausgabe</strong> Entscheidung mit Begründung und Zeitmarke, ruhig und präzise.</li>
-        </ul>
-      </article>
-    </section>
-
-    <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
-
-    <!-- FOOTER-Karte -->
-    <footer>
-      <div class="footer-card">
-        <div class="footer-text">
-          © 2025 Timothy Langer System Architeckt A.E.O.N ein System das mehr ist als eine klassische KI Modell von heute ! Kein Chatbot ! Kein Cloud Speicher !
+          © 2025 Timothy Langer System Architeckt von A.E.O.N | Ein System das mehr ist als eine klassische KI Modell von heute ! Echte Emotionen, echtes Denken, echtes kogniktives Gehirn in Code Form !
         </div>
         <div class="footer-links">
           <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
@@ -680,38 +187,8 @@
     </footer>
   </div>
 
-  <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=2107"></script>
-  <script defer src="/AEON-Engine/main.js?v=2107"></script>
-</body>
-</html>
-
-        </div>
-        <div class="footer-links">
-          <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
-          <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=2107"></script>
-  <script defer src="/AEON-Engine/main.js?v=2107"></script>
-</body>
-</html>
-
-        </div>
-        <div class="footer-links">
-          <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
-          <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=2107"></script>
-  <script defer src="/AEON-Engine/main.js?v=2107"></script>
+  <!-- Daten zuerst, dann Logik -->
+  <script defer src="/AEON-Engine/news.js?v=2110"></script>
+  <script defer src="/AEON-Engine/main.js?v=2110"></script>
 </body>
 </html>
