@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="de">
 <head>
@@ -18,39 +17,91 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=1001">
 </head>
 <body>
   <div class="wrap">
 
-    <!-- NAV -->
+    <!-- Topbar -->
     <nav class="nav">
       <div class="brand">
-        <h1>A.E.O.N - Adaptives Emotionales Netzwerk</h1>
+        <div class="logo">AE</div>
+        <h1>A.E.O.N – Adaptives Emotionales Netzwerk</h1>
       </div>
-      <div style="display:flex; gap:10px;">
+      <div class="nav-actions">
         <a class="btn" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
       </div>
     </nav>
 
-    <!-- HERO -->
-    <header class="hero">
-      <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
-      <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
-      <p class="lead">
-        A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum steht ein biophysikalisches Hodgkin Huxley Neuron.
-        Darum wirken Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis,
-        ein klarer Entscheider und eine transparente ethische Bewertung. Ziel ist Klarheit in jeder Antwort.
-      </p>
-      <div class="cta-row">
-        <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
-        <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
-      </div>
-      <div class="note">Live, ruhig, präzise, immer am Kontext</div>
-    </header>
+    <!-- SCREEN 1: 3-Spalten -->
+    <section class="screen">
+      <!-- Left NAV -->
+      <aside class="sidebar left">
+        <nav class="sidecard">
+          <div class="sidecard-title">Navigation</div>
+          <a href="#meta">Metakognition</a>
+          <a href="#introspection">Introspektion</a>
+          <a href="#decision">Decision Context</a>
+          <a href="#neuron">Neuron</a>
+          <a href="#kognition">Kognition</a>
+          <a href="#ethik">Ethik</a>
+        </nav>
+      </aside>
 
-    <!-- METACOGNITION BOX -->
-    <section class="meta">
+      <!-- CENTER -->
+      <main class="center">
+        <!-- HERO -->
+        <header class="hero">
+          <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
+          <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
+          <p class="lead">
+            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum steht ein biophysikalisches Hodgkin Huxley Neuron.
+            Darum wirken Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis,
+            ein klarer Entscheider und eine transparente ethische Bewertung. Ziel ist Klarheit in jeder Antwort.
+          </p>
+          <div class="cta-row">
+            <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
+            <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
+          </div>
+          <div class="note">Live, ruhig, präzise, immer am Kontext</div>
+        </header>
+
+        <!-- NEWSLETTER (Mitte) -->
+        <section class="newsletter-card" id="newsletter">
+          <div class="newsletter-head">
+            <span class="badge">Newsletter</span>
+            <h3>Updates aus dem Kern</h3>
+            <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
+          </div>
+          <!-- Demo: JS fängt das Submit ab und zeigt sofort eine Erfolgsmeldung -->
+          <!-- Für echten Versand später action auf z.B. Buttondown/Brevo/Formspree ändern -->
+          <form class="newsletter-form" novalidate>
+            <label for="email" class="visually-hidden">E-Mail</label>
+            <input id="email" type="email" name="email" placeholder="dein.name@mail.de" required>
+            <button type="submit" class="cta primary">Abonnieren</button>
+          </form>
+          <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu.</small>
+          <p class="form-msg" hidden>Danke! Du bekommst gleich eine Bestätigung. ✅</p>
+        </section>
+      </main>
+
+      <!-- Right NAV -->
+      <aside class="sidebar right">
+        <div class="sidecard">
+          <div class="sidecard-title">Aktionen</div>
+          <a class="action" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">GitHub – Quelle</a>
+          <a class="action" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">LinkedIn Profil</a>
+          <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
+        </div>
+        <div class="sidecard status">
+          <div class="sidecard-title">Status</div>
+          <div class="dot on"></div> <span>Kern aktiv</span>
+        </div>
+      </aside>
+    </section>
+
+    <!-- INHALT -->
+    <section class="meta" id="meta" data-accent="cyan">
       <article class="meta-card">
         <div>
           <span class="badge">Metakognition</span>
@@ -76,8 +127,7 @@
       </article>
     </section>
 
-    <!-- INTROSPEKTION BOX (CYAN) -->
-    <section class="meta" data-accent="cyan">
+    <section class="meta" id="introspection" data-accent="cyan">
       <article class="meta-card">
         <div>
           <span class="badge">Introspection Module</span>
@@ -117,13 +167,11 @@
       </article>
     </section>
 
-    <!-- DECISION CONTEXT BOX (CYAN) -->
-    <section class="meta" data-accent="cyan">
+    <section class="meta" id="decision" data-accent="cyan">
       <article class="meta-card">
         <div>
           <span class="badge">Decision Context</span>
-        <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-
+          <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
           <p>
             <code>DecisionContext</code> modelliert menschliches Entscheiden.
             Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
@@ -160,19 +208,19 @@
 
     <!-- CARDS -->
     <section class="grid">
-      <article class="card">
+      <article class="card" id="neuron">
         <span class="badge">Neuron</span>
         <h3>Hodgkin Huxley in Aktion</h3>
         <p>Membranpotential, Ionenstrom, Reiz Antwort. Fein abgestimmt, sauber integriert, bereit für Analyse in Echtzeit.</p>
       </article>
 
-      <article class="card">
+      <article class="card" id="kognition">
         <span class="badge">Kognition</span>
         <h3>Verstehen und Entscheiden</h3>
         <p>Intent Erkennung liest Absicht. Arbeitsgedächtnis hält den Faden. Der Entscheider liefert klare Schritte, die sofort helfen.</p>
       </article>
 
-      <article class="card">
+      <article class="card" id="ethik">
         <span class="badge">Ethik</span>
         <h3>Verantwortung vor Tempo</h3>
         <p>Jede Ausgabe durchläuft eine transparente Bewertung. Fairness, Klarheit und Schutz stehen an erster Stelle.</p>
@@ -187,8 +235,9 @@
         <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
       </div>
     </footer>
+
   </div>
 
-  <script defer src="main.js?v=3"></script>
+  <script defer src="main.js?v=1001"></script>
 </body>
 </html>

@@ -1,22 +1,22 @@
 // Footer-Jahr
 document.getElementById('y').textContent = new Date().getFullYear();
 
-// ===== Akzentsteuerung =====
-// Für jetzt ALLES in CYAN halten:
-const FORCE_CYAN = true;
+// Newsletter Demo – zeigt sofort Erfolgsmeldung
+const form = document.querySelector('.newsletter-form');
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = document.querySelector('.form-msg');
+    if (msg) {
+      msg.hidden = false;
+      setTimeout(() => (msg.hidden = true), 6000);
+    }
+    form.reset();
+  });
+}
 
-// Wenn später gewünscht, auf false setzen, dann greift die Auto-Zuordnung.
-document.querySelectorAll('section.meta').forEach(sec => {
-  if (FORCE_CYAN) {
-    sec.dataset.accent = 'cyan';
-    return;
-  }
-  // Auto-Mapping (nur wenn kein data-accent gesetzt)
-  if (sec.dataset.accent) return;
-  const label = (sec.querySelector('.badge')?.textContent || '').toLowerCase();
-  if (/(introspection|introspektion)/.test(label)) {
-    sec.dataset.accent = 'cyan';
-  } else if (/(decision|entscheid|context)/.test(label)) {
-    sec.dataset.accent = 'amber';
-  }
-});
+/*
+ Für echten Versand später:
+ <form action="https://formspree.io/f/DEIN_ID" method="POST"> ... </form>
+ oder Buttondown/Brevo/Mailchimp Einbettung. Styling bleibt gleich.
+*/
