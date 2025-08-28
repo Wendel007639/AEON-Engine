@@ -1,13 +1,14 @@
-name = "aeon-news"
+name = "aeon-news-worker"
 main = "worker.js"
-compatibility_date = "2024-08-01"
+compatibility_date = "2024-10-01"
 
-kv_namespaces = [
-  { binding = "SUBS", id = "REPLACE_WITH_YOUR_KV_ID" }
-]
+[vars]
+# nix hier
 
-# In den Worker-Umgebungsvariablen setzen (Dashboard → Settings → Variables):
-# RESEND_API_KEY = <dein Resend-Key>
-# FROM_EMAIL     = "A.E.O.N <news@deine-domain.tld>"
-# AEON_INBOX     = "AEONAdaptivesNetzwerk@proton.me"
-# CORS_ORIGIN    = "https://wendel007639.github.io"
+[kv_namespaces]
+  [[kv_namespaces.bindings]]
+  binding = "AEON_SUBS"
+  id = "YOUR_KV_ID"
+
+[vars]
+RESEND_API_KEY = "YOUR_RESEND_API_KEY"

@@ -1,7 +1,9 @@
-/* === API-Basis (deine Worker-URL, ohne Slash am Ende) === */
-const API_BASE = "https://<DEIN-WORKER>.workers.dev";
+/* ===== KONFIG ===== */
+const NEWSLETTER_ENDPOINT = "https://YOUR-ENDPOINT.example.com/subscribe"; 
+// ↑ Hier DEINE URL von Cloudflare-Worker ODER Netlify-Funktion eintragen.
+// Wichtig: Kein mailto, kein Client öffnet sich. Bei leerer URL -> Fehleranzeige.
 
-/* === Drawer (Mobile) === */
+/* ===== Drawer (Mobile) ===== */
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
@@ -26,7 +28,7 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-/* === Sections (nur bei Auswahl sichtbar) === */
+/* ===== Sections show/hide, X-Button ===== */
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
   navLinks.map(a => a.getAttribute('href').slice(1))
@@ -45,9 +47,7 @@ function setActive(id){
 function removeHash(){ const url = location.pathname + location.search; history.replaceState(null, "", url); }
 function showOnly(id, pushHash=true){
   if(!sections[id]) return;
-  hideAll();
-  sections[id].hidden = false;
-  setActive(id);
+  hideAll(); sections[id].hidden = false; setActive(id);
   if (pushHash) history.replaceState(null, "", "#"+id);
   sections[id].scrollIntoView({behavior:'smooth', block:'start'});
   closeDrawers();
@@ -57,10 +57,7 @@ function initSections(){
   const hash = (location.hash || "").slice(1);
   if (sections[hash]) showOnly(hash, false);
 }
-window.addEventListener('hashchange', ()=>{
-  const id = (location.hash || "").slice(1);
-  if (sections[id]) showOnly(id, false);
-});
+window.addEventListener('hashchange', ()=>{ const id = (location.hash || "").slice(1); if (sections[id]) showOnly(id, false); });
 navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
@@ -75,38 +72,56 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-/* === Newsletter Submit (Fetch -> Worker) === */
-const form  = document.getElementById("aeon-news-form");
-const okMsg = document.querySelector(".form-msg");
-const erMsg = document.querySelector(".form-err");
+/* ===== Newsletter Submit (via fetch) ===== */
+const form   = document.getElementById('aeon-news-form');
+const okMsg  = document.querySelector('.form-msg');
+const errMsg = document.querySelector('.form-err');
 
-if (form) {
-  form.addEventListener("submit", async (e) => {
+async function postSubscribe(email){
+  const payload = {
+    email,
+    // Meta für Admin-Mail
+    subject: "A.E.O.N Newsletter – neues Abo",
+    to: "AEONAdaptivesNetzwerk@proton.me",
+    page: location.href,
+    ua: navigator.userAgent,
+    ts: new Date().toISOString()
+  };
+  const res = await fetch(NEWSLETTER_ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error('HTTP '+res.status);
+}
+
+if (form){
+  form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    okMsg.hidden = true; erMsg.hidden = true;
+    okMsg.hidden = true; errMsg.hidden = true;
 
-    const hp = form.querySelector('input[name="_hp"]')?.value.trim();
+    if (!NEWSLETTER_ENDPOINT){
+      errMsg.textContent = "Newsletter ist serverseitig noch nicht verbunden. Bitte Endpoint setzen.";
+      errMsg.hidden = false;
+      return;
+    }
+    const hp    = form.querySelector('input[name="_hp"]')?.value.trim();
     if (hp) return; // Bot
-
     const email = form.querySelector('input[type="email"]')?.value.trim();
-    if (!email) return;
+    if (!email){ errMsg.hidden = false; return; }
 
-    try {
-      const res = await fetch(`${API_BASE}/api/subscribe`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email })
-      });
-      if (!res.ok) throw 0;
+    try{
+      await postSubscribe(email);
       okMsg.hidden = false;
       form.reset();
-    } catch {
-      erMsg.hidden = false;
+    }catch(err){
+      console.error(err);
+      errMsg.hidden = false;
     }
   });
 }
 
-/* === Back-to-Top === */
+/* ===== Back-to-Top ===== */
 const toTop = document.getElementById('toTop');
 function toggleToTop(){
   const y = window.scrollY || document.documentElement.scrollTop;
@@ -115,7 +130,7 @@ function toggleToTop(){
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
 
-/* === News rendern === */
+/* ===== News rendern ===== */
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
