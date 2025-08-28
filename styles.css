@@ -50,7 +50,12 @@ a{color:inherit;text-decoration:none}
 .sidecard-title{font:700 13px Poppins,Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);opacity:.95;margin-bottom:6px}
 .sidecard a{display:block;padding:8px 10px;border-radius:12px;color:var(--sub);transition:background .15s, color .15s}
 .sidecard a:hover{background:rgba(35,229,255,.08);color:#eaffff}
-.sidecard a.active{background:rgba(35,229,255,.16);color:#eaffff;box-shadow:inset 0 0 0 1px rgba(35,229,255,.28)}
+.sidecard a.active,
+.sidecard a[aria-current="true"]{
+  background:rgba(35,229,255,.16);
+  color:#eaffff;
+  box-shadow:inset 0 0 0 1px rgba(35,229,255,.28)
+}
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
 @media (max-width:900px){
   .sidebar{position:fixed;top:0;bottom:0;height:100vh;border:none;width:min(86vw,340px);padding:12px;box-sizing:border-box}

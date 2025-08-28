@@ -10,36 +10,69 @@ const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
 const rightBtn= document.querySelector('.toggle-right');
+
 function closeDrawers(){
   body.classList.remove('drawer-left-open','drawer-right-open');
   leftBtn?.setAttribute('aria-expanded','false');
   rightBtn?.setAttribute('aria-expanded','false');
 }
-leftBtn?.addEventListener('click', e=>{e.preventDefault(); const on=body.classList.toggle('drawer-left-open'); leftBtn.setAttribute('aria-expanded', String(on)); body.classList.remove('drawer-right-open');});
-rightBtn?.addEventListener('click',e=>{e.preventDefault(); const on=body.classList.toggle('drawer-right-open'); rightBtn.setAttribute('aria-expanded', String(on)); body.classList.remove('drawer-left-open');});
+leftBtn?.addEventListener('click', e=>{
+  e.preventDefault();
+  const on = body.classList.toggle('drawer-left-open');
+  leftBtn.setAttribute('aria-expanded', String(on));
+  body.classList.remove('drawer-right-open');
+});
+rightBtn?.addEventListener('click', e=>{
+  e.preventDefault();
+  const on = body.classList.toggle('drawer-right-open');
+  rightBtn.setAttribute('aria-expanded', String(on));
+  body.classList.remove('drawer-left-open');
+});
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Scroll-Spy (genau ein Link aktiv) =====
+// ===== Scroll-Spy (IntersectionObserver, kein Default-Active) =====
 const spyLinks = [...document.querySelectorAll('.sidecard a.spy')];
-const sections = spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const sections = spyLinks
+  .map(a => document.querySelector(a.getAttribute('href')))
+  .filter(Boolean);
 
-function setActive(id){
-  spyLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#'+id));
-}
-function updateActive(){
-  const offset = 84; // identisch zu scroll-margin-top
-  let bestId = null, bestDist = Infinity;
-  sections.forEach(sec=>{
-    const rect = sec.getBoundingClientRect();
-    const dist = Math.abs(rect.top - offset);
-    if (dist < bestDist){ bestDist = dist; bestId = sec.id; }
+function clearActive(){
+  spyLinks.forEach(a => {
+    a.classList.remove('active');
+    a.removeAttribute('aria-current');
   });
-  if (bestId) setActive(bestId);
 }
-window.addEventListener('scroll', updateActive, {passive:true});
-window.addEventListener('resize', updateActive);
-updateActive();
+function setActive(id){
+  spyLinks.forEach(a => {
+    const on = a.getAttribute('href') === '#'+id;
+    a.classList.toggle('active', on);
+    if (on) a.setAttribute('aria-current','true');
+    else a.removeAttribute('aria-current');
+  });
+}
+clearActive(); // am Start: nichts aktiv
+
+const io = new IntersectionObserver(
+  (entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible.length){
+      setActive(visible[0].target.id);
+    } else {
+      // Wenn ganz oben / keine Section dominierend
+      const anyVisible = sections.some(sec => {
+        const r = sec.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      });
+      if (!anyVisible) clearActive();
+    }
+  },
+  // Top-Offset für feste Topbar, und ~55% Sichtbarkeit als Schwelle
+  { rootMargin: '-84px 0px -55% 0px', threshold: [0, 0.55, 1] }
+);
+sections.forEach(sec => io.observe(sec));
 
 // Anker-Scroll + Drawer zu
 spyLinks.forEach(a=>{
@@ -47,31 +80,48 @@ spyLinks.forEach(a=>{
     e.preventDefault();
     const id = a.getAttribute('href').slice(1);
     document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+    clearActive();                 // während Smooth-Scroll
+    setTimeout(()=> setActive(id), 300);
     closeDrawers();
-    setTimeout(updateActive, 250);
   });
 });
 
 // ===== Newsletter Submit =====
-const form = document.querySelector('.newsletter-form');
-const okMsg = document.querySelector('.form-msg');
+const form   = document.querySelector('.newsletter-form');
+const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
-if (form) {
-  form.addEventListener('submit', async (e) => {
+
+if (form){
+  form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const email = form.querySelector('input[type="email"]')?.value.trim();
     if (!email) return;
-    if (!NEWSLETTER_ENDPOINT){ // Demo
-      okMsg.hidden = false; errMsg.hidden = true; setTimeout(()=> okMsg.hidden = true, 6000); form.reset(); return;
+
+    // Demo-Verhalten ohne echten Endpoint
+    if (!NEWSLETTER_ENDPOINT){
+      okMsg.hidden = false; errMsg.hidden = true;
+      setTimeout(()=> okMsg.hidden = true, 6000);
+      form.reset();
+      return;
     }
+
     try{
       const res = await fetch(NEWSLETTER_ENDPOINT, {
-        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({ email })
       });
-      if (res.ok){ okMsg.hidden=false; errMsg.hidden=true; setTimeout(()=> okMsg.hidden=true, 6000); form.reset(); }
-      else throw new Error('HTTP '+res.status);
-    }catch(err){ errMsg.hidden=false; okMsg.hidden=true; console.error(err); }
+      if (res.ok){
+        okMsg.hidden = false; errMsg.hidden = true;
+        setTimeout(()=> okMsg.hidden = true, 6000);
+        form.reset();
+      } else {
+        throw new Error('HTTP '+res.status);
+      }
+    }catch(err){
+      errMsg.hidden = false; okMsg.hidden = true;
+      console.error(err);
+    }
   });
 }
 
@@ -81,7 +131,8 @@ function toggleToTop(){
   const y = window.scrollY || document.documentElement.scrollTop;
   if (y > 600) toTop?.classList.add('show'); else toTop?.classList.remove('show');
 }
-window.addEventListener('scroll', toggleToTop, {passive:true}); toggleToTop();
+window.addEventListener('scroll', toggleToTop, {passive:true});
+toggleToTop();
 toTop?.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
 // ===== News-Feed rendern (nur anzeigen, wenn Einträge existieren) =====
@@ -91,15 +142,12 @@ function renderNews(){
   if (!listEl || !cardEl) return;
 
   const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
-
   if (!items.length){
-    // Keine News -> Sektion bleibt unsichtbar
     cardEl.hidden = true;
     listEl.innerHTML = "";
     return;
   }
 
-  // News vorhanden -> anzeigen
   cardEl.hidden = false;
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{

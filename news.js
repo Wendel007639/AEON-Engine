@@ -1,7 +1,5 @@
-// AEON News – HIER nur ergänzen/ändern. HTML bleibt unverändert.
-// Leerlassen = auf der Seite wird KEINE News-Sektion angezeigt.
+// AEON News – leer lassen -> News-Karte wird nicht angezeigt.
 window.AEON_NEWS = [
-  // Beispiel-Eintrag (auskommentiert):
   // {
   //   date: "2025-09-01",
   //   title: "Release 1.1 – Performance & UI",
