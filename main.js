@@ -1,16 +1,11 @@
 // ===== Newsletter: echten Endpoint hier eintragen =====
 const NEWSLETTER_ENDPOINT = ""; // z.B. "https://formspree.io/f/XXXXYYYY"
 
-// Footer-Jahr
-const yearEl = document.getElementById('y');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
 // Drawer (Mobile)
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
 const rightBtn= document.querySelector('.toggle-right');
-
 function closeDrawers(){
   body.classList.remove('drawer-left-open','drawer-right-open');
   leftBtn?.setAttribute('aria-expanded','false');
@@ -31,62 +26,60 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Scroll-Spy (IntersectionObserver, kein Default-Active) =====
-const spyLinks = [...document.querySelectorAll('.sidecard a.spy')];
-const sections = spyLinks
-  .map(a => document.querySelector(a.getAttribute('href')))
-  .filter(Boolean);
+// ===== Sections: nur auf Auswahl anzeigen =====
+const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
+const sections = Object.fromEntries(
+  navLinks
+    .map(a => a.getAttribute('href').slice(1))
+    .map(id => [id, document.getElementById(id)])
+    .filter(([,el]) => !!el)
+);
 
 function clearActive(){
-  spyLinks.forEach(a => {
-    a.classList.remove('active');
-    a.removeAttribute('aria-current');
-  });
+  navLinks.forEach(a => { a.classList.remove('active'); a.removeAttribute('aria-current'); });
+}
+function hideAll(){
+  Object.values(sections).forEach(sec => sec.setAttribute('hidden',''));
 }
 function setActive(id){
-  spyLinks.forEach(a => {
+  navLinks.forEach(a=>{
     const on = a.getAttribute('href') === '#'+id;
     a.classList.toggle('active', on);
-    if (on) a.setAttribute('aria-current','true');
-    else a.removeAttribute('aria-current');
+    if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
   });
 }
-clearActive(); // am Start: nichts aktiv
+function showOnly(id, pushHash=true){
+  if(!sections[id]) return;
+  hideAll();
+  sections[id].hidden = false;
+  setActive(id);
+  if (pushHash) history.replaceState(null, "", "#"+id);
+  sections[id].scrollIntoView({behavior:'smooth', block:'start'});
+  closeDrawers();
+}
 
-const io = new IntersectionObserver(
-  (entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-    if (visible.length){
-      setActive(visible[0].target.id);
-    } else {
-      // Wenn ganz oben / keine Section dominierend
-      const anyVisible = sections.some(sec => {
-        const r = sec.getBoundingClientRect();
-        return r.top < window.innerHeight && r.bottom > 0;
-      });
-      if (!anyVisible) clearActive();
-    }
-  },
-  // Top-Offset für feste Topbar, und ~55% Sichtbarkeit als Schwelle
-  { rootMargin: '-84px 0px -55% 0px', threshold: [0, 0.55, 1] }
-);
-sections.forEach(sec => io.observe(sec));
+// Initial: nichts aktiv / alle versteckt – außer wenn Hash gesetzt ist
+function initSections(){
+  clearActive();
+  hideAll();
+  const hash = (location.hash || "").slice(1);
+  if (sections[hash]) showOnly(hash, /*pushHash*/false);
+}
+window.addEventListener('hashchange', ()=>{
+  const id = (location.hash || "").slice(1);
+  if (sections[id]) showOnly(id, /*pushHash*/false);
+});
 
-// Anker-Scroll + Drawer zu
-spyLinks.forEach(a=>{
+// Klick-Handling
+navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
     const id = a.getAttribute('href').slice(1);
-    document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
-    clearActive();                 // während Smooth-Scroll
-    setTimeout(()=> setActive(id), 300);
-    closeDrawers();
+    showOnly(id, /*pushHash*/true);
   });
 });
 
-// ===== Newsletter Submit =====
+// ===== Newsletter Submit (Demo) =====
 const form   = document.querySelector('.newsletter-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
@@ -97,7 +90,6 @@ if (form){
     const email = form.querySelector('input[type="email"]')?.value.trim();
     if (!email) return;
 
-    // Demo-Verhalten ohne echten Endpoint
     if (!NEWSLETTER_ENDPOINT){
       okMsg.hidden = false; errMsg.hidden = true;
       setTimeout(()=> okMsg.hidden = true, 6000);
@@ -135,18 +127,14 @@ window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
 toTop?.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
-// ===== News-Feed rendern (nur anzeigen, wenn Einträge existieren) =====
+// ===== News-Feed rendern =====
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
   if (!listEl || !cardEl) return;
 
   const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
-  if (!items.length){
-    cardEl.hidden = true;
-    listEl.innerHTML = "";
-    return;
-  }
+  if (!items.length){ cardEl.hidden = true; listEl.innerHTML = ""; return; }
 
   cardEl.hidden = false;
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
@@ -156,7 +144,7 @@ function renderNews(){
     const mm = String(date.getMonth()+1).padStart(2,'0');
     const yyyy = date.getFullYear();
     const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14;
-    const tag = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
+    const tag  = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
     const link = item.link ? ` <a href="${item.link}" target="_blank" rel="noopener">Weiterlesen →</a>` : '';
     return `
       <article class="news-item">
@@ -166,4 +154,7 @@ function renderNews(){
       </article>`;
   }).join('');
 }
-document.addEventListener('DOMContentLoaded', renderNews);
+document.addEventListener('DOMContentLoaded', ()=>{
+  initSections();
+  renderNews();
+});
