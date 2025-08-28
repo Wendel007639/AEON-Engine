@@ -26,7 +26,7 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Sections: nur auf Auswahl anzeigen =====
+// ===== Sections: nur auf Auswahl anzeigen; schließbar per X =====
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
   navLinks
@@ -47,6 +47,10 @@ function setActive(id){
     a.classList.toggle('active', on);
     if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
   });
+}
+function removeHash(){
+  const url = location.pathname + location.search;
+  history.replaceState(null, "", url);
 }
 function showOnly(id, pushHash=true){
   if(!sections[id]) return;
@@ -76,6 +80,16 @@ navLinks.forEach(a=>{
     e.preventDefault();
     const id = a.getAttribute('href').slice(1);
     showOnly(id, /*pushHash*/true);
+  });
+});
+
+// Close-Buttons (X)
+document.querySelectorAll('.close-card').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    hideAll();
+    clearActive();
+    removeHash();
+    window.scrollTo({top:0, behavior:'smooth'});
   });
 });
 

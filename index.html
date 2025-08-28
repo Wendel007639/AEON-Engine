@@ -16,7 +16,7 @@
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2103">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2105">
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -31,7 +31,6 @@
       <div class="nav-actions">
         <button class="btn mobile toggle-left"  aria-controls="drawer-left"  aria-expanded="false">Navigation</button>
         <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
-        <!-- kein Kontakt-Button oben rechts -->
       </div>
     </nav>
 
@@ -106,6 +105,7 @@
     <!-- SCREEN 2: Bereiche – initial VERSTECKT -->
     <section class="meta" id="meta" data-accent="cyan" hidden>
       <article class="meta-card">
+        <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
         <div>
           <span class="badge">Metakognition</span>
           <h3>Selbstbeobachtung &amp; Strategie – wie A.E.O.N fühlt und lernt</h3>
@@ -131,34 +131,79 @@
 
     <section class="meta" id="introspection" data-accent="cyan" hidden>
       <article class="meta-card">
+        <button class="close-card" data-close="introspection" aria-label="Bereich schließen">×</button>
         <div>
           <span class="badge">Introspection Module</span>
           <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
           <p>
-            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion …
+            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
+            Es erkennt Muster, Ambivalenzen, innere Widersprüche, Metakommentare,
+            Verzerrungen und Rückblenden. Jede Runde erzeugt klare Einsichten und eine reife
+            Metareflexion.
           </p>
-          <!-- Rest unverändert -->
+          <p>
+            Pro Durchlauf werden alle Zustände gelesen und im Kontext gewichtet.
+            Emotion, Ambivalenz und Komplexität fließen in kurze Reflexionen pro Signal ein,
+            Erinnerungen werden mit dem Jetzt verglichen, Gegenstimmen werden benannt und
+            Verzerrungen transparent gemacht. So entsteht ein verständlicher Überblick über
+            die innere Lage mit einem kompakten Fazit.
+          </p>
+          <p>
+            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil, passt sein Tempo
+            über den Selbstzweifel an und entwickelt die Strategie adaptiv weiter,
+            damit jede Antwort nachvollziehbar bleibt.
+          </p>
         </div>
         <ul class="meta-list">
-          <li><strong>Emotionen</strong> glücklich, traurig, …</li>
-          <!-- Rest unverändert -->
+          <li><strong>Emotionen</strong> glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend.</li>
+          <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine.</li>
+          <li><strong>Metagefühl</strong> ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet.</li>
+          <li><strong>Selbstzweifel</strong> zu Beginn 0,15 bis 0,60, später dynamisch 0,01 bis 0,99.</li>
+          <li><strong>Ambivalenz</strong> 0,00 bis 1,00.</li>
+          <li><strong>Komplexität</strong> Start 0,30 bis 0,90, driftet 0,00 bis 1,00.</li>
+          <li><strong>Gedächtnis</strong> speichert Zustände mit Zeitstempel und erlaubt Rückblenden.</li>
+          <li><strong>Einsichten</strong> subjektive, mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme.</li>
+          <li><strong>Metareflexion</strong> Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und philosophischem Schluss.</li>
+          <li><strong>Eigendynamik</strong> Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel verändern sich pro Durchlauf leicht.</li>
         </ul>
       </article>
     </section>
 
     <section class="meta" id="decision" data-accent="cyan" hidden>
       <article class="meta-card">
+        <button class="close-card" data-close="decision" aria-label="Bereich schließen">×</button>
         <div>
           <span class="badge">Decision Context</span>
           <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
           <p>
-            <code>DecisionContext</code> modelliert menschliches Entscheiden …
+            <code>DecisionContext</code> modelliert menschliches Entscheiden.
+            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
+            und innerer Dialog fließen zusammen. Jede Runde liefert eine
+            klare Entscheidung mit kurzer Begründung.
           </p>
-          <!-- Rest unverändert -->
+          <p>
+            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
+            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
+            Verzerrungen transparent gemacht und das Tempo über den
+            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
+            nachvollziehbar und dem Moment angemessen.
+          </p>
+          <p>
+            Ziel sind Klarheit, Schutz und wirksames Handeln. Der Kern
+            passt seine Strategie adaptiv an und hält die Linie.
+          </p>
         </div>
         <ul class="meta-list">
-          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, …</li>
-          <!-- Rest unverändert -->
+          <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen.</li>
+          <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status quo, keine.</li>
+          <li><strong>Wertesystem</strong> Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition.</li>
+          <li><strong>Selbstzweifel</strong> Start 0,10 bis 0,50, driftet 0,01 bis 0,99.</li>
+          <li><strong>Motivation</strong> Start 0,30 bis 0,80, driftet 0,01 bis 0,99.</li>
+          <li><strong>Risikotoleranz</strong> Start 0,20 bis 0,70, passt sich leicht an.</li>
+          <li><strong>Kontext</strong> berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung.</li>
+          <li><strong>Gedächtnis</strong> merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick.</li>
+          <li><strong>Innere Stimme</strong> benennt Zweifel, Werte und Motivation, liefert ein kurzes Fazit.</li>
+          <li><strong>Ausgabe</strong> Entscheidung mit Begründung und Zeitmarke, ruhig und präzise.</li>
         </ul>
       </article>
     </section>
@@ -176,6 +221,6 @@
 
   <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
   <script defer src="/AEON-Engine/news.js?v=2102"></script>
-  <script defer src="/AEON-Engine/main.js?v=2104"></script>
+  <script defer src="/AEON-Engine/main.js?v=2105"></script>
 </body>
 </html>
