@@ -1,13 +1,90 @@
-name = "aeon-news"
-main = "worker.js"
-compatibility_date = "2024-09-01"
+// Mail über MailChannels + KV-Liste der Abos
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (request.method === 'OPTIONS') return new Response(null, {headers: cors()});
 
-[vars]
-ADMIN_EMAIL = "AEONAdaptivesNetzwerk@proton.me"
-FROM_EMAIL  = "newsletter@deinedomain.tld"   # Domain muss zu dir gehören
-API_KEY     = "dein-admin-key"
+    if (url.pathname === '/subscribe' && request.method === 'POST') {
+      const data = await request.json();
+      const email = (data.email||'').toLowerCase().trim();
+      if (!email || !email.includes('@')) return json({ok:false, error:'bad email'}, 400);
 
-[[kv_namespaces]]
-binding = "SUBS"
-id = "kv_id_in_prod"
-preview_id = "kv_id_in_preview"
+      // in KV speichern (Set)
+      const key = `sub:${email}`;
+      await env.SUBS.put(key, '1');
+
+      // Benachrichtigung an dich
+      const subject = data.subject || 'A.E.O.N Newsletter – neues Abo';
+      const content = [
+        `Neues Abo: ${email}`,
+        `Seite: ${data.page||''}`,
+        `User-Agent: ${data.ua||''}`,
+        `Zeit: ${data.ts||new Date().toISOString()}`
+      ].join('\n');
+
+      const ok = await sendMail({
+        to: env.NEWS_TO,
+        from: env.MAIL_FROM || 'news@aeon.local',
+        subject,
+        text: content
+      });
+      return json({ok}, ok?200:500);
+    }
+
+    // per cURL an alle Abos senden
+    if (url.pathname === '/broadcast' && request.method === 'POST') {
+      const data = await request.json();
+      const {subject, html, text} = data;
+      if (!subject || !(html||text)) return json({ok:false, error:'missing content'}, 400);
+
+      const list = await listSubscribers(env.SUBS);
+      if (!list.length) return json({ok:false, error:'no recipients'}, 400);
+
+      let sent = 0;
+      for (const to of list) {
+        const ok = await sendMail({
+          to, from: env.MAIL_FROM || 'news@aeon.local', subject, html, text
+        });
+        if (ok) sent++;
+        await new Promise(r=>setTimeout(r, 150)); // freundlich throttlen
+      }
+      return json({ok:true, sent, recipients:list.length});
+    }
+
+    return json({ok:true, alive:true});
+  }
+};
+
+function cors(){
+  return {
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Methods':'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers':'Content-Type'
+  };
+}
+function json(obj, status=200){
+  return new Response(JSON.stringify(obj), {status, headers:{'content-type':'application/json', ...cors()}});
+}
+async function listSubscribers(KV){
+  const list = [];
+  let cursor;
+  do{
+    const {keys, list_complete, cursor: c} = await KV.list({prefix:'sub:', cursor});
+    list.push(...keys.map(k=>k.name.replace(/^sub:/,'')));
+    cursor = list_complete ? undefined : c;
+  } while(cursor);
+  return list;
+}
+async function sendMail({to, from, subject, html, text}){
+  const r = await fetch('https://api.mailchannels.net/tx/v1/send', {
+    method:'POST',
+    headers:{'content-type':'application/json'},
+    body: JSON.stringify({
+      personalizations:[{ to:[{email:to}] }],
+      from:{ email: from },
+      subject,
+      content: [{type:'text/plain', value: text || ''},{type:'text/html', value: html || ''}]
+    })
+  });
+  return r.ok;
+}

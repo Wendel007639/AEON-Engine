@@ -1,14 +1,8 @@
-/* =========================
-   KONFIG
-   ========================= */
-const API_BASE = ""; // z.B. "https://dein-worker.de" (Cloudflare Worker unten)
-const API_KEY  = ""; // optionales Secret für Admin-Endpunkte
-const ENDPOINT_SUBSCRIBE = API_BASE ? API_BASE + "/subscribe" : "";
-const ENDPOINT_BROADCAST = API_BASE ? API_BASE + "/broadcast" : "";
+// ===== KONFIG =====
+const API_BASE = ""; // z.B. "https://aeon-news.yourname.workers.dev"
+const NEWSLETTER_ENDPOINT = API_BASE ? API_BASE + "/subscribe" : "";
 
-/* =========================
-   Drawer (Mobile)
-   ========================= */
+// Drawer (Mobile)
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
@@ -34,9 +28,7 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-/* =========================
-   Sektionen (showOnly per Klick)
-   ========================= */
+// ===== Sections show/hide, X-Button =====
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
   navLinks.map(a => a.getAttribute('href').slice(1))
@@ -52,13 +44,17 @@ function setActive(id){
     if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
   });
 }
+function removeHash(){ const url = location.pathname + location.search; history.replaceState(null, "", url); }
 function showOnly(id, pushHash=true){
   if(!sections[id]) return;
-  hideAll(); sections[id].hidden = false; setActive(id);
+  hideAll();
+  sections[id].hidden = false;
+  setActive(id);
   if (pushHash) history.replaceState(null, "", "#"+id);
   sections[id].scrollIntoView({behavior:'smooth', block:'start'});
   closeDrawers();
 }
+// Initial
 function initSections(){
   clearActive(); hideAll();
   const hash = (location.hash || "").slice(1);
@@ -71,58 +67,64 @@ window.addEventListener('hashchange', ()=>{
 navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
-    showOnly(a.getAttribute('href').slice(1), true);
+    const id = a.getAttribute('href').slice(1);
+    showOnly(id, true);
+  });
+});
+document.querySelectorAll('.close-card').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    hideAll(); clearActive(); removeHash();
+    window.scrollTo({top:0, behavior:'smooth'});
   });
 });
 
-/* =========================
-   Newsletter Submit (kein mailto!)
-   ========================= */
+// ===== Newsletter Submit =====
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-async function subscribe(email){
-  if(!ENDPOINT_SUBSCRIBE){
-    throw new Error("Kein Server konfiguriert (API_BASE leer).");
-  }
+async function sendViaWorker(email){
   const payload = {
     email,
+    subject: "A.E.O.N Newsletter – neues Abo",
+    to: "AEONAdaptivesNetzwerk@proton.me",
     page: location.href,
     ua: navigator.userAgent,
     ts: new Date().toISOString()
   };
-  const res = await fetch(ENDPOINT_SUBSCRIBE, {
+  const res = await fetch(NEWSLETTER_ENDPOINT, {
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-    },
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
     body: JSON.stringify(payload)
   });
-  if(!res.ok) throw new Error("HTTP "+res.status);
+  if (!res.ok) throw new Error('HTTP '+res.status);
+}
+function fallbackMailto(email){
+  const subject = "Newsletter-Abo A.E.O.N";
+  const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
+  const href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
 }
 
-if(form){
+if (form){
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const hp = form.querySelector('input[name="_hp"]')?.value.trim();
-    if(hp) return; // Bot
-    const email = document.getElementById('aeon-news-email')?.value.trim();
-    if(!email) return;
+    if (hp) return; // Bot
+    const email = form.querySelector('input[type="email"]')?.value.trim();
+    if (!email) return;
     okMsg.hidden = true; errMsg.hidden = true;
     try{
-      await subscribe(email);
+      if (NEWSLETTER_ENDPOINT) await sendViaWorker(email);
+      else fallbackMailto(email);  // falls kein Worker gesetzt ist
       okMsg.hidden = false; form.reset();
     }catch(err){
-      console.error(err);
-      errMsg.hidden = false;
+      console.error(err); errMsg.hidden = false;
     }
   });
 }
 
-/* =========================
-   Back-to-Top
-   ========================= */
+// ===== Back-to-Top =====
 const toTop = document.getElementById('toTop');
 function toggleToTop(){
   const y = window.scrollY || document.documentElement.scrollTop;
@@ -131,9 +133,7 @@ function toggleToTop(){
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
 
-/* =========================
-   News rendern
-   ========================= */
+// ===== News-Feed rendern =====
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
@@ -143,11 +143,11 @@ function renderNews(){
   cardEl.hidden = false;
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{
-    const d = new Date(item.date);
-    const dd = String(d.getDate()).padStart(2,'0');
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const yyyy = d.getFullYear();
-    const fresh = (Date.now()-d.getTime())/(1000*60*60*24) <= 14;
+    const date = new Date(item.date);
+    const dd = String(date.getDate()).padStart(2,'0');
+    const mm = String(date.getMonth()+1).padStart(2,'0');
+    const yyyy = date.getFullYear();
+    const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14;
     const tag  = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
     const link = item.link ? ` <a href="${item.link}" target="_blank" rel="noopener">Weiterlesen →</a>` : '';
     return `
