@@ -1,8 +1,7 @@
-// ===== Newsletter: Endpoint (Formspree o.ä.) =====
-// Trage hier deine Formular-ID ein, z.B. "https://formspree.io/f/abcd1234"
-const NEWSLETTER_ENDPOINT = ""; // wenn leer -> Mailto-Fallback
+/* === API-Basis (deine Worker-URL, ohne Slash am Ende) === */
+const API_BASE = "https://<DEIN-WORKER>.workers.dev";
 
-// Drawer (Mobile)
+/* === Drawer (Mobile) === */
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
@@ -27,7 +26,7 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Sections: nur auf Auswahl anzeigen; schließbar per X =====
+/* === Sections (nur bei Auswahl sichtbar) === */
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
   navLinks.map(a => a.getAttribute('href').slice(1))
@@ -53,7 +52,6 @@ function showOnly(id, pushHash=true){
   sections[id].scrollIntoView({behavior:'smooth', block:'start'});
   closeDrawers();
 }
-// Initial
 function initSections(){
   clearActive(); hideAll();
   const hash = (location.hash || "").slice(1);
@@ -63,7 +61,6 @@ window.addEventListener('hashchange', ()=>{
   const id = (location.hash || "").slice(1);
   if (sections[id]) showOnly(id, false);
 });
-// Klick
 navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
@@ -71,7 +68,6 @@ navLinks.forEach(a=>{
     showOnly(id, true);
   });
 });
-// Close-Buttons
 document.querySelectorAll('.close-card').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     hideAll(); clearActive(); removeHash();
@@ -79,53 +75,38 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-// ===== Newsletter Submit =====
-const form   = document.querySelector('.newsletter-form');
-const okMsg  = document.querySelector('.form-msg');
-const errMsg = document.querySelector('.form-err');
+/* === Newsletter Submit (Fetch -> Worker) === */
+const form  = document.getElementById("aeon-news-form");
+const okMsg = document.querySelector(".form-msg");
+const erMsg = document.querySelector(".form-err");
 
-async function sendViaFormService(email){
-  const payload = {
-    email,
-    subject: "A.E.O.N Newsletter – neues Abo",
-    to: "AEONAdaptivesNetzwerk@proton.me",
-    page: location.href,
-    ua: navigator.userAgent,
-    ts: new Date().toISOString()
-  };
-  const res = await fetch(NEWSLETTER_ENDPOINT, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) throw new Error('HTTP '+res.status);
-}
-function fallbackMailto(email){
-  const subject = "Newsletter-Abo A.E.O.N";
-  const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
-  const href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = href;
-}
-
-if (form){
-  form.addEventListener('submit', async (e)=>{
+if (form) {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const honeypot = form.querySelector('input[name="_gotcha"]')?.value.trim();
-    if (honeypot) return; // Bot
+    okMsg.hidden = true; erMsg.hidden = true;
+
+    const hp = form.querySelector('input[name="_hp"]')?.value.trim();
+    if (hp) return; // Bot
+
     const email = form.querySelector('input[type="email"]')?.value.trim();
     if (!email) return;
-    okMsg.hidden = true; errMsg.hidden = true;
-    try{
-      if (NEWSLETTER_ENDPOINT) await sendViaFormService(email);
-      else fallbackMailto(email);
-      okMsg.hidden = false; form.reset();
-    }catch(err){
-      console.error(err); errMsg.hidden = false;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/subscribe`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      if (!res.ok) throw 0;
+      okMsg.hidden = false;
+      form.reset();
+    } catch {
+      erMsg.hidden = false;
     }
   });
 }
 
-// ===== Back-to-Top =====
+/* === Back-to-Top === */
 const toTop = document.getElementById('toTop');
 function toggleToTop(){
   const y = window.scrollY || document.documentElement.scrollTop;
@@ -133,15 +114,16 @@ function toggleToTop(){
 }
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
-toTop?.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
 
-// ===== News-Feed rendern =====
+/* === News rendern === */
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
   if (!listEl || !cardEl) return;
+
   const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
   if (!items.length){ cardEl.hidden = true; listEl.innerHTML = ""; return; }
+
   cardEl.hidden = false;
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{
