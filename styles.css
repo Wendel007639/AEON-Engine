@@ -93,11 +93,41 @@ a{color:inherit;text-decoration:none}
 .form-msg{margin-top:10px;color:#41f29e}.form-err{margin-top:10px;color:#ff6b6b}
 .hp{display:none!important}
 
-/* News */
-.news-card{margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+/* News – IMMER im unteren Feld (verlängerter Kasten) */
+.news-card{
+  position:relative; z-index:0;
+  padding:18px; /* Inhaltspadding bleibt */
+  border-radius:var(--radius);
+}
+.news-card::before{
+  /* sichtbare NEWS-Karte */
+  content:""; position:absolute; inset:0;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  z-index:-1;
+}
+.news-card::after{
+  /* durchgehender „Boden“ nach unten bis Seitenende */
+  content:""; position:absolute; left:0; right:0; top:0; bottom:-2000px;
+  background:var(--card);
+  border-left:1px solid var(--border);
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  border-bottom-left-radius:var(--radius);
+  border-bottom-right-radius:var(--radius);
+  box-shadow:var(--shadow);
+  z-index:-2; pointer-events:none;
+}
 .news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
 .news-list{display:grid;gap:12px}
+.news-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
+.news-item .meta{display:flex;gap:8px;align-items:center;color:var(--sub);font-size:12px;margin-bottom:6px}
+.news-item .title{font:700 16px Poppins,Inter,sans-serif;color:#eaffff;margin:2px 0 6px}
+.news-item .body{color:var(--mut);font-size:14px;line-height:1.6}
+.news-item .tag{padding:2px 8px;border-radius:999px;background:rgba(35,229,255,.16);color:var(--cyan);font-weight:700;margin-left:auto}
 
 /* Meta Cards */
 .meta{margin-top:18px}
@@ -129,19 +159,10 @@ a{color:inherit;text-decoration:none}
 .to-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .to-top:hover{background:#10233c}
 
-/* FOOTER als Karte (KASTEN UNTEN) */
-footer{margin-top:26px}
-.footer-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:16px 18px;
-  box-shadow:var(--shadow);
-  color:var(--mut);
-}
-.footer-text{margin:0 0 6px}
-.footer-links a{color:var(--sub)}
-.footer-links a:hover{color:#eaffff}
+/* Footer – transparent, liegt auf dem durch News erzeugten Boden */
+footer{margin-top:26px;padding-top:12px;color:var(--mut)}
+footer a{color:var(--sub)}
+footer a:hover{color:#eaffff}
 
 /* Fokus & Motion */
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
