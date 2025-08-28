@@ -1,107 +1,112 @@
 // ===== Newsletter: echten Endpoint hier eintragen =====
-// Beispiel Formspree: "https://formspree.io/f/XXXXYYYY"
-const NEWSLETTER_ENDPOINT = ""; // leer = Demo-Modus
+const NEWSLETTER_ENDPOINT = ""; // z.B. "https://formspree.io/f/XXXXYYYY"
 
-// ===== Footer-Jahr =====
+// Footer-Jahr
 const yearEl = document.getElementById('y');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// ===== Drawer (Mobile Sidebars) =====
+// Drawer (Mobile)
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
 const rightBtn= document.querySelector('.toggle-right');
-const leftBar = document.getElementById('drawer-left');
-const rightBar= document.getElementById('drawer-right');
-
-function openLeft(){ body.classList.add('drawer-left-open');  leftBtn?.setAttribute('aria-expanded','true');  leftBar?.querySelector('a,button,input')?.focus(); }
-function openRight(){body.classList.add('drawer-right-open'); rightBtn?.setAttribute('aria-expanded','true'); rightBar?.querySelector('a,button,input')?.focus(); }
 function closeDrawers(){
   body.classList.remove('drawer-left-open','drawer-right-open');
   leftBtn?.setAttribute('aria-expanded','false');
   rightBtn?.setAttribute('aria-expanded','false');
-  // Fokus zurück zur zuletzt genutzten Taste
-  (document.activeElement === document.body ? leftBtn : document.activeElement)?.blur();
 }
-
-leftBtn?.addEventListener('click', (e)=>{ e.preventDefault(); body.classList.contains('drawer-left-open') ? closeDrawers() : openLeft(); });
-rightBtn?.addEventListener('click',(e)=>{ e.preventDefault(); body.classList.contains('drawer-right-open') ? closeDrawers() : openRight(); });
+leftBtn?.addEventListener('click', e=>{e.preventDefault(); const on=body.classList.toggle('drawer-left-open'); leftBtn.setAttribute('aria-expanded', String(on)); body.classList.remove('drawer-right-open');});
+rightBtn?.addEventListener('click',e=>{e.preventDefault(); const on=body.classList.toggle('drawer-right-open'); rightBtn.setAttribute('aria-expanded', String(on)); body.classList.remove('drawer-left-open');});
 scrim?.addEventListener('click', closeDrawers);
-window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeDrawers(); });
+window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Scroll-Spy =====
-const spyLinks = document.querySelectorAll('.sidecard a.spy');
-const idMap = new Map([...spyLinks].map(a => [a.getAttribute('href').slice(1), a]));
+// ===== Scroll-Spy (robust: genau EIN Link aktiv) =====
+const spyLinks = [...document.querySelectorAll('.sidecard a.spy')];
+const sections = spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    const id = entry.target.id;
-    const link = idMap.get(id);
-    if (!link) return;
-    if (entry.isIntersecting){
-      spyLinks.forEach(a=>a.classList.remove('active'));
-      link.classList.add('active');
-    }
+function setActive(id){
+  spyLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+}
+function updateActive(){
+  const offset = 84; // identisch zu scroll-margin-top
+  let bestId = null, bestDist = Infinity;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    const dist = Math.abs(rect.top - offset);
+    if (dist < bestDist){ bestDist = dist; bestId = sec.id; }
   });
-},{ rootMargin: '-35% 0px -50% 0px', threshold: 0.01 });
+  if (bestId) setActive(bestId);
+}
+window.addEventListener('scroll', updateActive, {passive:true});
+window.addEventListener('resize', updateActive);
+updateActive();
 
-idMap.forEach((_a, id)=>{
-  const sec = document.getElementById(id);
-  if (sec) observer.observe(sec);
+// Anker-Scroll präzise + Drawer schließen
+spyLinks.forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    const id = a.getAttribute('href').slice(1);
+    document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+    closeDrawers();
+    setTimeout(updateActive, 250);
+  });
 });
-
-spyLinks.forEach(a => a.addEventListener('click', ()=> closeDrawers()));
 
 // ===== Newsletter Submit =====
 const form = document.querySelector('.newsletter-form');
 const okMsg = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
-
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = form.querySelector('input[type="email"]')?.value.trim();
     if (!email) return;
-
-    // Demo-Modus
-    if (!NEWSLETTER_ENDPOINT) {
-      okMsg.hidden = false; errMsg.hidden = true;
-      setTimeout(()=> okMsg.hidden = true, 6000);
-      form.reset();
-      return;
+    if (!NEWSLETTER_ENDPOINT){ // Demo
+      okMsg.hidden = false; errMsg.hidden = true; setTimeout(()=> okMsg.hidden = true, 6000); form.reset(); return;
     }
-
-    try {
+    try{
       const res = await fetch(NEWSLETTER_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({ email })
       });
-      if (res.ok) {
-        okMsg.hidden = false; errMsg.hidden = true;
-        setTimeout(()=> okMsg.hidden = true, 6000);
-        form.reset();
-      } else {
-        throw new Error('HTTP '+res.status);
-      }
-    } catch (err) {
-      errMsg.hidden = false; okMsg.hidden = true;
-      console.error('Newsletter error:', err);
-    }
+      if (res.ok){ okMsg.hidden=false; errMsg.hidden=true; setTimeout(()=> okMsg.hidden=true, 6000); form.reset(); }
+      else throw new Error('HTTP '+res.status);
+    }catch(err){ errMsg.hidden=false; okMsg.hidden=true; console.error(err); }
   });
 }
 
 // ===== Back-to-Top =====
 const toTop = document.getElementById('toTop');
 function toggleToTop(){
-  if (!toTop) return;
-  const scrolled = window.scrollY || document.documentElement.scrollTop;
-  if (scrolled > 600) toTop.classList.add('show');
-  else toTop.classList.remove('show');
+  const y = window.scrollY || document.documentElement.scrollTop;
+  if (y > 600) toTop?.classList.add('show'); else toTop?.classList.remove('show');
 }
-window.addEventListener('scroll', toggleToTop, { passive:true });
-toggleToTop();
+window.addEventListener('scroll', toggleToTop, {passive:true}); toggleToTop();
+toTop?.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
-toTop?.addEventListener('click', ()=>{
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+// ===== News-Feed rendern (Daten kommen aus news.js) =====
+function renderNews(){
+  const listEl = document.getElementById('news-list');
+  if (!listEl) return;
+  const items = (window.AEON_NEWS || []).slice()
+    .sort((a,b)=> new Date(b.date) - new Date(a.date)); // neueste zuerst
+
+  if (items.length === 0){ listEl.innerHTML = '<div class="news-item"><div class="body">Noch keine News.</div></div>'; return; }
+
+  listEl.innerHTML = items.map(item=>{
+    const date = new Date(item.date);
+    const dd = String(date.getDate()).padStart(2,'0');
+    const mm = String(date.getMonth()+1).padStart(2,'0');
+    const yyyy = date.getFullYear();
+    const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14; // <=14 Tage
+    const tag = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
+    const link = item.link ? ` <a href="${item.link}" target="_blank" rel="noopener">Weiterlesen →</a>` : '';
+    return `
+      <article class="news-item">
+        <div class="meta"><strong>${dd}.${mm}.${yyyy}</strong>${tag}</div>
+        <div class="title">${item.title}</div>
+        <div class="body">${item.body}${link}</div>
+      </article>`;
+  }).join('');
+}
+document.addEventListener('DOMContentLoaded', renderNews);

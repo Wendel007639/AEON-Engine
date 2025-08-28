@@ -21,13 +21,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2001">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2100">
 </head>
 <body id="top">
-  <!-- Skip-Link für Screenreader/Keyboard -->
   <a class="skip" href="#main">Zum Inhalt springen</a>
-
-  <!-- Scrim für Mobile-Drawer -->
   <div class="scrim" aria-hidden="true"></div>
 
   <div class="wrap">
@@ -43,9 +40,9 @@
       </div>
     </nav>
 
-    <!-- SCREEN 1: Links Nav – Mitte – Rechts Nav -->
+    <!-- SCREEN 1 -->
     <section class="screen">
-      <!-- Linke Navigationsbox (nur 3 Links) -->
+      <!-- Links NAV (nur 3) -->
       <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
         <nav class="sidecard" role="navigation">
           <div class="sidecard-title">Navigation</div>
@@ -89,9 +86,18 @@
           <p class="form-msg" hidden role="status" aria-live="polite">Danke! Du bekommst gleich eine Bestätigung. ✅</p>
           <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
+
+        <!-- NEWS-FEED (wird von news.js befüllt) -->
+        <section class="news-card" id="news">
+          <div class="news-head">
+            <span class="badge">News</span>
+            <h3>Aktuelle Meldungen</h3>
+          </div>
+          <div id="news-list" class="news-list"></div>
+        </section>
       </main>
 
-      <!-- Rechte Navigationsbox -->
+      <!-- Rechts Nav -->
       <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
         <div class="sidecard">
           <div class="sidecard-title">Aktionen</div>
@@ -102,7 +108,7 @@
       </aside>
     </section>
 
-    <!-- SCREEN 2: Nur die 3 Bereiche -->
+    <!-- SCREEN 2: NUR die 3 Bereiche -->
     <section class="meta" id="meta" data-accent="cyan">
       <article class="meta-card">
         <div>
@@ -205,10 +211,8 @@
       </article>
     </section>
 
-    <!-- Back-to-Top -->
     <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
 
-    <!-- FOOTER -->
     <footer>
       <div>© <span id="y"></span> Timothy Langer, A.E.O.N</div>
       <div>
@@ -218,6 +222,8 @@
     </footer>
   </div>
 
-  <script defer src="/AEON-Engine/main.js?v=2001"></script>
+  <!-- Reihenfolge: Zuerst Daten, dann Logik -->
+  <script defer src="/AEON-Engine/news.js?v=2100"></script>
+  <script defer src="/AEON-Engine/main.js?v=2100"></script>
 </body>
 </html>
