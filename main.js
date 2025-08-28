@@ -1,5 +1,6 @@
-// ===== Newsletter: echten Endpoint hier eintragen =====
-const NEWSLETTER_ENDPOINT = ""; // z.B. "https://formspree.io/f/XXXXYYYY"
+// ===== Newsletter: Endpoint (Formspree o.ä.) =====
+// Trage hier deine Formular-ID ein, z.B. "https://formspree.io/f/abcd1234"
+const NEWSLETTER_ENDPOINT = ""; // wenn leer -> Mailto-Fallback
 
 // Drawer (Mobile)
 const body    = document.body;
@@ -29,18 +30,12 @@ window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 // ===== Sections: nur auf Auswahl anzeigen; schließbar per X =====
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
-  navLinks
-    .map(a => a.getAttribute('href').slice(1))
-    .map(id => [id, document.getElementById(id)])
-    .filter(([,el]) => !!el)
+  navLinks.map(a => a.getAttribute('href').slice(1))
+          .map(id => [id, document.getElementById(id)])
+          .filter(([,el]) => !!el)
 );
-
-function clearActive(){
-  navLinks.forEach(a => { a.classList.remove('active'); a.removeAttribute('aria-current'); });
-}
-function hideAll(){
-  Object.values(sections).forEach(sec => sec.setAttribute('hidden',''));
-}
+function clearActive(){ navLinks.forEach(a=>{ a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
+function hideAll(){ Object.values(sections).forEach(sec => sec.setAttribute('hidden','')); }
 function setActive(id){
   navLinks.forEach(a=>{
     const on = a.getAttribute('href') === '#'+id;
@@ -48,10 +43,7 @@ function setActive(id){
     if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
   });
 }
-function removeHash(){
-  const url = location.pathname + location.search;
-  history.replaceState(null, "", url);
-}
+function removeHash(){ const url = location.pathname + location.search; history.replaceState(null, "", url); }
 function showOnly(id, pushHash=true){
   if(!sections[id]) return;
   hideAll();
@@ -61,72 +53,74 @@ function showOnly(id, pushHash=true){
   sections[id].scrollIntoView({behavior:'smooth', block:'start'});
   closeDrawers();
 }
-
-// Initial: nichts aktiv / alle versteckt – außer wenn Hash gesetzt ist
+// Initial
 function initSections(){
-  clearActive();
-  hideAll();
+  clearActive(); hideAll();
   const hash = (location.hash || "").slice(1);
-  if (sections[hash]) showOnly(hash, /*pushHash*/false);
+  if (sections[hash]) showOnly(hash, false);
 }
 window.addEventListener('hashchange', ()=>{
   const id = (location.hash || "").slice(1);
-  if (sections[id]) showOnly(id, /*pushHash*/false);
+  if (sections[id]) showOnly(id, false);
 });
-
-// Klick-Handling
+// Klick
 navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
     const id = a.getAttribute('href').slice(1);
-    showOnly(id, /*pushHash*/true);
+    showOnly(id, true);
   });
 });
-
-// Close-Buttons (X)
+// Close-Buttons
 document.querySelectorAll('.close-card').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    hideAll();
-    clearActive();
-    removeHash();
+    hideAll(); clearActive(); removeHash();
     window.scrollTo({top:0, behavior:'smooth'});
   });
 });
 
-// ===== Newsletter Submit (Demo) =====
+// ===== Newsletter Submit =====
 const form   = document.querySelector('.newsletter-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
+async function sendViaFormService(email){
+  const payload = {
+    email,
+    subject: "A.E.O.N Newsletter – neues Abo",
+    to: "AEONAdaptivesNetzwerk@proton.me",
+    page: location.href,
+    ua: navigator.userAgent,
+    ts: new Date().toISOString()
+  };
+  const res = await fetch(NEWSLETTER_ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error('HTTP '+res.status);
+}
+function fallbackMailto(email){
+  const subject = "Newsletter-Abo A.E.O.N";
+  const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
+  const href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
+}
+
 if (form){
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const honeypot = form.querySelector('input[name="_gotcha"]')?.value.trim();
+    if (honeypot) return; // Bot
     const email = form.querySelector('input[type="email"]')?.value.trim();
     if (!email) return;
-
-    if (!NEWSLETTER_ENDPOINT){
-      okMsg.hidden = false; errMsg.hidden = true;
-      setTimeout(()=> okMsg.hidden = true, 6000);
-      form.reset();
-      return;
-    }
-
+    okMsg.hidden = true; errMsg.hidden = true;
     try{
-      const res = await fetch(NEWSLETTER_ENDPOINT, {
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({ email })
-      });
-      if (res.ok){
-        okMsg.hidden = false; errMsg.hidden = true;
-        setTimeout(()=> okMsg.hidden = true, 6000);
-        form.reset();
-      } else {
-        throw new Error('HTTP '+res.status);
-      }
+      if (NEWSLETTER_ENDPOINT) await sendViaFormService(email);
+      else fallbackMailto(email);
+      okMsg.hidden = false; form.reset();
     }catch(err){
-      errMsg.hidden = false; okMsg.hidden = true;
-      console.error(err);
+      console.error(err); errMsg.hidden = false;
     }
   });
 }
@@ -139,17 +133,14 @@ function toggleToTop(){
 }
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
-toTop?.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
 // ===== News-Feed rendern =====
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
   if (!listEl || !cardEl) return;
-
   const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
   if (!items.length){ cardEl.hidden = true; listEl.innerHTML = ""; return; }
-
   cardEl.hidden = false;
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{

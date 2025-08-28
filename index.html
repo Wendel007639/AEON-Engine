@@ -6,17 +6,22 @@
   <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
 
+  <!-- Favicon & Social -->
   <link rel="icon" href="/AEON-Engine/img/favicon.png">
   <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
   <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
   <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <meta property="og:type" content="website">
 
+  <!-- Performance -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2105">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2107">
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -71,13 +76,23 @@
             <h3>Updates aus dem Kern</h3>
             <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
           </div>
+
           <form class="newsletter-form" method="POST" novalidate>
             <label for="email" class="visually-hidden">E-Mail</label>
             <input id="email" type="email" name="email" placeholder="dein.name@mail.de" required>
+            <!-- Honeypot gegen Bots -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <!-- Meta -->
+            <input type="hidden" name="subject" value="A.E.O.N Newsletter – neues Abo">
+            <input type="hidden" name="to" value="AEONAdaptivesNetzwerk@proton.me">
             <button type="submit" class="cta primary">Abonnieren</button>
           </form>
-          <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu.</small>
-          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Du bekommst gleich eine Bestätigung. ✅</p>
+
+          <small class="privacy">
+            Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter
+            <strong>eine Woche früher</strong> als die Veröffentlichung auf der Webseite – <strong>kostenlos</strong>.
+          </small>
+          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
           <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
 
@@ -102,7 +117,7 @@
       </aside>
     </section>
 
-    <!-- SCREEN 2: Bereiche – initial VERSTECKT -->
+    <!-- SCREEN 2: Bereiche – initial VERSTECKT (nur bei Auswahl) -->
     <section class="meta" id="meta" data-accent="cyan" hidden>
       <article class="meta-card">
         <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
@@ -210,17 +225,22 @@
 
     <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
 
+    <!-- FOOTER als eigener KASTEN (Karte) -->
     <footer>
-      <div>© 2025 Timothy Langer System Architeckt A.E.O.N ein System das mehr ist als eine klassische KI Modell von heute ! Kein Chatbot ! Kein Cloud Speicher !</div>
-      <div>
-        <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
-        <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
+      <div class="footer-card">
+        <div class="footer-text">
+          © 2025 Timothy Langer System Architeckt A.E.O.N ein System das mehr ist als eine klassische KI Modell von heute ! Kein Chatbot ! Kein Cloud Speicher !
+        </div>
+        <div class="footer-links">
+          <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
+          <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
+        </div>
       </div>
     </footer>
   </div>
 
   <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=2102"></script>
-  <script defer src="/AEON-Engine/main.js?v=2105"></script>
+  <script defer src="/AEON-Engine/news.js?v=2107"></script>
+  <script defer src="/AEON-Engine/main.js?v=2107"></script>
 </body>
 </html>
