@@ -30,12 +30,12 @@ body{
   background-color:var(--bg);
 }
 
-/* Globales, fixiertes Wasserzeichen über der ganzen Seite */
+/* Fixiertes Wasserzeichen über der ganzen Seite */
 body::after{
   content:"";
   position:fixed;
   inset:0;
-  background:url("img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
+  background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
   opacity:.18;
   filter:saturate(1) brightness(1.05);
   pointer-events:none;
@@ -45,10 +45,14 @@ body::after{
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:32px 20px 80px; position:relative; z-index:1}
 
-/* Anker-Offset für Smooth-Scroll */
+/* Skip-Link */
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip:focus{left:20px;top:12px;width:auto;height:auto;padding:8px 10px;border-radius:10px;background:#0a1a2e;color:#eaffff;z-index:5}
+
+/* Anker-Offset */
 [id]{scroll-margin-top:84px}
 
-/* ==== Topbar (ohne Logo) ==== */
+/* ==== Topbar ==== */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px;border-bottom:1px solid var(--border)}
 .brand{display:flex;gap:12px;align-items:center}
 .brand h1{
@@ -63,7 +67,6 @@ a{color:inherit;text-decoration:none}
 .nav .btn:hover{background:rgba(255,255,255,.12)}
 .nav .btn.mobile{display:none}
 .nav .btn.desktop{display:inline-block}
-
 @media (max-width:900px){
   .nav .btn.mobile{display:inline-block}
   .nav .btn.desktop{display:none}
@@ -93,7 +96,7 @@ a{color:inherit;text-decoration:none}
 }
 .sidecard a:hover{background:rgba(35,229,255,.08);color:#eaffff}
 
-/* Scroll-Spy aktive Markierung */
+/* Scroll-Spy: aktive Markierung */
 .sidecard a.active{
   background:rgba(35,229,255,.12);
   color:#eaffff;
@@ -196,17 +199,26 @@ a{color:inherit;text-decoration:none}
 .meta-list li::marker{color:var(--cyan)}
 @media (max-width:900px){ .meta-card{ grid-template-columns:1fr; } }
 
+/* Back-to-Top */
+.to-top{
+  position:fixed;right:18px;bottom:18px;z-index:4;
+  width:44px;height:44px;border-radius:999px;border:1px solid var(--border);
+  background:#0a1a2e;color:#eaffff;cursor:pointer;
+  opacity:0;transform:translateY(10px);pointer-events:none;
+  transition:opacity .2s, transform .2s, background .15s;
+}
+.to-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.to-top:hover{background:#10233c}
+
 /* ==== Footer ==== */
 footer{
   margin-top:54px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--mut);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
 }
 
-/* Barrierefreiheit */
+/* Fokusstil & Bewegungspräferenz */
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-
-/* Respekt vor Bewegungspräferenzen */
 @media (prefers-reduced-motion: reduce){
   *{scroll-behavior:auto!important}
-  .left,.right{transition:none}
+  .left,.right,.to-top{transition:none}
 }

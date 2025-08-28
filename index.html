@@ -7,47 +7,44 @@
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
 
   <!-- Favicon & Social -->
-  <link rel="icon" href="img/favicon.png">
+  <link rel="icon" href="/AEON-Engine/img/favicon.png">
   <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
   <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
-  <meta property="og:image" content="img/AEON_4K_neuron_4k_light.png">
+  <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <meta property="og:type" content="website">
 
   <!-- Performance -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="img/AEON_4K_neuron_4k_light.png">
+  <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=2000">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2001">
 </head>
-<body>
-  <!-- Scrim für Drawer -->
+<body id="top">
+  <!-- Skip-Link für Screenreader/Keyboard -->
+  <a class="skip" href="#main">Zum Inhalt springen</a>
+
+  <!-- Scrim für Mobile-Drawer -->
   <div class="scrim" aria-hidden="true"></div>
 
   <div class="wrap">
-
     <!-- Topbar -->
     <nav class="nav" aria-label="Hauptnavigation">
       <div class="brand">
         <h1>A.E.O.N Adaptives Emotionales Optimiertes Netzwerk</h1>
       </div>
-
       <div class="nav-actions">
-        <!-- Mobile Drawer Buttons -->
-        <button class="btn mobile toggle-left" aria-controls="drawer-left" aria-expanded="false">Navigation</button>
+        <button class="btn mobile toggle-left"  aria-controls="drawer-left"  aria-expanded="false">Navigation</button>
         <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
-
-        <!-- Desktop Kontakt -->
         <a class="btn desktop" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
       </div>
     </nav>
 
-    <!-- SCREEN 1: Links Nav – Mitte (Hero + Newsletter) – Rechts Nav -->
+    <!-- SCREEN 1: Links Nav – Mitte – Rechts Nav -->
     <section class="screen">
-
       <!-- Linke Navigationsbox (nur 3 Links) -->
       <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
         <nav class="sidecard" role="navigation">
@@ -76,14 +73,13 @@
           <div class="note">Live, ruhig, präzise, immer am Kontext</div>
         </header>
 
-        <!-- NEWSLETTER (Mitte) -->
+        <!-- NEWSLETTER -->
         <section class="newsletter-card" id="newsletter">
           <div class="newsletter-head">
             <span class="badge">Newsletter</span>
             <h3>Updates aus dem Kern</h3>
             <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
           </div>
-          <!-- Live-Endpoint in main.js hinterlegen -->
           <form class="newsletter-form" method="POST" novalidate>
             <label for="email" class="visually-hidden">E-Mail</label>
             <input id="email" type="email" name="email" placeholder="dein.name@mail.de" required>
@@ -91,7 +87,7 @@
           </form>
           <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu.</small>
           <p class="form-msg" hidden role="status" aria-live="polite">Danke! Du bekommst gleich eine Bestätigung. ✅</p>
-          <p class="form-err" hidden role="alert">Uff, das hat nicht geklappt. Bitte später erneut versuchen.</p>
+          <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
       </main>
 
@@ -104,7 +100,6 @@
           <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
         </div>
       </aside>
-
     </section>
 
     <!-- SCREEN 2: Nur die 3 Bereiche -->
@@ -210,6 +205,9 @@
       </article>
     </section>
 
+    <!-- Back-to-Top -->
+    <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
+
     <!-- FOOTER -->
     <footer>
       <div>© <span id="y"></span> Timothy Langer, A.E.O.N</div>
@@ -218,9 +216,8 @@
         <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
       </div>
     </footer>
-
   </div>
 
-  <script defer src="main.js?v=2000"></script>
+  <script defer src="/AEON-Engine/main.js?v=2001"></script>
 </body>
 </html>
