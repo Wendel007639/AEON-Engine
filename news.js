@@ -9,7 +9,7 @@
   window.AEON_NEWS = [
     {
       date: iso,
-      title: "[TEST-NEWSLETTER] AE.O.N – Early Access Infos",
+      title: "[TEST-NEWSLETTER] A.E.O.N – Early Access Infos",
       body: "Dies ist ein TEST-Newsletter. Abonnent:innen erhalten Inhalte grundsätzlich eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.",
       tag: "NEWSLETTER · TEST"
     }
