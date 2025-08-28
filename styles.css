@@ -2,7 +2,7 @@
   --bg:#070d1a; --fg:#e7f9ff; --mut:#9cc9e6; --sub:#b5e8ff;
   --cyan:#23e5ff; --cyan-2:#08bed3; --cyan-glow: rgba(35,229,255,.35);
   --card:#0b1426; --border:rgba(255,255,255,.08);
-  --radius:18px; --shadow:none; /* EINHEITLICH: keine Schlagschatten */
+  --radius:18px; --shadow:none; /* Einheitlich: keine Box-Schatten */
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
