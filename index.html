@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=1001">
+  <link rel="stylesheet" href="styles.css?v=1003">
 </head>
 <body>
   <div class="wrap">
@@ -33,9 +33,10 @@
       </div>
     </nav>
 
-    <!-- SCREEN 1: 3-Spalten -->
+    <!-- SCREEN 1: Links Nav – Mitte (Hero + Newsletter) – Rechts Nav -->
     <section class="screen">
-      <!-- Left NAV -->
+
+      <!-- Linke Navigationsbox -->
       <aside class="sidebar left">
         <nav class="sidecard">
           <div class="sidecard-title">Navigation</div>
@@ -48,7 +49,7 @@
         </nav>
       </aside>
 
-      <!-- CENTER -->
+      <!-- Mitte: Hero + Newsletter -->
       <main class="center">
         <!-- HERO -->
         <header class="hero">
@@ -73,8 +74,6 @@
             <h3>Updates aus dem Kern</h3>
             <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
           </div>
-          <!-- Demo: JS fängt das Submit ab und zeigt sofort eine Erfolgsmeldung -->
-          <!-- Für echten Versand später action auf z.B. Buttondown/Brevo/Formspree ändern -->
           <form class="newsletter-form" novalidate>
             <label for="email" class="visually-hidden">E-Mail</label>
             <input id="email" type="email" name="email" placeholder="dein.name@mail.de" required>
@@ -85,7 +84,7 @@
         </section>
       </main>
 
-      <!-- Right NAV -->
+      <!-- Rechte Navigationsbox -->
       <aside class="sidebar right">
         <div class="sidecard">
           <div class="sidecard-title">Aktionen</div>
@@ -98,6 +97,7 @@
           <div class="dot on"></div> <span>Kern aktiv</span>
         </div>
       </aside>
+
     </section>
 
     <!-- INHALT -->
@@ -113,7 +113,6 @@
             kurze innere Reflexion und eine adaptive Strategie.
           </p>
         </div>
-
         <ul class="meta-list">
           <li><strong>Monitor</strong>: Ø - Leistung &amp; Streuung je Aufgabe</li>
           <li><strong>Emotionen</strong>: Mood Verlauf &amp; Erinnerungen</li>
@@ -151,7 +150,6 @@
             damit jede Antwort nachvollziehbar bleibt.
           </p>
         </div>
-
         <ul class="meta-list">
           <li><strong>Emotionen</strong> glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend.</li>
           <li><strong>Verzerrungen</strong> Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine.</li>
@@ -190,7 +188,6 @@
             passt seine Strategie adaptiv an und hält die Linie.
           </p>
         </div>
-
         <ul class="meta-list">
           <li><strong>Gefühlslage</strong> selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen.</li>
           <li><strong>Verzerrungen</strong> Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status quo, keine.</li>
@@ -238,6 +235,6 @@
 
   </div>
 
-  <script defer src="main.js?v=1001"></script>
+  <script defer src="main.js?v=1003"></script>
 </body>
 </html>
