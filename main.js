@@ -1,8 +1,9 @@
-// ===== KONFIG =====
-const API_BASE = ""; // z.B. "https://aeon-news.yourname.workers.dev"
-const NEWSLETTER_ENDPOINT = API_BASE ? API_BASE + "/subscribe" : "";
+/* ===== KONFIG ===== */
+// Trage hier deinen Formular/Worker/Endpoint ein.
+// Wenn leer -> Mailto-Fallback (kein Fenster öffnen, nur Mail-App).
+const NEWSLETTER_ENDPOINT = ""; 
 
-// Drawer (Mobile)
+/* ===== Drawer (Mobile) ===== */
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
 const leftBtn = document.querySelector('.toggle-left');
@@ -28,12 +29,13 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Sections show/hide, X-Button =====
+/* ===== Sections show/hide, X-Button ===== */
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
-  navLinks.map(a => a.getAttribute('href').slice(1))
-          .map(id => [id, document.getElementById(id)])
-          .filter(([,el]) => !!el)
+  navLinks
+    .map(a => a.getAttribute('href').slice(1))
+    .map(id => [id, document.getElementById(id)])
+    .filter(([,el]) => !!el)
 );
 function clearActive(){ navLinks.forEach(a=>{ a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
 function hideAll(){ Object.values(sections).forEach(sec => sec.setAttribute('hidden','')); }
@@ -64,6 +66,7 @@ window.addEventListener('hashchange', ()=>{
   const id = (location.hash || "").slice(1);
   if (sections[id]) showOnly(id, false);
 });
+// Klick
 navLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
@@ -71,6 +74,7 @@ navLinks.forEach(a=>{
     showOnly(id, true);
   });
 });
+// Close-Buttons
 document.querySelectorAll('.close-card').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     hideAll(); clearActive(); removeHash();
@@ -78,12 +82,12 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-// ===== Newsletter Submit =====
+/* ===== Newsletter Submit ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-async function sendViaWorker(email){
+async function sendViaEndpoint(email){
   const payload = {
     email,
     subject: "A.E.O.N Newsletter – neues Abo",
@@ -102,8 +106,8 @@ async function sendViaWorker(email){
 function fallbackMailto(email){
   const subject = "Newsletter-Abo A.E.O.N";
   const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
-  const href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = href;
+  // Öffnet die Standard-Mail-App
+  window.location.href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 if (form){
@@ -115,8 +119,8 @@ if (form){
     if (!email) return;
     okMsg.hidden = true; errMsg.hidden = true;
     try{
-      if (NEWSLETTER_ENDPOINT) await sendViaWorker(email);
-      else fallbackMailto(email);  // falls kein Worker gesetzt ist
+      if (NEWSLETTER_ENDPOINT) await sendViaEndpoint(email);
+      else fallbackMailto(email);
       okMsg.hidden = false; form.reset();
     }catch(err){
       console.error(err); errMsg.hidden = false;
@@ -124,7 +128,7 @@ if (form){
   });
 }
 
-// ===== Back-to-Top =====
+/* ===== Back-to-Top ===== */
 const toTop = document.getElementById('toTop');
 function toggleToTop(){
   const y = window.scrollY || document.documentElement.scrollTop;
@@ -133,21 +137,23 @@ function toggleToTop(){
 window.addEventListener('scroll', toggleToTop, {passive:true});
 toggleToTop();
 
-// ===== News-Feed rendern =====
+/* ===== News-Feed rendern ===== */
 function renderNews(){
   const listEl = document.getElementById('news-list');
   const cardEl = document.getElementById('news');
   if (!listEl || !cardEl) return;
+
   const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
   if (!items.length){ cardEl.hidden = true; listEl.innerHTML = ""; return; }
   cardEl.hidden = false;
+
   items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{
-    const date = new Date(item.date);
-    const dd = String(date.getDate()).padStart(2,'0');
-    const mm = String(date.getMonth()+1).padStart(2,'0');
-    const yyyy = date.getFullYear();
-    const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14;
+    const d = new Date(item.date);
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const yyyy = d.getFullYear();
+    const fresh = (Date.now()-d.getTime())/(1000*60*60*24) <= 14;
     const tag  = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
     const link = item.link ? ` <a href="${item.link}" target="_blank" rel="noopener">Weiterlesen →</a>` : '';
     return `

@@ -1,4 +1,4 @@
-// AEON News – TEST-Newsletter markiert
+// AEON News – Beispiel-Eintrag (kannst du frei ersetzen/erweitern)
 (function(){
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -10,8 +10,8 @@
     {
       date: iso,
       title: "[TEST-NEWSLETTER] A.E.O.N – Neues von Tim",
-      body: "Dies ist ein TEST Newsletter. Abonnent:innen erhalten Inhalte grundsätzlich eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.",
-      tag: "NEWSLETTER · TEST"
+      body: "Dies ist ein TEST-Newsletter. Abonnent:innen erhalten Inhalte grundsätzlich eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.",
+      tag: "NEWSLETTER"
     }
   ];
 })();

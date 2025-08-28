@@ -8,6 +8,7 @@
 html{scroll-behavior:smooth}
 html,body{height:100%}
 [hidden]{display:none!important}
+.visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px)!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;white-space:nowrap!important}
 
 body{
   margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--fg);
@@ -95,27 +96,27 @@ a{color:inherit;text-decoration:none}
 .form-err{margin-top:10px;color:#ff6b6b}
 .hp{display:none!important}
 
-/* News – content-sized + helle Schattierung von unten */
+/* News (content-sized) + helle Schattierung nach unten */
 .news-card{
   position:relative;
   margin-top:16px;
-  margin-bottom:40px;
+  margin-bottom:28px;
   background:var(--card);
   border:1px solid var(--border);
   border-radius:var(--radius);
   padding:18px;
   box-shadow:var(--shadow);
-  z-index:0;
+  overflow:visible;
 }
 .news-card::after{
   content:"";
   position:absolute;
-  left:-12px; right:-12px;
+  left:-16px; right:-16px;
   top:100%;
-  height:180px;
+  height:220px;
   pointer-events:none;
-  background:radial-gradient(120% 180% at 50% 0%, rgba(35,229,255,.14), transparent 70%);
-  z-index:-1;
+  background:radial-gradient(120% 180% at 50% 0%, rgba(35,229,255,.15), transparent 70%);
+  filter:saturate(110%);
 }
 .news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
@@ -160,7 +161,7 @@ a{color:inherit;text-decoration:none}
 
 /* Footer */
 footer{margin-top:26px}
-.footer-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);color:var(--mut);position:relative;z-index:1}
+.footer-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);color:var(--mut)}
 .footer-text{margin:0 0 6px}
 .footer-links a{color:var(--sub)}
 .footer-links a:hover{color:#eaffff}
