@@ -1,67 +1,102 @@
-// worker.js
+// Cloudflare Worker (Module syntax)
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
-
     if (request.method === 'POST' && url.pathname === '/subscribe') {
-      const data = await request.json();
-      const email = (data.email || '').trim().toLowerCase();
-      if (!email) return new Response('Bad Request', { status: 400 });
+      const data = await request.json().catch(()=>null);
+      if (!data || !data.email) return json({error:'email missing'}, 400);
 
-      // in KV speichern (Set)
-      await env.AEON_SUBS.put(email, '1');
+      // save to KV (set will overwrite/refresh)
+      const key = `sub:${data.email.toLowerCase()}`;
+      await env.SUBS.put(key, JSON.stringify({
+        email: data.email,
+        ts: data.ts || new Date().toISOString(),
+        page: data.page || '',
+        ua: data.ua || ''
+      }));
 
-      // Admin-Mail an Proton via Resend API
-      const payload = {
-        from: 'A.E.O.N <news@your-domain.tld>',
-        to: ['AEONAdaptivesNetzwerk@proton.me'],
-        subject: 'A.E.O.N Newsletter – neues Abo',
-        html: `
-          <h2>Neues Abo</h2>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Seite:</strong> ${data.page || ''}</p>
-          <p><strong>Agent:</strong> ${data.ua || ''}</p>
-          <p><strong>Zeit:</strong> ${data.ts || new Date().toISOString()}</p>
-        `
-      };
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
-        body: JSON.stringify(payload)
+      // notify admin via MailChannels
+      await sendMail(env, {
+        to: env.ADMIN_EMAIL,
+        subject: `A.E.O.N Newsletter – neues Abo: ${data.email}`,
+        text: `Neues Abo\n\nE-Mail: ${data.email}\nSeite: ${data.page}\nZeit: ${data.ts}\nUA: ${data.ua}`,
+        html: `<h3>Neues Abo</h3><p><b>E-Mail:</b> ${escapeHtml(data.email)}<br><b>Seite:</b> ${escapeHtml(data.page||'')}<br><b>Zeit:</b> ${escapeHtml(data.ts||'')}<br><b>UA:</b> ${escapeHtml(data.ua||'')}</p>`
       });
-      if (!res.ok) return new Response('Mail failed', { status: 502 });
 
-      return new Response('ok', { status: 200 });
+      return json({ok:true});
     }
 
-    // Extra News Mail (per cURL)
-    if (request.method === 'POST' && url.pathname === '/send-latest') {
-      const body = await request.json(); // {subject, html}
-      const subject = body.subject || 'A.E.O.N – News';
-      const html = body.html || '<p>News</p>';
+    // Admin: broadcast news to all subscribers (requires X-API-Key)
+    if (request.method === 'POST' && url.pathname === '/broadcast') {
+      if (request.headers.get('x-api-key') !== env.API_KEY) return json({error:'unauthorized'}, 401);
+      const payload = await request.json().catch(()=>null);
+      if (!payload || !payload.subject || !(payload.text || payload.html)) {
+        return json({error:'subject+content required'}, 400);
+      }
 
-      // alle Abos holen
-      const list = await env.AEON_SUBS.list();
-      const recipients = list.keys.map(k => k.name);
-
-      // An Admin + BCC an alle Abos senden
-      const payload = {
-        from: 'A.E.O.N <news@your-domain.tld>',
-        to: ['AEONAdaptivesNetzwerk@proton.me'],
-        bcc: recipients,
-        subject,
-        html
-      };
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'Authorization': `Bearer ${env.RESEND_API_KEY}` },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) return new Response('Mail failed', { status: 502 });
-
-      return new Response(JSON.stringify({ sent: recipients.length }), { status: 200 });
+      // iterate subscribers
+      const list = await batchListKV(env.SUBS, 'sub:');
+      for (const item of list) {
+        const sub = JSON.parse(item.value || '{}');
+        if (!sub.email) continue;
+        await sendMail(env, {
+          to: sub.email,
+          subject: payload.subject,
+          text: payload.text || stripHtml(payload.html),
+          html: payload.html || `<pre>${escapeHtml(payload.text)}</pre>`
+        });
+      }
+      return json({ok:true, sent:list.length});
     }
 
-    return new Response('Not found', { status: 404 });
+    return json({ok:true, message:'A.E.O.N Worker alive'});
+  }
+};
+
+/* ============== helpers ============== */
+function json(obj, status=200, hdr={}) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: {'content-type':'application/json; charset=utf-8', ...hdr}
+  });
+}
+
+async function batchListKV(ns, prefix) {
+  const out = [];
+  let cursor;
+  do{
+    const res = await ns.list({prefix, cursor, limit:1000});
+    for (const k of res.keys) {
+      const val = await ns.get(k.name);
+      out.push({key:k.name, value:val});
+    }
+    cursor = res.cursor;
+  }while(cursor);
+  return out;
+}
+
+function stripHtml(html=''){ return html.replace(/<[^>]+>/g,''); }
+function escapeHtml(s=''){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* Mail via MailChannels */
+async function sendMail(env, {to, subject, text, html}) {
+  const from = env.FROM_EMAIL || "no-reply@example.com"; // MUSS zu deiner Domain passen
+  const payload = {
+    personalizations: [{ to: [{ email: to }] }],
+    from: { email: from, name: "A.E.O.N" },
+    subject,
+    content: [
+      { type: "text/plain", value: text || stripHtml(html||'') },
+      { type: "text/html",  value: html || `<pre>${escapeHtml(text||'')}</pre>` }
+    ]
+  };
+  const r = await fetch("https://api.mailchannels.net/tx/v1/send", {
+    method: "POST",
+    headers: { "content-type":"application/json" },
+    body: JSON.stringify(payload)
+  });
+  if(!r.ok){
+    const t = await r.text();
+    console.log("Mail error", r.status, t);
   }
 }

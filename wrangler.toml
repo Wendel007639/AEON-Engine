@@ -1,14 +1,13 @@
-name = "aeon-news-worker"
+name = "aeon-news"
 main = "worker.js"
-compatibility_date = "2024-10-01"
+compatibility_date = "2024-09-01"
 
 [vars]
-# nix hier
+ADMIN_EMAIL = "AEONAdaptivesNetzwerk@proton.me"
+FROM_EMAIL  = "newsletter@deinedomain.tld"   # Domain muss zu dir gehören
+API_KEY     = "dein-admin-key"
 
-[kv_namespaces]
-  [[kv_namespaces.bindings]]
-  binding = "AEON_SUBS"
-  id = "YOUR_KV_ID"
-
-[vars]
-RESEND_API_KEY = "YOUR_RESEND_API_KEY"
+[[kv_namespaces]]
+binding = "SUBS"
+id = "kv_id_in_prod"
+preview_id = "kv_id_in_preview"
