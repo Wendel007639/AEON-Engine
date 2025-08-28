@@ -5,24 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
+
+  <!-- Favicon & Social -->
   <link rel="icon" href="img/favicon.png">
   <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
   <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
   <meta property="og:image" content="img/AEON_4K_neuron_4k_light.png">
   <meta property="og:type" content="website">
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="img/AEON_4K_neuron_4k_light.png">
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1006">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css?v=2000">
 </head>
 <body>
+  <!-- Scrim für Drawer -->
+  <div class="scrim" aria-hidden="true"></div>
+
   <div class="wrap">
 
     <!-- Topbar -->
-    <nav class="nav">
+    <nav class="nav" aria-label="Hauptnavigation">
       <div class="brand">
         <h1>A.E.O.N Adaptives Emotionales Optimiertes Netzwerk</h1>
       </div>
+
       <div class="nav-actions">
-        <a class="btn" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
+        <!-- Mobile Drawer Buttons -->
+        <button class="btn mobile toggle-left" aria-controls="drawer-left" aria-expanded="false">Navigation</button>
+        <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
+
+        <!-- Desktop Kontakt -->
+        <a class="btn desktop" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
       </div>
     </nav>
 
@@ -30,17 +49,17 @@
     <section class="screen">
 
       <!-- Linke Navigationsbox (nur 3 Links) -->
-      <aside class="sidebar left">
-        <nav class="sidecard">
+      <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
+        <nav class="sidecard" role="navigation">
           <div class="sidecard-title">Navigation</div>
-          <a href="#meta">Metakognition</a>
-          <a href="#introspection">Introspektion</a>
-          <a href="#decision">Decision Context</a>
+          <a href="#meta"          class="spy">Metakognition</a>
+          <a href="#introspection" class="spy">Introspektion</a>
+          <a href="#decision"      class="spy">Decision Context</a>
         </nav>
       </aside>
 
       <!-- Mitte -->
-      <main class="center">
+      <main class="center" id="main" tabindex="-1">
         <!-- HERO -->
         <header class="hero">
           <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
@@ -64,18 +83,20 @@
             <h3>Updates aus dem Kern</h3>
             <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
           </div>
-          <form class="newsletter-form" novalidate>
+          <!-- Live-Endpoint in main.js hinterlegen -->
+          <form class="newsletter-form" method="POST" novalidate>
             <label for="email" class="visually-hidden">E-Mail</label>
             <input id="email" type="email" name="email" placeholder="dein.name@mail.de" required>
             <button type="submit" class="cta primary">Abonnieren</button>
           </form>
           <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu.</small>
-          <p class="form-msg" hidden>Danke! Du bekommst gleich eine Bestätigung. ✅</p>
+          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Du bekommst gleich eine Bestätigung. ✅</p>
+          <p class="form-err" hidden role="alert">Uff, das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
       </main>
 
       <!-- Rechte Navigationsbox -->
-      <aside class="sidebar right">
+      <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
         <div class="sidecard">
           <div class="sidecard-title">Aktionen</div>
           <a class="action" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">GitHub – Quelle</a>
@@ -200,6 +221,6 @@
 
   </div>
 
-  <script defer src="main.js?v=1006"></script>
+  <script defer src="main.js?v=2000"></script>
 </body>
 </html>
