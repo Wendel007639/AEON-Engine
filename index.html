@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2100">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2101">
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -42,7 +42,7 @@
 
     <!-- SCREEN 1 -->
     <section class="screen">
-      <!-- Links NAV (nur 3) -->
+      <!-- Links NAV -->
       <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
         <nav class="sidecard" role="navigation">
           <div class="sidecard-title">Navigation</div>
@@ -87,8 +87,8 @@
           <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
         </section>
 
-        <!-- NEWS-FEED (wird von news.js befüllt) -->
-        <section class="news-card" id="news">
+        <!-- NEWS (standardmäßig unsichtbar, wird nur bei Einträgen gezeigt) -->
+        <section class="news-card" id="news" hidden>
           <div class="news-head">
             <span class="badge">News</span>
             <h3>Aktuelle Meldungen</h3>
@@ -97,7 +97,7 @@
         </section>
       </main>
 
-      <!-- Rechts Nav -->
+      <!-- Rechts NAV -->
       <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
         <div class="sidecard">
           <div class="sidecard-title">Aktionen</div>
@@ -222,8 +222,8 @@
     </footer>
   </div>
 
-  <!-- Reihenfolge: Zuerst Daten, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=2100"></script>
-  <script defer src="/AEON-Engine/main.js?v=2100"></script>
+  <!-- Reihenfolge: Zuerst News-Daten, dann Logik -->
+  <script defer src="/AEON-Engine/news.js?v=2101"></script>
+  <script defer src="/AEON-Engine/main.js?v=2101"></script>
 </body>
 </html>

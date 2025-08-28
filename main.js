@@ -20,7 +20,7 @@ rightBtn?.addEventListener('click',e=>{e.preventDefault(); const on=body.classLi
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-// ===== Scroll-Spy (robust: genau EIN Link aktiv) =====
+// ===== Scroll-Spy (genau ein Link aktiv) =====
 const spyLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = spyLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
@@ -41,7 +41,7 @@ window.addEventListener('scroll', updateActive, {passive:true});
 window.addEventListener('resize', updateActive);
 updateActive();
 
-// Anker-Scroll präzise + Drawer schließen
+// Anker-Scroll + Drawer zu
 spyLinks.forEach(a=>{
   a.addEventListener('click', e=>{
     e.preventDefault();
@@ -84,28 +84,37 @@ function toggleToTop(){
 window.addEventListener('scroll', toggleToTop, {passive:true}); toggleToTop();
 toTop?.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 
-// ===== News-Feed rendern (Daten kommen aus news.js) =====
+// ===== News-Feed rendern (nur anzeigen, wenn Einträge existieren) =====
 function renderNews(){
   const listEl = document.getElementById('news-list');
-  if (!listEl) return;
-  const items = (window.AEON_NEWS || []).slice()
-    .sort((a,b)=> new Date(b.date) - new Date(a.date)); // neueste zuerst
+  const cardEl = document.getElementById('news');
+  if (!listEl || !cardEl) return;
 
-  if (items.length === 0){ listEl.innerHTML = '<div class="news-item"><div class="body">Noch keine News.</div></div>'; return; }
+  const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
 
+  if (!items.length){
+    // Keine News -> Sektion bleibt unsichtbar
+    cardEl.hidden = true;
+    listEl.innerHTML = "";
+    return;
+  }
+
+  // News vorhanden -> anzeigen
+  cardEl.hidden = false;
+  items.sort((a,b)=> new Date(b.date) - new Date(a.date));
   listEl.innerHTML = items.map(item=>{
     const date = new Date(item.date);
     const dd = String(date.getDate()).padStart(2,'0');
     const mm = String(date.getMonth()+1).padStart(2,'0');
     const yyyy = date.getFullYear();
-    const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14; // <=14 Tage
+    const fresh = (Date.now()-date.getTime())/(1000*60*60*24) <= 14;
     const tag = fresh ? '<span class="tag">NEU</span>' : (item.tag ? `<span class="tag">${item.tag}</span>` : '');
     const link = item.link ? ` <a href="${item.link}" target="_blank" rel="noopener">Weiterlesen →</a>` : '';
     return `
       <article class="news-item">
         <div class="meta"><strong>${dd}.${mm}.${yyyy}</strong>${tag}</div>
         <div class="title">${item.title}</div>
-        <div class="body">${item.body}${link}</div>
+        <div class="body">${item.body || ""}${link}</div>
       </article>`;
   }).join('');
 }

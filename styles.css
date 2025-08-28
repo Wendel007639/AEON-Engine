@@ -7,6 +7,8 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{height:100%}
+[hidden]{display:none!important}
+
 body{
   margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--fg);
   background:
@@ -48,7 +50,6 @@ a{color:inherit;text-decoration:none}
 .sidecard-title{font:700 13px Poppins,Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);opacity:.95;margin-bottom:6px}
 .sidecard a{display:block;padding:8px 10px;border-radius:12px;color:var(--sub);transition:background .15s, color .15s}
 .sidecard a:hover{background:rgba(35,229,255,.08);color:#eaffff}
-/* Scroll-Spy Markierung – EINDEUTIG */
 .sidecard a.active{background:rgba(35,229,255,.16);color:#eaffff;box-shadow:inset 0 0 0 1px rgba(35,229,255,.28)}
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
 @media (max-width:900px){
