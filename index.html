@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2120">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2122">
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -116,14 +116,34 @@
       </aside>
     </section>
 
-    <!-- SEKTIONEN -->
+    <!-- SEKTIONEN (voller Text, nichts gekürzt) -->
     <section class="meta" id="meta" data-accent="cyan" hidden>
       <article class="meta-card">
         <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
         <div>
           <span class="badge">Metakognition</span>
           <h3>Selbstbeobachtung &amp; Strategie – wie A.E.O.N fühlt und lernt</h3>
-          <p><code>metacognition.py</code> modelliert eine menschlich wirkende Metakognition …</p>
+          <p>
+            <code>metacognition.py</code> modelliert eine menschlich wirkende Metakognition:
+            Leistung wird beobachtet, Emotionen fließen ein, Zweifel regulieren das Tempo
+            und kognitive Biases werden bewusst gemacht. Nach jeder Runde entsteht eine
+            kurze innere Reflexion mit einer klaren, adaptiven Strategie für die nächste Runde.
+          </p>
+          <p>
+            Der Monitor verfolgt Leistung und Streuung je Aufgabe, die Emotionsspur hält
+            Verlauf und Erinnerungen fest. Ein dynamischer Selbstzweifel (0,01–0,95) sorgt
+            dafür, dass das System bei Unsicherheit Tempo herausnimmt und bei Stabilität
+            Tempo aufnimmt. Verzerrungen werden nicht versteckt, sondern sichtbar gemacht:
+            Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz
+            und Imposter-Gefühl werden benannt und ausgeglichen.
+          </p>
+          <p>
+            Die innere Stimme liefert einen Rückblick: Was war gut? Wo hakte es?
+            Welche Gegenstimme meldete sich? Daraus aktualisiert A.E.O.N seine
+            Strategie entlang von Trend, Emotion und Bias. Eine kompakte Selbstdiagnose
+            fasst die Runde zusammen, und ein Dialog-Check bewertet Emotionswechsel,
+            damit Antworten ruhig, nachvollziehbar und dem Moment angemessen bleiben.
+          </p>
         </div>
         <ul class="meta-list">
           <li><strong>Monitor</strong>: Ø-Leistung &amp; Streuung je Aufgabe</li>
@@ -144,19 +164,38 @@
         <div>
           <span class="badge">Introspection Module</span>
           <h3>Muster, Gegenstimmen &amp; Rückblick – Introspektion mit A.E.O.N</h3>
-          <p><code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion …</p>
+          <p>
+            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
+            Es erkennt Muster, Ambivalenzen und innere Widersprüche, benennt Gegenstimmen,
+            markiert Verzerrungen und verknüpft Rückblenden aus dem Gedächtnis mit dem Jetzt.
+            Jede Runde erzeugt klare Einsichten mit Zeitmarke und formuliert eine
+            ruhige innere Stimme, die das Ergebnis einordnet.
+          </p>
+          <p>
+            Pro Durchlauf werden alle Signale gewichtet: Emotion, Ambivalenz,
+            Komplexität und Zweifel. Erinnerungen zeigen, wo ein Thema herkommt;
+            Gegenstimmen sorgen dafür, dass keine Perspektive dominiert; Verzerrungen
+            werden transparent gemacht. So entsteht ein verständlicher Überblick
+            über die innere Lage mit einem kompakten Fazit und einer Empfehlung
+            für die nächste Entscheidung.
+          </p>
+          <p>
+            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil,
+            passt sein Tempo über den Selbstzweifel an und entwickelt die
+            Strategie adaptiv weiter – damit jede Antwort klar bleibt.
+          </p>
         </div>
         <ul class="meta-list">
-          <li><strong>Emotionen</strong>: glücklich … mitfühlend</li>
-          <li><strong>Verzerrungen</strong>: Bestätigungsneigung … keine</li>
-          <li><strong>Metagefühl</strong>: ambivalent … geerdet</li>
+          <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
+          <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler-Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
+          <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
           <li><strong>Selbstzweifel</strong>: Start 0,15–0,60; später dynamisch 0,01–0,99</li>
           <li><strong>Ambivalenz</strong>: 0,00–1,00</li>
-          <li><strong>Komplexität</strong>: Start 0,30–0,90</li>
-          <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel</li>
-          <li><strong>Einsichten</strong>: Reflektion mit Zeitmarke</li>
-          <li><strong>Metareflexion</strong>: Gesamtbild</li>
-          <li><strong>Eigendynamik</strong>: leichte Änderungen pro Runde</li>
+          <li><strong>Komplexität</strong>: Start 0,30–0,90; driftet 0,00–1,00</li>
+          <li><strong>Gedächtnis</strong>: speichert Zustände mit Zeitstempel und erlaubt Rückblenden</li>
+          <li><strong>Einsichten</strong>: mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme</li>
+          <li><strong>Metareflexion</strong>: Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und Fazit</li>
+          <li><strong>Eigendynamik</strong>: Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel ändern sich pro Runde leicht</li>
         </ul>
       </article>
     </section>
@@ -167,19 +206,35 @@
         <div>
           <span class="badge">Decision Context</span>
           <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-          <p><code>DecisionContext</code> modelliert menschliches Entscheiden …</p>
+          <p>
+            <code>DecisionContext</code> modelliert menschliches Entscheiden.
+            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
+            und innerer Dialog fließen zusammen. Jede Runde liefert eine
+            klare Entscheidung mit kurzer, nachvollziehbarer Begründung.
+          </p>
+          <p>
+            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
+            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
+            Verzerrungen transparent gemacht und das Tempo über den
+            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
+            begründet und dem Moment angemessen.
+          </p>
+          <p>
+            Ziel sind Klarheit, Schutz und wirksames Handeln.
+            Der Kern passt seine Strategie adaptiv an und hält die Linie.
+          </p>
         </div>
         <ul class="meta-list">
-          <li><strong>Gefühlslage</strong>: selbstbewusst … ausgeglichen</li>
-          <li><strong>Verzerrungen</strong>: Risikoaversion … keine</li>
-          <li><strong>Wertesystem</strong>: Sicherheit zuerst … Tradition</li>
-          <li><strong>Selbstzweifel</strong>: Start 0,10–0,50</li>
-          <li><strong>Motivation</strong>: Start 0,30–0,80</li>
-          <li><strong>Risikotoleranz</strong>: Start 0,20–0,70</li>
-          <li><strong>Kontext</strong>: Risiko, Dringlichkeit, Druck, Rückblick</li>
-          <li><strong>Gedächtnis</strong>: merkt Entscheidungen</li>
-          <li><strong>Innere Stimme</strong>: kurzes Fazit</li>
-          <li><strong>Ausgabe</strong>: Entscheidung mit Begründung</li>
+          <li><strong>Gefühlslage</strong>: selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen</li>
+          <li><strong>Verzerrungen</strong>: Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status-quo, keine</li>
+          <li><strong>Wertesystem</strong>: Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition</li>
+          <li><strong>Selbstzweifel</strong>: Start 0,10–0,50; driftet 0,01–0,99</li>
+          <li><strong>Motivation</strong>: Start 0,30–0,80; driftet 0,01–0,99</li>
+          <li><strong>Risikotoleranz</strong>: Start 0,20–0,70; passt sich leicht an</li>
+          <li><strong>Kontext</strong>: berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung</li>
+          <li><strong>Gedächtnis</strong>: merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick</li>
+          <li><strong>Innere Stimme</strong>: benennt Zweifel, Werte und Motivation; liefert ein kurzes Fazit</li>
+          <li><strong>Ausgabe</strong>: Entscheidung mit Begründung und Zeitmarke – ruhig und präzise</li>
         </ul>
       </article>
     </section>
@@ -189,7 +244,9 @@
     <!-- FOOTER -->
     <footer>
       <div class="footer-card">
-        <div class="footer-text">© 2025 Timothy Langer …</div>
+        <div class="footer-text">
+          © 2025 Timothy Langer System Architeckt von A.E.O.N | Ein System das mehr ist als eine klassische KI Modell von heute ! Echte Emotionen, echtes Denken, echtes kogniktives Gehirn in Code Form !
+        </div>
         <div class="footer-links">
           <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
           <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
@@ -198,148 +255,8 @@
     </footer>
   </div>
 
-  <!-- === Inline-JS: Drawer, Sektionen, Newsletter, News, Back-to-Top === -->
-  <script>
-  // --- Drawer (Mobile) ---
-  const body = document.body;
-  const scrim = document.querySelector('.scrim');
-  const leftBtn  = document.querySelector('.toggle-left');
-  const rightBtn = document.querySelector('.toggle-right');
-
-  function closeDrawers(){
-    body.classList.remove('drawer-left-open','drawer-right-open');
-    leftBtn?.setAttribute('aria-expanded','false');
-    rightBtn?.setAttribute('aria-expanded','false');
-  }
-  leftBtn?.addEventListener('click', e=>{
-    e.preventDefault();
-    const on = body.classList.toggle('drawer-left-open');
-    leftBtn.setAttribute('aria-expanded', String(on));
-    body.classList.remove('drawer-right-open');
-  });
-  rightBtn?.addEventListener('click', e=>{
-    e.preventDefault();
-    const on = body.classList.toggle('drawer-right-open');
-    rightBtn.setAttribute('aria-expanded', String(on));
-    body.classList.remove('drawer-left-open');
-  });
-  scrim?.addEventListener('click', closeDrawers);
-  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
-
-  // --- Sections show/hide ---
-  const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
-  const sections = Object.fromEntries(
-    navLinks.map(a => a.getAttribute('href').slice(1))
-            .map(id => [id, document.getElementById(id)])
-            .filter(([,el]) => !!el)
-  );
-  function clearActive(){ navLinks.forEach(a=>{ a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
-  function hideAll(){ Object.values(sections).forEach(sec => sec.setAttribute('hidden','')); }
-  function setActive(id){
-    navLinks.forEach(a=>{
-      const on = a.getAttribute('href') === '#'+id;
-      a.classList.toggle('active', on);
-      if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
-    });
-  }
-  function showOnly(id, pushHash=true){
-    if(!sections[id]) return;
-    hideAll();
-    sections[id].hidden = false;
-    setActive(id);
-    if (pushHash) history.replaceState(null, "", "#"+id);
-    sections[id].scrollIntoView({behavior:'smooth', block:'start'});
-    closeDrawers();
-  }
-  function initSections(){
-    clearActive(); hideAll();
-    const id = (location.hash || "").slice(1);
-    if (sections[id]) showOnly(id, false);
-  }
-  window.addEventListener('hashchange', ()=>{
-    const id = (location.hash || "").slice(1);
-    if (sections[id]) showOnly(id, false);
-  });
-  navLinks.forEach(a=>{
-    a.addEventListener('click', e=>{
-      e.preventDefault();
-      showOnly(a.getAttribute('href').slice(1), true);
-    });
-  });
-
-  // --- Newsletter (mailto Fallback) ---
-  const form   = document.getElementById('aeon-news-form');
-  const okMsg  = document.querySelector('.form-msg');
-  const errMsg = document.querySelector('.form-err');
-  const NEWSLETTER_ENDPOINT = ""; // leer = mailto
-
-  async function sendViaEndpoint(email){
-    const res = await fetch(NEWSLETTER_ENDPOINT, {
-      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({ email, subject:"A.E.O.N Newsletter – neues Abo",
-        to:"AEONAdaptivesNetzwerk@proton.me", page:location.href, ua:navigator.userAgent, ts:new Date().toISOString() })
-    });
-    if (!res.ok) throw new Error('HTTP '+res.status);
-  }
-  function fallbackMailto(email){
-    const subject = "Newsletter-Abo A.E.O.N";
-    const bodyText = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
-    location.href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-  }
-  form?.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const hp = form.querySelector('input[name="_hp"]')?.value.trim(); if (hp) return;
-    const email = form.querySelector('input[type="email"]')?.value.trim(); if (!email) return;
-    okMsg.hidden = true; errMsg.hidden = true;
-    try{
-      if (NEWSLETTER_ENDPOINT) await sendViaEndpoint(email); else fallbackMailto(email);
-      okMsg.hidden = false; form.reset();
-    }catch(err){ console.error(err); errMsg.hidden = false; }
-  });
-
-  // --- Back-to-Top ---
-  const toTop = document.getElementById('toTop');
-  function toggleToTop(){
-    const y = window.scrollY || document.documentElement.scrollTop;
-    if (y > 600) toTop?.classList.add('show'); else toTop?.classList.remove('show');
-  }
-  window.addEventListener('scroll', toggleToTop, {passive:true});
-
-  // --- News (Demo-Daten; entferne wenn du eigene Quelle hast) ---
-  window.AEON_NEWS = window.AEON_NEWS || [
-    {date:"2025-09-01", title:"[TEST–NEWSLETTER] A.E.O.N – Neues von Tim",
-     body:"Dies ist ein TEST-Newsletter. Abonnent:innen erhalten Inhalte früher als die Veröffentlichung auf der Webseite – kostenlos."}
-  ];
-  function renderNews(){
-    const listEl = document.getElementById('news-list');
-    const cardEl = document.getElementById('news');
-    if (!listEl || !cardEl) return;
-    const items = Array.isArray(window.AEON_NEWS) ? window.AEON_NEWS.slice() : [];
-    if (!items.length){ cardEl.hidden = true; listEl.innerHTML = ""; return; }
-    cardEl.hidden = false;
-    items.sort((a,b)=> new Date(b.date) - new Date(a.date));
-    listEl.innerHTML = items.map(item=>{
-      const d = new Date(item.date);
-      const dd = String(d.getDate()).padStart(2,'0');
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const yyyy = d.getFullYear();
-      const fresh = (Date.now()-d.getTime())/(1000*60*60*24) <= 14;
-      const tag  = fresh ? '<span class="tag">NEU</span>' : '';
-      return `
-        <article class="news-item">
-          <div class="meta"><strong>${dd}.${mm}.${yyyy}</strong>${tag}</div>
-          <div class="title">${item.title || ""}</div>
-          <div class="body">${item.body || ""}</div>
-        </article>`;
-    }).join('');
-  }
-
-  // Init
-  document.addEventListener('DOMContentLoaded', ()=>{
-    initSections();
-    renderNews();
-    toggleToTop();
-  });
-  </script>
+  <!-- Daten zuerst, dann Logik -->
+  <script defer src="/AEON-Engine/news.js?v=5"></script>
+  <script defer src="/AEON-Engine/main.js?v=7"></script>
 </body>
 </html>
