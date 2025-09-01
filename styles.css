@@ -70,7 +70,7 @@ a{color:inherit;text-decoration:none}
 /* Scrim */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
 
-/* Mobile Drawer (sauber, blockiert nichts wenn zu) */
+/* Mobile Drawer */
 @media (max-width:900px){
   .nav{grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6}
   .brand{grid-column:1; justify-self:center}
@@ -96,7 +96,6 @@ a{color:inherit;text-decoration:none}
   body.drawer-left-open .scrim,
   body.drawer-right-open .scrim{ opacity:1; pointer-events:auto }
 
-  /* Drawer-Karten wieder dunkel für Lesbarkeit */
   .sidebar .sidecard{ background:var(--card)!important; border-color:var(--border)!important; box-shadow:var(--shadow)!important }
 }
 
