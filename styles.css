@@ -53,7 +53,7 @@ a{color:inherit;text-decoration:none}
 /* Sidebars */
 .sidebar{align-self:start;position:sticky;top:18px;z-index:2}
 
-/* Desktop: Links/Rechts transparent (nur Mitte „Layout“) */
+/* Desktop: Sidebars transparent – nur Mitte „als Box“ */
 .sidecard{
   background:transparent!important;
   border-color:transparent!important;
@@ -69,7 +69,7 @@ a{color:inherit;text-decoration:none}
 /* Scrim */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
 
-/* Mobile Drawer – sichtbar nur beim Öffnen; Karten dort dunkel für Lesbarkeit */
+/* Mobile Drawer */
 @media (max-width:900px){
   .nav{grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6}
   .brand{grid-column:1; justify-self:center}
@@ -94,6 +94,7 @@ a{color:inherit;text-decoration:none}
   body.drawer-left-open .scrim,
   body.drawer-right-open .scrim{ opacity:1; pointer-events:auto }
 
+  /* Drawer-Karten dunkel – gute Lesbarkeit */
   .sidebar .sidecard{
     background:var(--card)!important;
     border:1px solid var(--border)!important;
@@ -131,7 +132,7 @@ a{color:inherit;text-decoration:none}
 
 /* News */
 .news-card{position:relative;margin-top:16px;margin-bottom:28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);overflow:visible}
-/* Heller Schimmer unter News ENTFERNT */
+/* Heller Schimmer unter News entfernt */
 .news-card::after{display:none!important}
 .news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
@@ -142,10 +143,10 @@ a{color:inherit;text-decoration:none}
 .news-item .body{color:var(--mut);font-size:14px;line-height:1.6}
 .news-item .tag{padding:2px 8px;border-radius:999px;background:rgba(35,229,255,.16);color:var(--cyan);font-weight:700;margin-left:auto}
 
-/* Meta Cards (Mitte) */
+/* Meta Cards (Mitte sichtbar als Box) */
 .meta{margin-top:18px}
 .meta-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:grid;gap:14px;grid-template-columns:1.25fr 1fr;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-/* Heller Overlay der Meta-Karten ENTFERNT */
+/* Heller Overlay der Meta-Karten entfernt */
 .meta-card:before{display:none!important}
 .meta .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .meta-card h3{margin:4px 0 8px;font:800 22px Poppins,Inter,sans-serif;color:var(--cyan);text-shadow:0 0 22px rgba(35,229,255,.35);border-bottom:1px dashed rgba(35,229,255,.35);padding-bottom:6px}
