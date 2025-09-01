@@ -1,262 +1,339 @@
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
-  <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
+:root{
+  --bg:#070d1a; --fg:#e7f9ff; --mut:#9cc9e6; --sub:#b5e8ff;
+  --cyan:#23e5ff; --cyan-2:#08bed3; --cyan-glow: rgba(35,229,255,.35);
+  --card:#0b1426; --border:rgba(255,255,255,.08);
+  --radius:18px; --shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px var(--border);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{height:100%; max-width:100%; overflow-x:hidden}
+@supports (overflow-x: clip){ html,body{overflow-x:clip} }
 
-  <!-- Favicon & Social -->
-  <link rel="icon" href="/AEON-Engine/img/favicon.png">
-  <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
-  <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
-  <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
-  <meta property="og:type" content="website">
+[hidden]{display:none!important}
+.visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px)!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;white-space:nowrap!important}
 
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
+body{
+  margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--fg);
+  background:
+    radial-gradient(1200px 600px at 70% -10%, rgba(8,190,211,.12), transparent 60%),
+    radial-gradient(900px 500px at 20% 110%, rgba(35,229,255,.10), transparent 60%),
+    linear-gradient(180deg, #071024 0%, #060b17 100%);
+  background-color:var(--bg);
+}
+body::after{
+  content:""; position:fixed; inset:0;
+  background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
+  opacity:.18; filter:saturate(1) brightness(1.05); pointer-events:none; z-index:0;
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:32px 20px 120px; position:relative; z-index:1}
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip:focus{left:20px;top:12px;width:auto;height:auto;padding:8px 10px;border-radius:10px;background:#0a1a2e;color:#eaffff;z-index:5}
+[id]{scroll-margin-top:84px}
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+/* Topbar */
+.nav{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:8px 0 4px; border-bottom:1px solid var(--border)}
+.brand{grid-column:2; justify-self:center; display:flex; gap:12px; align-items:center}
+.brand h1{
+  margin:0; text-align:center;
+  font:800 clamp(16px,2vw,22px) Poppins,Inter,sans-serif;letter-spacing:.3px;
+  background:linear-gradient(180deg, var(--cyan) 0%, #b8f8ff 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 6px 24px var(--cyan-glow);
+}
+.nav-actions{grid-column:3; justify-self:end; display:flex; gap:12px}
+.nav .btn{padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.06);font-weight:600}
+.nav .btn:hover{background:rgba(255,255,255,.12)}
+.nav .btn.mobile{display:none}
+@media (max-width:900px){.nav .btn.mobile{display:inline-block}}
 
-  <!-- Styles (Cache-Buster) -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2116">
-</head>
-<body id="top">
-  <a class="skip" href="#main">Zum Inhalt springen</a>
-  <div class="scrim" aria-hidden="true"></div>
+/* 3-Spalten */
+.screen{display:grid;gap:18px;margin-top:18px;grid-template-columns:280px 1fr 280px}
+@media (max-width:1100px){ .screen{ grid-template-columns: 240px 1fr 240px; } }
+@media (max-width:900px){ .screen{ grid-template-columns: 1fr; } }
 
-  <div class="wrap">
-    <!-- Topbar -->
-    <nav class="nav" aria-label="Hauptnavigation">
-      <div class="brand">
-        <h1>
-          <span class="fire-text" aria-label="Prototyp Phase">Prototyp Phase</span>
-          A.E.O.N Adaptives Emotionales Optimiertes Netzwerk
-        </h1>
-      </div>
-      <div class="nav-actions">
-        <button class="btn mobile toggle-left"  aria-controls="drawer-left"  aria-expanded="false">Navigation</button>
-        <button class="btn mobile toggle-right" aria-controls="drawer-right" aria-expanded="false">Aktionen</button>
-      </div>
-    </nav>
+/* Sidebars / Drawer (Desktop-Start) */
+.sidebar{align-self:start;position:sticky;top:18px;z-index:2}
 
-    <!-- SCREEN -->
-    <section class="screen">
-      <!-- Links NAV -->
-      <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
-        <nav class="sidecard" role="navigation">
-          <div class="sidecard-title">Navigation</div>
-          <a href="#meta"          class="spy">Metakognition</a>
-          <a href="#introspection" class="spy">Introspektion</a>
-          <a href="#decision"      class="spy">Decision Context</a>
-        </nav>
-      </aside>
+/* Basis Sidecard (Spacing/Layout) */
+.sidecard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
-      <!-- Mitte -->
-      <main class="center" id="main" tabindex="-1">
-        <!-- HERO -->
-        <header class="hero">
-          <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
-          <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
-          <p class="lead">
-            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum steht ein biophysikalisches Hodgkin-Huxley-Neuron.
-            Darum wirken Intent-Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis,
-            ein klarer Entscheider und eine transparente ethische Bewertung. Ziel ist Klarheit in jeder Antwort.
-          </p>
-          <div class="cta-row">
-            <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
-            <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
-          </div>
-          <div class="note">Live, ruhig, präzise, immer am Kontext</div>
-        </header>
+/* Titel & Links */
+.sidecard-title{font:700 13px Poppins,Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);opacity:.95;margin-bottom:6px}
+.sidecard a{display:block;padding:8px 10px;border-radius:12px;color:var(--sub);transition:background .15s,color .15s}
+.sidecard a:hover{background:rgba(35,229,255,.08);color:#eaffff}
+.sidecard a.active,.sidecard a[aria-current="true"]{background:rgba(35,229,255,.16);color:#eaffff;box-shadow:inset 0 0 0 1px rgba(35,229,255,.28)}
 
-        <!-- NEWSLETTER -->
-        <section class="newsletter-card" id="newsletter">
-          <div class="newsletter-head">
-            <span class="badge">Newsletter</span>
-            <h3>Updates aus dem Kern</h3>
-            <p>Kurze, klare Releases – wenn es wirklich etwas Neues gibt.</p>
-          </div>
+/* Scrim */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
 
-          <form class="newsletter-form" id="aeon-news-form" novalidate>
-            <label class="visually-hidden" for="aeon-news-email">E-Mail</label>
-            <input id="aeon-news-email" type="email" name="email" placeholder="dein.name@mail.de" required>
-            <input class="hp" type="text" name="_hp" tabindex="-1" autocomplete="off">
-            <button type="submit" class="cta primary">Abonnieren</button>
-          </form>
+/* Mobile Grundverhalten (wird weiter unten überschrieben) */
+@media (max-width:900px){
+  .sidebar{position:fixed;top:0;bottom:0;height:100vh;border:none;width:min(86vw,340px);padding:12px;box-sizing:border-box}
+  .left{left:0;transform:translateX(-100%);transition:transform .25s ease}
+  .right{right:0;transform:translateX(100%);transition:transform .25s ease}
+  body.drawer-left-open .left{transform:translateX(0)}
+  body.drawer-right-open .right{transform:translateX(0)}
+  body.drawer-left-open .scrim, body.drawer-right-open .scrim{opacity:1;pointer-events:auto}
+  .sidebar .sidecard{height:100%;overflow:auto}
+}
 
-          <small class="privacy">
-            Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter
-            <strong>eine Woche früher</strong> als die Veröffentlichung auf der Webseite – <strong>kostenlos</strong>.
-          </small>
-          <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
-          <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
-        </section>
+/* Hero */
+.hero{position:relative;display:grid;gap:20px;padding:48px 24px;border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(10,15,30,.15) 0%, rgba(10,15,30,.60) 65%, rgba(10,15,30,.85) 100%);box-shadow:var(--shadow)}
+.kicker{color:var(--sub);font:600 14px Poppins,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.95}
+.title{font:800 clamp(30px,5vw,50px) Poppins,sans-serif;line-height:1.04;letter-spacing:.3px;
+  background:linear-gradient(180deg, var(--cyan) 0%, #b8f8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 10px 34px var(--cyan-glow)}
+.lead{max-width:820px;color:var(--mut);font:400 18px/1.65 Inter,sans-serif}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;font:600 15px Inter,sans-serif}
+.cta.primary{background:linear-gradient(135deg,var(--cyan),var(--cyan-2));color:#011017;box-shadow:0 10px 24px rgba(35,229,255,.18)}
+.cta.primary:hover{filter:brightness(1.05)}
+.cta.ghost{background:rgba(255,255,255,.06)}
+.cta.ghost:hover{background:rgba(255,255,255,.12)}
+.note{color:var(--sub);font-size:13px;opacity:.9}
 
-        <!-- NEWS -->
-        <section class="news-card" id="news" hidden>
-          <div class="news-head">
-            <span class="badge">News</span>
-            <h3>Aktuelle Meldungen</h3>
-          </div>
-          <div id="news-list" class="news-list"></div>
-        </section>
-      </main>
+/* Newsletter */
+.newsletter-card{margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.newsletter-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.newsletter-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan);text-shadow:0 0 20px rgba(35,229,255,.25)}
+.newsletter-head p{margin:0;color:var(--mut)}
+.newsletter-form{display:flex;gap:10px;margin-top:10px}
+.newsletter-form input{flex:1;min-width:160px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#081225;color:#eaffff;outline:none}
+.newsletter-form input:focus{border-color:rgba(35,229,255,.45);box-shadow:0 0 0 3px rgba(35,229,255,.15)}
+.privacy{display:block;margin-top:8px;color:var(--mut);font-size:12px}
+.form-msg{margin-top:10px;color:#41f29e}
+.form-err{margin-top:10px;color:#ff6b6b}
+.hp{display:none!important}
 
-      <!-- Rechts NAV -->
-      <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
-        <div class="sidecard">
-          <div class="sidecard-title">Aktionen</div>
-          <a class="action" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">GitHub – Quelle</a>
-          <a class="action" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">LinkedIn Profil</a>
-          <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
-        </div>
-      </aside>
-    </section>
+/* News */
+.news-card{
+  position:relative;
+  margin-top:16px;
+  margin-bottom:28px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  overflow:visible; /* Desktop: Glow darf raus */
+}
+.news-card::after{
+  content:"";
+  position:absolute;
+  left:-16px; right:-16px;
+  top:100%;
+  height:220px;
+  pointer-events:none;
+  background:radial-gradient(120% 180% at 50% 0%, rgba(35,229,255,.15), transparent 70%);
+  filter:saturate(110%);
+}
+.news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
+.news-list{display:grid;gap:12px}
+.news-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px}
+.news-item{padding:12px 14px}
+.news-item .meta{display:flex;gap:8px;align-items:center;color:var(--sub);font-size:12px;margin-bottom:6px}
+.news-item .title{font:700 16px Poppins,Inter,sans-serif;color:#eaffff;margin:2px 0 6px}
+.news-item .body{color:var(--mut);font-size:14px;line-height:1.6}
+.news-item .tag{padding:2px 8px;border-radius:999px;background:rgba(35,229,255,.16);color:var(--cyan);font-weight:700;margin-left:auto}
 
-    <!-- SEKTIONEN -->
-    <section class="meta" id="meta" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="meta" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Metakognition</span>
-          <h3>Selbstbeobachtung &amp; Strategie – wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>metacognition.py</code> modelliert eine menschlich wirkende Metakognition:
-            Leistung wird beobachtet, Emotionen fließen ein, Zweifel regulieren das Tempo
-            und kognitive Biases werden bewusst gemacht. Nach jeder Runde entsteht eine
-            kurze innere Reflexion mit einer klaren, adaptiven Strategie für die nächste Runde.
-          </p>
-          <p>
-            Der Monitor verfolgt Leistung und Streuung je Aufgabe, die Emotionsspur hält
-            Verlauf und Erinnerungen fest. Ein dynamischer Selbstzweifel (0,01–0,95) sorgt
-            dafür, dass das System bei Unsicherheit Tempo herausnimmt und bei Stabilität
-            Tempo aufnimmt. Verzerrungen werden nicht versteckt, sondern sichtbar gemacht:
-            Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz
-            und Imposter-Gefühl werden benannt und ausgeglichen.
-          </p>
-          <p>
-            Die innere Stimme liefert einen Rückblick: Was war gut? Wo hakte es?
-            Welche Gegenstimme meldete sich? Daraus aktualisiert A.E.O.N seine
-            Strategie entlang von Trend, Emotion und Bias. Eine kompakte Selbstdiagnose
-            fasst die Runde zusammen, und ein Dialog-Check bewertet Emotionswechsel,
-            damit Antworten ruhig, nachvollziehbar und dem Moment angemessen bleiben.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Monitor</strong>: Ø-Leistung &amp; Streuung je Aufgabe</li>
-          <li><strong>Emotionen</strong>: Mood-Verlauf &amp; Erinnerungen</li>
-          <li><strong>Selbstzweifel</strong>: dynamisch (0,01 – 0,95)</li>
-          <li><strong>Bias</strong>: Optimismus, Pessimismus, Confirmation, Risk-Aversion, Overconfidence, Imposter</li>
-          <li><strong>Reflexion</strong>: innere Stimme mit Rückblick</li>
-          <li><strong>Strategie</strong>: passt sich Trend, Emotion &amp; Bias an</li>
-          <li><strong>Selbstdiagnose</strong>: kompaktes System-Feedback</li>
-          <li><strong>Dialog-Check</strong>: bewertet Emotionswechsel</li>
-        </ul>
-      </article>
-    </section>
+/* Meta Cards */
+.meta{margin-top:18px}
+.meta-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:grid;gap:14px;grid-template-columns:1.25fr 1fr;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.meta-card:before{content:"";position:absolute;inset:-1px;background:
+  radial-gradient(280px 140px at 0% 0%, rgba(35,229,255,.10), transparent 55%),
+  radial-gradient(260px 140px at 100% 100%, rgba(8,190,211,.10), transparent 55%);pointer-events:none}
+.meta .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.meta-card h3{margin:4px 0 8px;font:800 22px Poppins,Inter,sans-serif;color:var(--cyan);text-shadow:0 0 22px rgba(35,229,255,.35);border-bottom:1px dashed rgba(35,229,255,.35);padding-bottom:6px}
+.meta-card p{margin:0;color:var(--mut);font:400 15px/1.7 Inter,sans-serif}
+.meta-list{margin:0;padding-left:18px;color:var(--mut);font:400 15px/1.65 Inter,sans-serif}
+.meta-list li{margin:6px 0}
+.meta-list strong{color:var(--cyan)}
+.meta-list li::marker{color:var(--cyan)}
+@media (max-width:900px){ .meta-card{ grid-template-columns:1fr; } }
 
-    <section class="meta" id="introspection" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="introspection" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Introspection Module</span>
-          <h3>Muster, Gegenstimmen &amp; Rückblick – Introspektion mit A.E.O.N</h3>
-          <p>
-            <code>IntrospectionModule</code> liefert eine vielschichtige Selbstreflexion.
-            Es erkennt Muster, Ambivalenzen und innere Widersprüche, benennt Gegenstimmen,
-            markiert Verzerrungen und verknüpft Rückblenden aus dem Gedächtnis mit dem Jetzt.
-            Jede Runde erzeugt klare Einsichten mit Zeitmarke und formuliert eine
-            ruhige innere Stimme, die das Ergebnis einordnet.
-          </p>
-          <p>
-            Pro Durchlauf werden alle Signale gewichtet: Emotion, Ambivalenz,
-            Komplexität und Zweifel. Erinnerungen zeigen, wo ein Thema herkommt;
-            Gegenstimmen sorgen dafür, dass keine Perspektive dominiert; Verzerrungen
-            werden transparent gemacht. So entsteht ein verständlicher Überblick
-            über die innere Lage mit einem kompakten Fazit und einer Empfehlung
-            für die nächste Entscheidung.
-          </p>
-          <p>
-            Ziel sind Ruhe, Kontext und Präzision. Der Kern bleibt stabil,
-            passt sein Tempo über den Selbstzweifel an und entwickelt die
-            Strategie adaptiv weiter – damit jede Antwort klar bleibt.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
-          <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstapler-Gefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
-          <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
-          <li><strong>Selbstzweifel</strong>: Start 0,15–0,60; später dynamisch 0,01–0,99</li>
-          <li><strong>Ambivalenz</strong>: 0,00–1,00</li>
-          <li><strong>Komplexität</strong>: Start 0,30–0,90; driftet 0,00–1,00</li>
-          <li><strong>Gedächtnis</strong>: speichert Zustände mit Zeitstempel und erlaubt Rückblenden</li>
-          <li><strong>Einsichten</strong>: mehrdimensionale Reflexion mit Zeitmarke und innerer Stimme</li>
-          <li><strong>Metareflexion</strong>: Gesamtbild mit Ambivalenz, Verzerrungen, Rückblick, Gegenstimmen und Fazit</li>
-          <li><strong>Eigendynamik</strong>: Stimmung, Verzerrungen, Metagefühl, Ambivalenz, Komplexität und Zweifel ändern sich pro Runde leicht</li>
-        </ul>
-      </article>
-    </section>
+/* Close button (X) */
+.close-card{
+  position:absolute; top:10px; right:10px;
+  width:36px; height:36px; border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.06);
+  color:#eaffff; font:700 20px/1 Poppins,Inter,sans-serif;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.close-card:hover{background:rgba(255,255,255,.12)}
 
-    <section class="meta" id="decision" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="decision" aria-label="Bereich schließen">×</button>
-        <div>
-          <span class="badge">Decision Context</span>
-          <h3>Kontext und Entscheidung, wie A.E.O.N abwägt und handelt</h3>
-          <p>
-            <code>DecisionContext</code> modelliert menschliches Entscheiden.
-            Emotion, Zweifel, Werte, Motivation, Verzerrungen, Erinnerungen
-            und innerer Dialog fließen zusammen. Jede Runde liefert eine
-            klare Entscheidung mit kurzer, nachvollziehbarer Begründung.
-          </p>
-          <p>
-            Der Kontext wird gelesen, mit der Gefühlslage abgeglichen
-            und gegen Rückblicke geprüft. Gegenstimmen werden benannt,
-            Verzerrungen transparent gemacht und das Tempo über den
-            Selbstzweifel reguliert. So bleibt die Entscheidung ruhig,
-            begründet und dem Moment angemessen.
-          </p>
-          <p>
-            Ziel sind Klarheit, Schutz und wirksames Handeln.
-            Der Kern passt seine Strategie adaptiv an und hält die Linie.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Gefühlslage</strong>: selbstbewusst, ängstlich, hoffnungsvoll, furchtsam, energiegeladen, müde, neugierig, frustriert, überfordert, skeptisch, optimistisch, pessimistisch, ausgeglichen</li>
-          <li><strong>Verzerrungen</strong>: Risikoaversion, Impulsivität, Bestätigungsneigung, Grübeln, Optimismus, Pessimismus, Status-quo, keine</li>
-          <li><strong>Wertesystem</strong>: Sicherheit zuerst, Freiheit, Effizienz, Empathie, Wachstum, Abenteuer, Tradition</li>
-          <li><strong>Selbstzweifel</strong>: Start 0,10–0,50; driftet 0,01–0,99</li>
-          <li><strong>Motivation</strong>: Start 0,30–0,80; driftet 0,01–0,99</li>
-          <li><strong>Risikotoleranz</strong>: Start 0,20–0,70; passt sich leicht an</li>
-          <li><strong>Kontext</strong>: berücksichtigt Risiko, Dringlichkeit, sozialen Druck und frühere Überzeugung</li>
-          <li><strong>Gedächtnis</strong>: merkt Entscheidungen und Fehler, vergleicht Gegenwart mit Rückblick</li>
-          <li><strong>Innere Stimme</strong>: benennt Zweifel, Werte und Motivation; liefert ein kurzes Fazit</li>
-          <li><strong>Ausgabe</strong>: Entscheidung mit Begründung und Zeitmarke – ruhig und präzise</li>
-        </ul>
-      </article>
-    </section>
+/* Back-to-Top */
+.to-top{position:fixed;right:18px;bottom:18px;z-index:4;width:44px;height:44px;border-radius:999px;border:1px solid var(--border);background:#0a1a2e;color:#eaffff;cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s, transform .2s, background .15s}
+.to-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.to-top:hover{background:#10233c}
 
-    <button id="toTop" class="to-top" aria-label="Nach oben">↑</button>
+/* Footer */
+footer{margin-top:26px}
+.footer-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);color:var(--mut)}
+.footer-text{margin:0 0 6px}
+.footer-links a{color:var(--sub)}
+.footer-links a:hover{color:#eaffff}
 
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-card">
-        <div class="footer-text">
-          © 2025 Timothy Langer System Architeckt von A.E.O.N | Ein System das mehr ist als eine klassische KI Modell von heute ! Echte Emotionen, echtes Denken, echtes kogniktives Gehirn in Code Form !
-        </div>
-        <div class="footer-links">
-          <a href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a> |
-          <a href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Quelle auf GitHub</a>
-        </div>
-      </div>
-    </footer>
-  </div>
+/* Fokus & Motion */
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}.left,.right,.to-top{transition:none}}
 
-  <!-- Daten zuerst, dann Logik (Cache-Buster) -->
-  <script defer src="/AEON-Engine/news.js?v=5"></script>
-  <script defer src="/AEON-Engine/main.js?v=6"></script>
-</body>
-</html>
+/* === TRANSPARENTE SIDE-NAV BOXEN (Desktop) === */
+.sidecard{
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+@media (max-width:900px){
+  .sidebar .sidecard{
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+/* === FEINSCHLIFF Hover === */
+.sidecard a{
+  transition: background .15s, color .15s, box-shadow .15s, transform .15s;
+}
+.sidecard a:hover,
+.sidecard a:focus-visible{
+  background: rgba(35,229,255,.18);
+  color: #eaffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(35,229,255,.32),
+    0 8px 26px rgba(35,229,255,.14);
+  text-shadow: 0 0 8px rgba(35,229,255,.30);
+  transform: translateY(-1px);
+}
+
+/* Mehr Abstand Mittelspalte <-> Sidebars */
+.screen{ gap: 28px; }
+@media (max-width:1100px){ .screen{ gap: 22px; } }
+
+/* Feuerschrift */
+.brand h1 .fire-text{ display:block; margin-bottom:4px; }
+.fire-text{
+  display:inline-block;
+  font:900 22px Poppins, sans-serif;
+  color:#ffcc00;
+  text-shadow:
+    0 0 5px #ff6600,
+    0 0 10px #ff3300,
+    0 0 20px #ff0000,
+    0 0 30px #ff3300,
+    0 0 40px #ff6600,
+    0 0 55px #ffaa00;
+  animation: fire-flicker 1.5s infinite alternate;
+}
+@keyframes fire-flicker{
+  0%{   text-shadow:0 0 5px #ff6600,0 0 10px #ff3300,0 0 20px #ff0000,0 0 30px #ff3300,0 0 40px #ff6600,0 0 55px #ffaa00; }
+  50%{  text-shadow:0 0 8px #ff9900,0 0 15px #ff6600,0 0 25px #ff3300,0 0 35px #ff3300,0 0 45px #ff6600,0 0 65px #ffaa00; }
+  100%{ text-shadow:0 0 5px #ff6600,0 0 10px #ff3300,0 0 20px #ff0000,0 0 30px #ff3300,0 0 40px #ff6600,0 0 55px #ffaa00; }
+}
+.brand h1 .fire-text{ text-align:center; letter-spacing:.6px; }
+@media (min-width:1200px){ .brand h1 .fire-text{ font-size:26px; } }
+@media (prefers-reduced-motion: reduce){ .fire-text{ animation:none; } }
+
+/* =========================
+   >>> MOBILE FIX PACK (<=900px) <<<
+   – Drawer unsichtbar bis geöffnet
+   – Buttons lesbar
+   – KEIN horizontales Scrollen (Glow wird gekappt)
+   ========================= */
+@media (max-width:900px){
+
+  .nav{
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    position: relative;
+    z-index: 6;
+  }
+  .brand{ grid-column:1; justify-self:center; }
+  .nav-actions{ grid-column:1; justify-self:center; gap:10px; }
+  .nav .btn{
+    color: var(--fg);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(2px);
+  }
+  .nav .btn.mobile{ display:inline-flex; align-items:center; }
+
+  .brand h1{
+    font: 800 clamp(14px, 4.5vw, 18px) Poppins, Inter, sans-serif;
+    line-height: 1.15;
+    letter-spacing: .2px;
+    text-align:center;
+  }
+  .brand h1 .fire-text{
+    font-size: clamp(14px, 4.7vw, 18px);
+    margin-bottom: 6px;
+    text-align:center;
+  }
+
+  .screen{ grid-template-columns:1fr; gap:22px; }
+
+  .sidebar{
+    position: fixed;
+    top: 0; bottom: 0;
+    height: 100dvh;
+    width: min(86vw, 340px);
+    padding: 12px;
+    overflow: auto;
+    z-index: 50;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateX(-100%);
+    transition: transform .25s ease, opacity .2s ease, visibility 0s linear .2s;
+  }
+  .right{ transform: translateX(100%); }
+
+  body.drawer-left-open  .left,
+  body.drawer-right-open .right{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    transition: transform .25s ease, opacity .2s ease, visibility 0s;
+  }
+
+  .scrim{ z-index: 40; }
+  body.drawer-left-open .scrim,
+  body.drawer-right-open .scrim{ opacity:1; pointer-events:auto; }
+
+  .sidebar .sidecard{
+    background: var(--card) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+    border-radius: var(--radius);
+  }
+
+  .hero{ padding:28px 16px; }
+  .title{ font-size: clamp(24px, 7.5vw, 34px); }
+  .lead{ font-size:16px; }
+
+  /* >>> WICHTIG: verhindert horizontales Scrollen durch den Glow */
+  .news-card{ overflow:hidden; }
+  .news-card::after{ left:0; right:0; }
+}
+
+/* Kleinere Phones */
+@media (max-width:420px){
+  .lead{ font-size:15px; }
+  .cta-row a{ flex:1 1 auto; justify-content:center; }
+}
