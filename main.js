@@ -1,7 +1,3 @@
-/* ===== KONFIG ===== */
-// leer lassen = Mailto-Fallback
-const NEWSLETTER_ENDPOINT = "";
-
 /* ===== Drawer (Mobile) ===== */
 const body    = document.body;
 const scrim   = document.querySelector('.scrim');
@@ -28,12 +24,13 @@ rightBtn?.addEventListener('click', e=>{
 scrim?.addEventListener('click', closeDrawers);
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawers(); });
 
-/* ===== Sections show/hide ===== */
+/* ===== Sections show/hide + Close-X ===== */
 const navLinks = [...document.querySelectorAll('.sidecard a.spy')];
 const sections = Object.fromEntries(
-  navLinks.map(a => a.getAttribute('href').slice(1))
-          .map(id => [id, document.getElementById(id)])
-          .filter(([,el]) => !!el)
+  navLinks
+    .map(a => a.getAttribute('href').slice(1))
+    .map(id => [id, document.getElementById(id)])
+    .filter(([,el]) => !!el)
 );
 function clearActive(){ navLinks.forEach(a=>{ a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
 function hideAll(){ Object.values(sections).forEach(sec => sec.setAttribute('hidden','')); }
@@ -68,21 +65,32 @@ navLinks.forEach(a=>{
     showOnly(a.getAttribute('href').slice(1), true);
   });
 });
+document.querySelectorAll('.close-card').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    hideAll(); clearActive();
+    history.replaceState(null, "", location.pathname + location.search);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
 
-/* ===== Newsletter Submit ===== */
+/* ===== Newsletter Submit (mailto Fallback) ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
+const NEWSLETTER_ENDPOINT = ""; // leer = mailto
 
 async function sendViaEndpoint(email){
   const payload = {
     email,
     subject: "A.E.O.N Newsletter – neues Abo",
     to: "AEONAdaptivesNetzwerk@proton.me",
-    page: location.href, ua: navigator.userAgent, ts: new Date().toISOString()
+    page: location.href,
+    ua: navigator.userAgent,
+    ts: new Date().toISOString()
   };
   const res = await fetch(NEWSLETTER_ENDPOINT, {
-    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
     body: JSON.stringify(payload)
   });
   if (!res.ok) throw new Error('HTTP '+res.status);
@@ -94,14 +102,18 @@ function fallbackMailto(email){
 }
 form?.addEventListener('submit', async (e)=>{
   e.preventDefault();
-  const hp = form.querySelector('input[name="_hp"]')?.value.trim(); if (hp) return;
-  const email = form.querySelector('input[type="email"]')?.value.trim(); if (!email) return;
+  const hp = form.querySelector('input[name="_hp"]')?.value.trim();
+  if (hp) return; // Bot
+  const email = form.querySelector('input[type="email"]')?.value.trim();
+  if (!email) return;
   okMsg.hidden = true; errMsg.hidden = true;
   try{
     if (NEWSLETTER_ENDPOINT) await sendViaEndpoint(email);
     else fallbackMailto(email);
     okMsg.hidden = false; form.reset();
-  }catch(err){ console.error(err); errMsg.hidden = false; }
+  }catch(err){
+    console.error(err); errMsg.hidden = false;
+  }
 });
 
 /* ===== Back-to-Top ===== */
@@ -111,6 +123,7 @@ function toggleToTop(){
   if (y > 600) toTop?.classList.add('show'); else toTop?.classList.remove('show');
 }
 window.addEventListener('scroll', toggleToTop, {passive:true});
+toggleToTop();
 
 /* ===== News-Feed rendern ===== */
 function renderNews(){
@@ -135,14 +148,11 @@ function renderNews(){
       <article class="news-item">
         <div class="meta"><strong>${dd}.${mm}.${yyyy}</strong>${tag}</div>
         <div class="title">${item.title || ""}</div>
-        <div class="body">${item.body || ""}${link}</div>
+        <div class="body">${(item.body || "")}${link}</div>
       </article>`;
   }).join('');
 }
-
-/* ===== Init ===== */
 document.addEventListener('DOMContentLoaded', ()=>{
   initSections();
   renderNews();
-  toggleToTop();
 });
