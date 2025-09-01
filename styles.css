@@ -135,7 +135,8 @@ a{color:inherit;text-decoration:none}
 .news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
 .news-list{display:grid;gap:12px}
-.news-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
+.news-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px}
+.news-item{padding:12px 14px}
 .news-item .meta{display:flex;gap:8px;align-items:center;color:var(--sub);font-size:12px;margin-bottom:6px}
 .news-item .title{font:700 16px Poppins,Inter,sans-serif;color:#eaffff;margin:2px 0 6px}
 .news-item .body{color:var(--mut);font-size:14px;line-height:1.6}
@@ -214,7 +215,7 @@ footer{margin-top:26px}
 }
 
 /* === FEINSCHLIFF 2: Mehr Abstand Mittelspalte <-> Sidebars === */
-.screen{ gap: 28px; }                 /* vorher 18px */
+.screen{ gap: 28px; }
 @media (max-width:1100px){ .screen{ gap: 22px; } }
 
 /* === FEUERSCHRIFT: „Prototyp Phase“ === */
@@ -238,4 +239,20 @@ footer{margin-top:26px}
   0%{   text-shadow:0 0 5px #ff6600,0 0 10px #ff3300,0 0 20px #ff0000,0 0 30px #ff3300,0 0 40px #ff6600,0 0 55px #ffaa00; }
   50%{  text-shadow:0 0 8px #ff9900,0 0 15px #ff6600,0 0 25px #ff3300,0 0 35px #ff3300,0 0 45px #ff6600,0 0 65px #ffaa00; }
   100%{ text-shadow:0 0 5px #ff6600,0 0 10px #ff3300,0 0 20px #ff0000,0 0 30px #ff3300,0 0 40px #ff6600,0 0 55px #ffaa00; }
+}
+
+/* 1) Fire-Text exakt mittig & fein getaktet */
+.brand h1 .fire-text{
+  text-align:center;
+  letter-spacing:.6px;
+}
+
+/* 2) Responsive Größe (etwas größer auf großen Screens) */
+@media (min-width:1200px){
+  .brand h1 .fire-text{ font-size:26px; }
+}
+
+/* 3) Sanfter, wenn Nutzer Motion reduziert (Barrierefreiheit) */
+@media (prefers-reduced-motion: reduce){
+  .fire-text{ animation:none; }
 }
