@@ -194,3 +194,44 @@ footer{margin-top:26px}
   .left,.right,.to-top,.fire-text{transition:none}
   .fire-text{animation:none}
 }
+
+/* === FORCE MOBILE ON DESKTOP (nur für mobile/index.html oder ?m=1) === */
+body.force-mobile .screen{ grid-template-columns:1fr; gap:22px; }
+
+/* Topbar wie mobil */
+body.force-mobile .nav{ grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6; }
+body.force-mobile .brand{ grid-column:1; justify-self:center; }
+body.force-mobile .nav-actions{ grid-column:1; justify-self:center; display:flex; gap:10px; }
+body.force-mobile .nav .btn{
+  color:var(--fg); border:1px solid var(--border);
+  background:rgba(255,255,255,.08); backdrop-filter:blur(2px);
+}
+
+/* Sidebars als Drawer */
+body.force-mobile .sidebar{
+  position:fixed; top:0; bottom:0; height:100dvh;
+  width:min(86vw,340px); padding:12px; overflow:auto;
+  z-index:50; opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateX(-100%); transition:transform .25s ease, opacity .2s ease, visibility 0s linear .2s;
+  border:none;
+}
+body.force-mobile .right{ transform:translateX(100%) }
+
+/* beim Öffnen sichtbar */
+body.force-mobile.drawer-left-open  .left,
+body.force-mobile.drawer-right-open .right{
+  opacity:1; visibility:visible; pointer-events:auto; transform:translateX(0);
+  transition:transform .25s ease, opacity .2s ease, visibility 0s;
+}
+
+/* Scrim aktiv über Seite */
+body.force-mobile .scrim{ z-index:40 }
+body.force-mobile.drawer-left-open .scrim,
+body.force-mobile.drawer-right-open .scrim{ opacity:1; pointer-events:auto }
+
+/* Drawer-Karten dunkel für Lesbarkeit */
+body.force-mobile .sidebar .sidecard{
+  background:var(--card)!important;
+  border:1px solid var(--border)!important;
+  box-shadow:var(--shadow)!important;
+}
