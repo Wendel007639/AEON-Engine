@@ -50,7 +50,7 @@ a{color:inherit;text-decoration:none}
 @media (max-width:1100px){ .screen{ grid-template-columns: 240px 1fr 240px; } }
 @media (max-width:900px){ .screen{ grid-template-columns: 1fr; } }
 
-/* Sidebars / Drawer */
+/* Sidebars / Drawer (Desktop-Start) */
 .sidebar{align-self:start;position:sticky;top:18px;z-index:2}
 
 /* Basis Sidecard (Spacing/Layout) */
@@ -71,7 +71,10 @@ a{color:inherit;text-decoration:none}
 .sidecard a:hover{background:rgba(35,229,255,.08);color:#eaffff}
 .sidecard a.active,.sidecard a[aria-current="true"]{background:rgba(35,229,255,.16);color:#eaffff;box-shadow:inset 0 0 0 1px rgba(35,229,255,.28)}
 
+/* Scrim */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:3}
+
+/* Mobile Grundverhalten (wird weiter unten überschrieben) */
 @media (max-width:900px){
   .sidebar{position:fixed;top:0;bottom:0;height:100vh;border:none;width:min(86vw,340px);padding:12px;box-sizing:border-box}
   .left{left:0;transform:translateX(-100%);transition:transform .25s ease}
@@ -185,7 +188,7 @@ footer{margin-top:26px}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}.left,.right,.to-top{transition:none}}
 
-/* === TRANSPARENTE SIDE-NAV BOXEN === */
+/* === TRANSPARENTE SIDE-NAV BOXEN (Desktop) === */
 .sidecard{
   background: transparent !important;
   border-color: transparent !important;
@@ -199,7 +202,7 @@ footer{margin-top:26px}
   }
 }
 
-/* === FEINSCHLIFF 1: Stärkeres Hover === */
+/* === FEINSCHLIFF Hover === */
 .sidecard a{
   transition: background .15s, color .15s, box-shadow .15s, transform .15s;
 }
@@ -214,11 +217,11 @@ footer{margin-top:26px}
   transform: translateY(-1px);
 }
 
-/* === FEINSCHLIFF 2: Mehr Abstand Mittelspalte <-> Sidebars === */
+/* Mehr Abstand Mittelspalte <-> Sidebars */
 .screen{ gap: 28px; }
 @media (max-width:1100px){ .screen{ gap: 22px; } }
 
-/* === FEUERSCHRIFT: „Prototyp Phase“ === */
+/* Feuerschrift */
 .brand h1 .fire-text{ display:block; margin-bottom:4px; }
 
 /* Effekt & Animation */
@@ -241,87 +244,103 @@ footer{margin-top:26px}
   100%{ text-shadow:0 0 5px #ff6600,0 0 10px #ff3300,0 0 20px #ff0000,0 0 30px #ff3300,0 0 40px #ff6600,0 0 55px #ffaa00; }
 }
 
-/* 1) Fire-Text exakt mittig & fein getaktet */
-.brand h1 .fire-text{
-  text-align:center;
-  letter-spacing:.6px;
-}
-
-/* 2) Responsive Größe (etwas größer auf großen Screens) */
-@media (min-width:1200px){
-  .brand h1 .fire-text{ font-size:26px; }
-}
-
-/* 3) Sanfter, wenn Nutzer Motion reduziert (Barrierefreiheit) */
-@media (prefers-reduced-motion: reduce){
-  .fire-text{ animation:none; }
-}
+/* Fire-Text Feintuning */
+.brand h1 .fire-text{ text-align:center; letter-spacing:.6px; }
+@media (min-width:1200px){ .brand h1 .fire-text{ font-size:26px; } }
+@media (prefers-reduced-motion: reduce){ .fire-text{ animation:none; } }
 
 /* =========================
-   MOBILE FIXES (<= 900 px)
-   Nur Darstellung – kein HTML/JS nötig
+   >>> MOBILE FIX PACK (<=900px) <<<
+   – Drawer sind unsichtbar, blockieren nichts
+   – beim Öffnen sliden sie rein
+   – Drawer-Karten wieder dunkel (nicht transparent)
+   – bessere Lesbarkeit der Topbar-Buttons
    ========================= */
 @media (max-width:900px){
 
-  /* --- 0) Drawer wirklich „off-canvas“ halten --- */
+  /* Topbar sauber stapeln */
+  .nav{
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    position: relative;
+    z-index: 6;
+  }
+  .brand{ grid-column:1; justify-self:center; }
+  .nav-actions{ grid-column:1; justify-self:center; gap:10px; }
+  .nav .btn{
+    color: var(--fg);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(2px);
+  }
+  .nav .btn.mobile{ display:inline-flex; align-items:center; }
+
+  /* Brand/Fire kompakter */
+  .brand h1{
+    font: 800 clamp(14px, 4.5vw, 18px) Poppins, Inter, sans-serif;
+    line-height: 1.15;
+    letter-spacing: .2px;
+    text-align:center;
+  }
+  .brand h1 .fire-text{
+    font-size: clamp(14px, 4.7vw, 18px);
+    margin-bottom: 6px;
+    text-align:center;
+  }
+
+  /* Einspaltiges Layout */
+  .screen{ grid-template-columns:1fr; gap:22px; }
+
+  /* Drawer wirklich off-canvas + nicht anklickbar (Start) */
   .sidebar{
     position: fixed;
     top: 0; bottom: 0;
-    height: 100dvh;                  /* robust gegen Browserleisten */
+    height: 100dvh;
     width: min(86vw, 340px);
     padding: 12px;
-    box-sizing: border-box;
+    overflow: auto;
     z-index: 50;
-    display: none;                   /* standardmäßig unsichtbar */
-  }
-  .left  { left:  0; transform: translateX(-100%); }
-  .right { right: 0; transform: translateX( 100%); }
 
-  /* beim Öffnen sichtbar & anklickbar machen */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateX(-100%);
+    transition: transform .25s ease, opacity .2s ease, visibility 0s linear .2s;
+  }
+  .right{ transform: translateX(100%); }
+
+  /* Beim Öffnen sichtbar */
   body.drawer-left-open  .left,
-  body.drawer-right-open .right { display: block; }
-  body.drawer-left-open  .scrim,
-  body.drawer-right-open .scrim { opacity: 1; pointer-events: auto; }
-
-  /* --- 1) Topbar: Brand über Buttons, alles mittig --- */
-  .nav{
-    grid-template-columns: 1fr;      /* statt 3 Spalten */
-    row-gap: 10px;
-  }
-  .brand{ grid-column: 1; justify-self: center; }
-  .nav-actions{
-    grid-column: 1;
-    justify-self: center;
-    display: flex;
-    gap: 10px;
-  }
-  .nav .btn.mobile{ display: inline-flex; align-items: center; }
-
-  /* --- 2) Brand & Feuerschrift kompakt und zentriert --- */
-  .brand h1{
-    font: 800 clamp(14px, 4.4vw, 18px) Poppins, Inter, sans-serif;
-    line-height: 1.15;
-    letter-spacing: .2px;
-    word-break: keep-all;
-    text-align: center;
-  }
-  .brand h1 .fire-text{
-    font-size: clamp(14px, 4.6vw, 18px);
-    margin-bottom: 6px;
-    text-align: center;
+  body.drawer-right-open .right{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    transition: transform .25s ease, opacity .2s ease, visibility 0s;
   }
 
-  /* --- 3) Hero lesbarer --- */
-  .hero  { padding: 28px 16px; }
-  .title { font-size: clamp(24px, 7.5vw, 34px); }
-  .lead  { font-size: 16px; }
+  /* Scrim aktiv über Seite */
+  .scrim{ z-index: 40; }
+  body.drawer-left-open .scrim,
+  body.drawer-right-open .scrim{ opacity:1; pointer-events:auto; }
 
-  /* --- 4) Grid wirklich 1-spaltig (Safety) --- */
-  .screen{ grid-template-columns: 1fr; gap: 22px; }
+  /* Drawer-Karten NICHT transparent – für Lesbarkeit */
+  .sidebar .sidecard{
+    background: var(--card) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+    border-radius: var(--radius);
+  }
+
+  /* Hero etwas kompakter */
+  .hero{ padding:28px 16px; }
+  .title{ font-size: clamp(24px, 7.5vw, 34px); }
+  .lead{ font-size:16px; }
 }
 
-/* Kleinere Phones: noch minimal straffer */
+/* Kleinere Phones */
 @media (max-width:420px){
-  .lead{ font-size: 15px; }
-  .cta-row a{ flex: 1 1 auto; justify-content: center; }
+  .lead{ font-size:15px; }
+  .cta-row a{ flex:1 1 auto; justify-content:center; }
 }
