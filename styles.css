@@ -256,3 +256,72 @@ footer{margin-top:26px}
 @media (prefers-reduced-motion: reduce){
   .fire-text{ animation:none; }
 }
+
+/* =========================
+   MOBILE FIXES (<= 900 px)
+   Nur Darstellung – kein HTML/JS nötig
+   ========================= */
+@media (max-width:900px){
+
+  /* --- 0) Drawer wirklich „off-canvas“ halten --- */
+  .sidebar{
+    position: fixed;
+    top: 0; bottom: 0;
+    height: 100dvh;                  /* robust gegen Browserleisten */
+    width: min(86vw, 340px);
+    padding: 12px;
+    box-sizing: border-box;
+    z-index: 50;
+    display: none;                   /* standardmäßig unsichtbar */
+  }
+  .left  { left:  0; transform: translateX(-100%); }
+  .right { right: 0; transform: translateX( 100%); }
+
+  /* beim Öffnen sichtbar & anklickbar machen */
+  body.drawer-left-open  .left,
+  body.drawer-right-open .right { display: block; }
+  body.drawer-left-open  .scrim,
+  body.drawer-right-open .scrim { opacity: 1; pointer-events: auto; }
+
+  /* --- 1) Topbar: Brand über Buttons, alles mittig --- */
+  .nav{
+    grid-template-columns: 1fr;      /* statt 3 Spalten */
+    row-gap: 10px;
+  }
+  .brand{ grid-column: 1; justify-self: center; }
+  .nav-actions{
+    grid-column: 1;
+    justify-self: center;
+    display: flex;
+    gap: 10px;
+  }
+  .nav .btn.mobile{ display: inline-flex; align-items: center; }
+
+  /* --- 2) Brand & Feuerschrift kompakt und zentriert --- */
+  .brand h1{
+    font: 800 clamp(14px, 4.4vw, 18px) Poppins, Inter, sans-serif;
+    line-height: 1.15;
+    letter-spacing: .2px;
+    word-break: keep-all;
+    text-align: center;
+  }
+  .brand h1 .fire-text{
+    font-size: clamp(14px, 4.6vw, 18px);
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  /* --- 3) Hero lesbarer --- */
+  .hero  { padding: 28px 16px; }
+  .title { font-size: clamp(24px, 7.5vw, 34px); }
+  .lead  { font-size: 16px; }
+
+  /* --- 4) Grid wirklich 1-spaltig (Safety) --- */
+  .screen{ grid-template-columns: 1fr; gap: 22px; }
+}
+
+/* Kleinere Phones: noch minimal straffer */
+@media (max-width:420px){
+  .lead{ font-size: 15px; }
+  .cta-row a{ flex: 1 1 auto; justify-content: center; }
+}
