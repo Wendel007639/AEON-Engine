@@ -79,20 +79,15 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-/* ===== Newsletter Submit (über Endpoint mit Bestätigungsmail) ===== */
+/* ===== Newsletter Submit (über Endpoint + Fallback) ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-/*
-  WICHTIG:
-  Setze hier den echten Endpoint deines Mailing-Dienstes (z.B. Formspree, Brevo, MailerLite, eigener Server).
-  Beispiel Formspree: https://formspree.io/f/DEINE_ID  (Double-Opt-in aktivierst du dort im Dashboard)
-*/
-const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";
+/* Echter Anbieter-Endpoint (Double-Opt-In dort aktivieren!) */
+const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";  // <-- deine echte ID einsetzen
 
 async function sendViaEndpoint(email){
-  // Payload minimal und sauber, viele Dienste erwarten 'email'
   const payload = {
     email,
     page: location.href,
@@ -100,15 +95,16 @@ async function sendViaEndpoint(email){
     ts: new Date().toISOString()
   };
   const res = await fetch(NEWSLETTER_ENDPOINT, {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
     body: JSON.stringify(payload),
     mode: 'cors',
+    credentials: 'omit',
     redirect: 'follow',
     cache: 'no-store',
+    referrerPolicy: 'no-referrer'
   });
   if (!res.ok) throw new Error('HTTP '+res.status);
-  // Einige Anbieter liefern JSON, andere 204/empty. Fehler wäre oben schon gefangen.
   return true;
 }
 
@@ -121,25 +117,33 @@ function fallbackMailto(email){
 form?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const hp = form.querySelector('input[name="_hp"]')?.value.trim();
-  if (hp) return; // Bot (Honeypot)
+  if (hp) return; // Bot
   const email = form.querySelector('input[type="email"]')?.value.trim();
   if (!email) return;
 
   okMsg.hidden = true; errMsg.hidden = true;
 
   try{
-    if (!NEWSLETTER_ENDPOINT || /DEINE_ID/i.test(NEWSLETTER_ENDPOINT)){
-      // Kein echter Endpoint hinterlegt → deutliche Fehlermeldung und optional Mailto öffnen
-      console.warn("NEWSLETTER_ENDPOINT fehlt. Mailto-Fallback wird verwendet.");
+    if (!NEWSLETTER_ENDPOINT || /xyzaabcd/i.test(NEWSLETTER_ENDPOINT)){
+      // Platzhalter → sofort Fallback öffnen
       fallbackMailto(email);
+      okMsg.hidden = false;
+      form.reset();
       return;
     }
     await sendViaEndpoint(email);
-    okMsg.hidden = false;  // „Danke! Bestätigung ist unterwegs.“
+    okMsg.hidden = false;
     form.reset();
   }catch(err){
     console.error(err);
-    errMsg.hidden = false;
+    // Bei Fehler automatisch Fallback versuchen
+    try{
+      fallbackMailto(email);
+      okMsg.hidden = false;
+      form.reset();
+    }catch(_){
+      errMsg.hidden = false;
+    }
   }
 });
 
