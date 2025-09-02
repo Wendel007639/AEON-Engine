@@ -89,8 +89,8 @@ const FORM_ENDPOINT = "https://formsubmit.co/ajax/AEONAdaptivesNetzwerk@proton.m
 
 async function sendNewsletter(email){
   const payload = {
-    email,                                        // Absenderfeld für Autoresponse
-    _subject: "A.E.O.N Newsletter Anmeldung",     // Betreff der Mail an dich
+    email,
+    _subject: "A.E.O.N Newsletter Anmeldung",
     _autoresponse:
       "Hallo, danke für deine Anmeldung zum A.E.O.N Newsletter. " +
       "Du erhältst kurze klare Updates, wenn es wirklich etwas Neues gibt. " +
