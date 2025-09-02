@@ -85,7 +85,7 @@ const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
 /* Echter Anbieter-Endpoint (Double-Opt-In dort aktivieren!) */
-const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";  // <-- deine echte ID einsetzen
+const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";  // <-- echte ID einsetzen
 
 async function sendViaEndpoint(email){
   const payload = {
@@ -125,7 +125,6 @@ form?.addEventListener('submit', async (e)=>{
 
   try{
     if (!NEWSLETTER_ENDPOINT || /xyzaabcd/i.test(NEWSLETTER_ENDPOINT)){
-      // Platzhalter → sofort Fallback öffnen
       fallbackMailto(email);
       okMsg.hidden = false;
       form.reset();
@@ -136,7 +135,6 @@ form?.addEventListener('submit', async (e)=>{
     form.reset();
   }catch(err){
     console.error(err);
-    // Bei Fehler automatisch Fallback versuchen
     try{
       fallbackMailto(email);
       okMsg.hidden = false;
