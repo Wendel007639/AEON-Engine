@@ -89,7 +89,7 @@ const errMsg = document.querySelector('.form-err');
   Setze hier den echten Endpoint deines Mailing-Dienstes (z.B. Formspree, Brevo, MailerLite, eigener Server).
   Beispiel Formspree: https://formspree.io/f/DEINE_ID  (Double-Opt-in aktivierst du dort im Dashboard)
 */
-const NEWSLETTER_ENDPOINT = "https://formspree.io/f/DEINE_ID"; // <-- hier deine URL eintragen
+const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";
 
 async function sendViaEndpoint(email){
   // Payload minimal und sauber, viele Dienste erwarten 'email'
