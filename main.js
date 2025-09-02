@@ -79,48 +79,39 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-/* ===== Newsletter Submit (über Endpoint + stiller Fallback) ===== */
+/* ===== Newsletter Submit (über FormSubmit Ajax, inkl Autoresponse an Abonnent:in) ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-/* Anbieter-Endpoint (Double-Opt-In beim Anbieter konfigurieren) */
-const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd"; // echte ID einsetzen
+// Empfänger deiner Postfächeradresse für Eingänge
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/AEONAdaptivesNetzwerk@proton.me";
 
-function isEndpointReady(url){
-  if(!url) return false;
-  const badMarkers = /(xyzaabcd|DEINE_ID|YOUR_ID|example|localhost|127\.0\.0\.1)/i;
-  try{
-    const u = new URL(url);
-    return u.protocol.startsWith('http') && !badMarkers.test(url);
-  }catch{ return false; }
-}
-
-async function sendViaEndpoint(email){
+async function sendNewsletter(email){
   const payload = {
-    email,
+    email,                                        // Absenderfeld für Autoresponse
+    _subject: "A.E.O.N Newsletter Anmeldung",     // Betreff der Mail an dich
+    _autoresponse:
+      "Hallo, danke für deine Anmeldung zum A.E.O.N Newsletter. " +
+      "Du erhältst kurze klare Updates, wenn es wirklich etwas Neues gibt. " +
+      "Wenn du das nicht warst, ignoriere diese Nachricht.",
+    _template: "table",
     page: location.href,
     ua: navigator.userAgent,
     ts: new Date().toISOString()
   };
-  const res = await fetch(NEWSLETTER_ENDPOINT, {
+
+  const res = await fetch(FORM_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
     body: JSON.stringify(payload),
     mode: 'cors',
-    credentials: 'omit',
-    redirect: 'follow',
     cache: 'no-store',
-    referrerPolicy: 'no-referrer'
+    redirect: 'follow'
   });
   if (!res.ok) throw new Error('HTTP '+res.status);
-}
-
-function fallbackMailto(email){
-  const subject = "Newsletter-Abo A.E.O.N";
-  const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
-  // mailto öffnet den Client, verursacht keine Console-Fehler
-  window.location.href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const data = await res.json().catch(()=>({success:true}));
+  if (data?.success !== true) throw new Error('Submit failed');
 }
 
 form?.addEventListener('submit', async (e)=>{
@@ -132,27 +123,12 @@ form?.addEventListener('submit', async (e)=>{
 
   okMsg.hidden = true; errMsg.hidden = true;
 
-  const useApi = isEndpointReady(NEWSLETTER_ENDPOINT);
-
   try{
-    if (useApi){
-      await sendViaEndpoint(email);
-      okMsg.hidden = false;
-      form.reset();
-    }else{
-      fallbackMailto(email);
-      okMsg.hidden = false;
-      form.reset();
-    }
+    await sendNewsletter(email);
+    okMsg.hidden = false;
+    form.reset();
   }catch{
-    // Still und sauber auf Mailto zurückfallen, ohne Console-Ausgabe
-    try{
-      fallbackMailto(email);
-      okMsg.hidden = false;
-      form.reset();
-    }catch{
-      errMsg.hidden = false;
-    }
+    errMsg.hidden = false;
   }
 });
 
