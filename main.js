@@ -1,15 +1,15 @@
-/* ===== Newsletter Submit (über FormSubmit Ajax, inkl Autoresponse an Abonnent:in) ===== */
+/* ===== Newsletter Submit – FormSubmit per POST ohne Umwege ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-// Empfänger deiner Postfächeradresse für Eingänge
-const FORM_ENDPOINT = "https://formsubmit.co/ajax/AEONAdaptivesNetzwerk@proton.me";
+// ohne /ajax, wir holen JSON per Accept
+const FORM_ENDPOINT = "https://formsubmit.co/AEONAdaptivesNetzwerk@proton.me";
 
 async function sendNewsletter(email){
-  // urlencoded senden, schnell, ohne lange Preflight Wartezeit
   const params = new URLSearchParams();
-  params.append('email', email);
+  params.append('email', email);           // Empfänger Antwortfeld
+  params.append('_replyto', email);        // damit du direkt antworten kannst
   params.append('_subject', 'A.E.O.N Newsletter Anmeldung');
   params.append('_autoresponse', `Dies ist eine Test E Mail für die Anmeldung zum A.E.O.N Newsletter.
 Vielen Dank für Ihre Registrierung.
@@ -22,17 +22,19 @@ Bei Fragen schreiben Sie an AEONAdaptivesNetzwerk@proton.me
 Mit freundlichen Grüßen,
 A.E.O.N Team.`);
   params.append('_template', 'table');
+  params.append('_captcha', 'false');      // kein Captcha
 
   const res = await fetch(FORM_ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json'
+    },
     body: params.toString()
   });
 
-  // Antwort robust prüfen
   let ok = res.ok;
-  const ct = res.headers.get('content-type') || '';
-  if (ct.includes('application/json')){
+  if ((res.headers.get('content-type') || '').includes('application/json')){
     const data = await res.json().catch(()=>null);
     if (data){
       const s = String(data.success ?? '').toLowerCase();
@@ -46,12 +48,11 @@ A.E.O.N Team.`);
 form?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const hp = form.querySelector('input[name="_hp"]')?.value.trim();
-  if (hp) return; // Bot
+  if (hp) return;
   const email = form.querySelector('input[type="email"]')?.value.trim();
   if (!email) return;
 
   okMsg.hidden = true; errMsg.hidden = true;
-
   try{
     await sendNewsletter(email);
     okMsg.hidden = false;
