@@ -79,13 +79,22 @@ document.querySelectorAll('.close-card').forEach(btn=>{
   });
 });
 
-/* ===== Newsletter Submit (über Endpoint + Fallback) ===== */
+/* ===== Newsletter Submit (über Endpoint + stiller Fallback) ===== */
 const form   = document.getElementById('aeon-news-form');
 const okMsg  = document.querySelector('.form-msg');
 const errMsg = document.querySelector('.form-err');
 
-/* Echter Anbieter-Endpoint (Double-Opt-In dort aktivieren!) */
-const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd";  // <-- echte ID einsetzen
+/* Anbieter-Endpoint (Double-Opt-In beim Anbieter konfigurieren) */
+const NEWSLETTER_ENDPOINT = "https://formspree.io/f/xyzaabcd"; // echte ID einsetzen
+
+function isEndpointReady(url){
+  if(!url) return false;
+  const badMarkers = /(xyzaabcd|DEINE_ID|YOUR_ID|example|localhost|127\.0\.0\.1)/i;
+  try{
+    const u = new URL(url);
+    return u.protocol.startsWith('http') && !badMarkers.test(url);
+  }catch{ return false; }
+}
 
 async function sendViaEndpoint(email){
   const payload = {
@@ -105,12 +114,12 @@ async function sendViaEndpoint(email){
     referrerPolicy: 'no-referrer'
   });
   if (!res.ok) throw new Error('HTTP '+res.status);
-  return true;
 }
 
 function fallbackMailto(email){
   const subject = "Newsletter-Abo A.E.O.N";
   const body    = `Bitte in die Liste aufnehmen.\n\nE-Mail: ${email}\nSeite: ${location.href}\nZeit: ${new Date().toISOString()}`;
+  // mailto öffnet den Client, verursacht keine Console-Fehler
   window.location.href = `mailto:AEONAdaptivesNetzwerk@proton.me?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
@@ -123,23 +132,25 @@ form?.addEventListener('submit', async (e)=>{
 
   okMsg.hidden = true; errMsg.hidden = true;
 
+  const useApi = isEndpointReady(NEWSLETTER_ENDPOINT);
+
   try{
-    if (!NEWSLETTER_ENDPOINT || /xyzaabcd/i.test(NEWSLETTER_ENDPOINT)){
+    if (useApi){
+      await sendViaEndpoint(email);
+      okMsg.hidden = false;
+      form.reset();
+    }else{
       fallbackMailto(email);
       okMsg.hidden = false;
       form.reset();
-      return;
     }
-    await sendViaEndpoint(email);
-    okMsg.hidden = false;
-    form.reset();
-  }catch(err){
-    console.error(err);
+  }catch{
+    // Still und sauber auf Mailto zurückfallen, ohne Console-Ausgabe
     try{
       fallbackMailto(email);
       okMsg.hidden = false;
       form.reset();
-    }catch(_){
+    }catch{
       errMsg.hidden = false;
     }
   }
