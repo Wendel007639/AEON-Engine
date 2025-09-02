@@ -43,26 +43,6 @@ A.E.O.N Team.`);
   if (!ok) throw new Error('Submit not acknowledged');
 }
 
-  const res = await fetch(FORM_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-    body: params.toString()
-  });
-
-  // Antwort robust prüfen
-  let ok = res.ok;
-  const ct = res.headers.get('content-type') || '';
-  if (ct.includes('application/json')){
-    const data = await res.json().catch(()=>null);
-    if (data){
-      const s = String(data.success ?? '').toLowerCase();
-      const m = String(data.message ?? '');
-      ok = ok && (s === 'true' || /sent|ok|success/i.test(m));
-    }
-  }
-  if (!ok) throw new Error('Submit not acknowledged');
-}
-
 form?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const hp = form.querySelector('input[name="_hp"]')?.value.trim();
