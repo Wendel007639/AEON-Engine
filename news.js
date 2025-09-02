@@ -10,7 +10,7 @@
     {
       date: iso,
       title: "[TEST-NEWSLETTER] A.E.O.N – Neues von Tim",
-      body: "Dies ist ein TEST-Newsletter. Abonnent:innen erhalten Inhalte grundsätzlich eine Woche früher als die Veröffentlichung auf der Webseite – kostenlos.",
+      body: "Dies ist ein TEST Newsletter. Abonnent:innen erhalten Inhalte grundsätzlich eine Woche früher als die Veröffentlichung auf der Webseite - kostenlos.",
       tag: "NEWSLETTER"
     }
   ];
