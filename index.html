@@ -16,38 +16,29 @@
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Minimal: hidden respektieren + Meta zentriert in der Mitte anzeigen -->
+  <!-- Minimal: hidden respektieren + Meta-Card im Fluss, transparent wie Nav -->
   <style>
     [hidden]{display:none!important}
-    /* Meta-Card mittig, ohne Overlay, oberhalb des Layouts (Navi bleibt sichtbar) */
-    .meta{
-      position:fixed;
-      left:50%;
-      transform:translateX(-50%);
-      top:4.5rem;                 /* Abstand unterhalb Header */
-      width:min(900px,92vw);
-      max-height:80vh;
-      overflow:auto;
-      z-index:999;               /* über Sidebars/Content */
-    }
+
+    /* transparente Card (ähnlich zu deinen Sidecards) */
     .meta-card{
       position:relative;
-      padding:1.25rem 1.25rem 1.5rem;
+      padding:1rem 1.25rem 1.25rem;
       border-radius:14px;
-      background:rgba(20,24,28,.9);      /* dunkle, halbtransparente Card */
+      background:rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(6px);
-      box-shadow:0 12px 32px rgba(0,0,0,.35);
+      backdrop-filter:blur(4px);
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+    .meta{
+      margin:1.25rem auto 0;        /* unter der Begrüßung einreihen */
+      max-width:min(980px, 92vw);   /* mittig im Content */
     }
     .meta .badge{display:inline-block;margin-bottom:.5rem}
     .close-card{
       position:absolute; top:.5rem; right:.6rem;
       font-size:1.25rem; line-height:1;
       background:transparent; border:0; color:inherit; cursor:pointer;
-    }
-    /* Optional: auf sehr kleinen Displays etwas tiefer, damit Header nicht überlappt */
-    @media (max-width: 520px){
-      .meta{ top:5.5rem; width:min(96vw, 640px); }
     }
   </style>
 </head>
@@ -127,6 +118,75 @@
           </div>
           <div id="news-list" class="news-list"></div>
         </section>
+
+        <!-- ▼▼▼ Meta-Sektionen jetzt hier im Main, direkt unter der Begrüßung ▼▼▼ -->
+        <section class="meta" id="meta" data-accent="cyan" hidden>
+          <article class="meta-card">
+            <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
+            <div>
+              <span class="badge">Metakognition</span>
+              <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
+              <p>
+                <code>metacognition.py</code> bildet ein bewusstes Innenleben ab. A.E.O.N beobachtet jede Runde sehr genau.
+                Leistung, Stimmung, Zweifel und typische Denkfehler fließen zusammen. Daraus entsteht eine kurze innere
+                Stimme mit ehrlichem Rückblick. Diese Stimme benennt, was gut lief und wo es hakte, sie erinnert an frühere
+                Situationen und sagt klar, was als Nächstes sinnvoll ist. Zahlen und Gefühl gehören zusammen, Lernen bleibt
+                ruhig, transparent und wirksam.
+              </p>
+              <p>
+                Der Selbstzweifel ist ein Regler für Tempo und Risiko. Klare Lage heißt ruhig vorwärts, unklare Lage heißt
+                prüfen und verlangsamen. Verzerrungen werden offen benannt. Optimismus, Pessimismus, Bestätigungsneigung,
+                Risikoaversion, Überkonfidenz und Imposter. Der Trend der letzten Runden zählt, die aktuelle Stimmung zählt,
+                die Strategie passt sich an. Ziel ist Klarheit, Schutz und Wirkung, immer am Kontext.
+              </p>
+            </div>
+            <ul class="meta-list">
+              <li><strong>Monitor</strong>: Durchschnittsleistung und Streuung je Aufgabe</li>
+              <li><strong>Emotionen</strong>: Verlauf der Stimmung und Erinnerungen</li>
+              <li><strong>Selbstzweifel</strong>: dynamisch von 0,01 bis 0,95</li>
+              <li><strong>Bias</strong>: Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz, Imposter</li>
+              <li><strong>Reflexion</strong>: innere Stimme mit Rückblick und kurzer Empfehlung</li>
+              <li><strong>Strategie</strong>: Anpassung an Trend, Emotion und Bias</li>
+              <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback mit aktueller Lage</li>
+              <li><strong>Dialogcheck</strong>: Bewertung von Wechseln in der Emotion</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="meta" id="introspection" data-accent="cyan" hidden>
+          <article class="meta-card">
+            <button class="close-card" data-close="introspection" aria-label="Bereich schließen" type="button">×</button>
+            <div>
+              <span class="badge">Introspektion</span>
+              <h3>Muster, Gegenstimmen und Rückblick, Introspektion mit A.E.O.N</h3>
+              <p>
+                Das Introspektionsmodul liest innere Muster, erkennt Gegenstimmen und verknüpft Gegenwart mit Erinnerung.
+                Jede Runde entsteht eine dichte und verständliche Einordnung. Wenn die Stimmung kippt, wird es benannt.
+                Wenn eine Verzerrung dominiert, wird sie sichtbar gemacht. Klare Lage erlaubt Tempo, unsichere Lage fordert
+                Ruhe. Die Empfehlung ist kurz, begründet und menschlich lesbar.
+              </p>
+              <p>
+                Einsicht ist Zahl und Kontext. Leistung, Trend, Gefühl und Erinnerung. Gute Lage erlaubt kleine Experimente,
+                Risiko verlangt kleine Schritte. A.E.O.N prüft die eigene Stimme, hört auf Gegenstimmen und fasst am Ende
+                zusammen, was jetzt wirklich zählt. So wächst Vertrauen in die nächste Entscheidung.
+              </p>
+            </div>
+            <ul class="meta-list">
+              <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
+              <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstaplergefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
+              <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
+              <li><strong>Selbstzweifel</strong>: Startwert von 0,15 bis 0,60, später dynamisch von 0,01 bis 0,99</li>
+              <li><strong>Ambivalenz</strong>: von 0,00 bis 1,00</li>
+              <li><strong>Komplexität</strong>: Startwert von 0,30 bis 0,90, weiterer Verlauf je nach Runde</li>
+              <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel, Rückblenden und Vergleich mit der Gegenwart</li>
+              <li><strong>Einsichten</strong>: Reflexion mit Zeitmarke, klare innere Stimme</li>
+              <li><strong>Metareflexion</strong>: Gesamtbild mit Trend, Verzerrungen, Gegenstimmen und Fazit</li>
+              <li><strong>Eigendynamik</strong>: kleine Änderungen pro Runde, spürbar und erklärbar</li>
+            </ul>
+          </article>
+        </section>
+        <!-- ▲▲▲ Ende Meta-Sektionen im Main ▲▲▲ -->
+
       </main>
 
       <!-- Rechts NAV -->
@@ -138,73 +198,6 @@
           <a class="action" href="mailto:AEONAdaptivesNetzwerk@proton.me">Kontakt</a>
         </div>
       </aside>
-    </section>
-
-    <!-- SEKTIONEN (bleiben außerhalb von .screen – wir verschieben NICHTS) -->
-    <section class="meta" id="meta" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
-        <div>
-          <span class="badge">Metakognition</span>
-          <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-          <p>
-            <code>metacognition.py</code> bildet ein bewusstes Innenleben ab. A.E.O.N beobachtet jede Runde sehr genau.
-            Leistung, Stimmung, Zweifel und typische Denkfehler fließen zusammen. Daraus entsteht eine kurze innere
-            Stimme mit ehrlichem Rückblick. Diese Stimme benennt, was gut lief und wo es hakte, sie erinnert an frühere
-            Situationen und sagt klar, was als Nächstes sinnvoll ist. Zahlen und Gefühl gehören zusammen, Lernen bleibt
-            ruhig, transparent und wirksam.
-          </p>
-          <p>
-            Der Selbstzweifel ist ein Regler für Tempo und Risiko. Klare Lage heißt ruhig vorwärts, unklare Lage heißt
-            prüfen und verlangsamen. Verzerrungen werden offen benannt. Optimismus, Pessimismus, Bestätigungsneigung,
-            Risikoaversion, Überkonfidenz und Imposter. Der Trend der letzten Runden zählt, die aktuelle Stimmung zählt,
-            die Strategie passt sich an. Ziel ist Klarheit, Schutz und Wirkung, immer am Kontext.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Monitor</strong>: Durchschnittsleistung und Streuung je Aufgabe</li>
-          <li><strong>Emotionen</strong>: Verlauf der Stimmung und Erinnerungen</li>
-          <li><strong>Selbstzweifel</strong>: dynamisch von 0,01 bis 0,95</li>
-          <li><strong>Bias</strong>: Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz, Imposter</li>
-          <li><strong>Reflexion</strong>: innere Stimme mit Rückblick und kurzer Empfehlung</li>
-          <li><strong>Strategie</strong>: Anpassung an Trend, Emotion und Bias</li>
-          <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback mit aktueller Lage</li>
-          <li><strong>Dialogcheck</strong>: Bewertung von Wechseln in der Emotion</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="meta" id="introspection" data-accent="cyan" hidden>
-      <article class="meta-card">
-        <button class="close-card" data-close="introspection" aria-label="Bereich schließen" type="button">×</button>
-        <div>
-          <span class="badge">Introspektion</span>
-          <h3>Muster, Gegenstimmen und Rückblick, Introspektion mit A.E.O.N</h3>
-          <p>
-            Das Introspektionsmodul liest innere Muster, erkennt Gegenstimmen und verknüpft Gegenwart mit Erinnerung.
-            Jede Runde entsteht eine dichte und verständliche Einordnung. Wenn die Stimmung kippt, wird es benannt.
-            Wenn eine Verzerrung dominiert, wird sie sichtbar gemacht. Klare Lage erlaubt Tempo, unsichere Lage fordert
-            Ruhe. Die Empfehlung ist kurz, begründet und menschlich lesbar.
-          </p>
-          <p>
-            Einsicht ist Zahl und Kontext. Leistung, Trend, Gefühl und Erinnerung. Gute Lage erlaubt kleine Experimente,
-            Risiko verlangt kleine Schritte. A.E.O.N prüft die eigene Stimme, hört auf Gegenstimmen und fasst am Ende
-            zusammen, was jetzt wirklich zählt. So wächst Vertrauen in die nächste Entscheidung.
-          </p>
-        </div>
-        <ul class="meta-list">
-          <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
-          <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstaplergefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
-          <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
-          <li><strong>Selbstzweifel</strong>: Startwert von 0,15 bis 0,60, später dynamisch von 0,01 bis 0,99</li>
-          <li><strong>Ambivalenz</strong>: von 0,00 bis 1,00</li>
-          <li><strong>Komplexität</strong>: Startwert von 0,30 bis 0,90, weiterer Verlauf je nach Runde</li>
-          <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel, Rückblenden und Vergleich mit der Gegenwart</li>
-          <li><strong>Einsichten</strong>: Reflexion mit Zeitmarke, klare innere Stimme</li>
-          <li><strong>Metareflexion</strong>: Gesamtbild mit Trend, Verzerrungen, Gegenstimmen und Fazit</li>
-          <li><strong>Eigendynamik</strong>: kleine Änderungen pro Runde, spürbar und erklärbar</li>
-        </ul>
-      </article>
     </section>
 
     <button id="toTop" class="to-top" aria-label="Nach oben" type="button">↑</button>
@@ -246,7 +239,7 @@
   <script defer src="/AEON-Engine/news.js?v=5"></script>
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 
-  <!-- Toggle nur für #meta und #introspection | keine Strukturänderung -->
+  <!-- Toggle nur für #meta und #introspection -->
   <script>
   (() => {
     const META_IDS = ['meta','introspection'];
@@ -257,7 +250,7 @@
       if (!el) return;
       el.hidden = false;
       $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
-      // kein scrollIntoView: Card ist fixed in der Mitte
+      el.scrollIntoView({ behavior:'smooth', block:'start' });
     }
     function hide(id){
       const el = document.getElementById(id);
@@ -301,7 +294,7 @@
     // Deep-Link beim Laden
     window.addEventListener('DOMContentLoaded', () => {
       const id = location.hash.replace('#','');
-      if (META_IDS.includes(id)) show(id);
+      if (META_IDS.includes(id)) show(id, {scroll:false});
     });
   })();
   </script>
