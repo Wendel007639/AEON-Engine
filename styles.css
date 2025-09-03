@@ -16,7 +16,7 @@ html,body{height:100%;overflow-x:hidden}
 [hidden]{display:none!important}
 .visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px)!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;white-space:nowrap!important}
 
-/* === Globaler Hintergrund + Wasserzeichen ================================ */
+/* === Globaler Hintergrund ================================================ */
 body{
   margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--fg);
   /* Gradienten bleiben erhalten */
@@ -27,23 +27,25 @@ body{
   background-color:var(--bg);
 }
 
-/* Das 4K-Wallpaper als globales “Wasserzeichen”.
-   Wichtig: position:absolute; damit es mit dem Dokument mitscrollt.
-   Es liegt UNTER allen Inhalten, ist dezent (opacity) und klick-transparent. */
-html{ position:relative; }
-html::before{
+/* === Wasserzeichen innerhalb der Bühne (.screen) ========================== */
+.screen{ position:relative; } /* falls nicht schon gesetzt */
+.screen::before{
   content:"";
   position:absolute;
   left:50%;
-  transform:translateX(-50%);
-  top:var(--wm-top);
-  width:var(--wm-size);
+  top:var(--wm-top);                 /* wird per JS gesetzt */
+  width:var(--wm-size);              /* wird per JS gesetzt */
   height:var(--wm-size);
-  background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain;
-  opacity:.28;                 /* Wasserzeichen-Stärke */
-  filter: drop-shadow(0 40px 120px rgba(0,0,0,.35));
+  transform:translateX(-50%);
+  background-image:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;             /* KEINE Ränder/Balken mehr */
+  opacity:.24;                       /* dezent */
   pointer-events:none;
-  z-index:0;
+  z-index:0;                         /* unter allen .screen-Kindern */
+  filter:none;                       /* kein Drop-Shadow -> keine Kanten */
+  will-change:transform, top, width; /* GPU-Hint für weiches Scrolling */
 }
 
 /* a11y & Wrap */
