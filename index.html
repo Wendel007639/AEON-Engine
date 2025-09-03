@@ -18,6 +18,7 @@
 
   <!-- Overrides: hidden, Meta-Cards/Hero transparent + Nav-"Mehr..." + Close-X optimiert -->
   <style>
+    :root{ --stick-top: 24px } /* wird per JS an die Nav-Höhe angepasst */
     [hidden]{display:none!important}
 
     /* transparente Card (wie Sidecards) */
@@ -33,6 +34,7 @@
     .meta{
       margin:1.25rem auto 0;
       max-width:min(980px, 92vw);
+      scroll-margin-top: calc(var(--stick-top) + 8px); /* sorgt fürs gleiche Einrasten wie die Mitte */
     }
     .meta .badge{display:inline-block;margin-bottom:.5rem}
 
@@ -72,9 +74,7 @@
       box-shadow:0 10px 30px rgba(0,0,0,.18) !important;
     }
     /* Angenehmere Zeilenhöhe im Hero-Text */
-    .hero .lead{
-      line-height:1.7;
-    }
+    .hero .lead{ line-height:1.7; }
 
     /* Mehr-Button in linker Nav */
     #drawer-left .more-row{
@@ -91,6 +91,9 @@
     #drawer-left .more-btn:focus-visible{
       box-shadow:0 0 0 3px rgba(55,231,255,.35);
     }
+
+    /* Titel links exakt so schreiben wie gesetzt (nicht zwangsweise GROSS) */
+    #drawer-left .sidecard-title{ text-transform:none !important; }
   </style>
 </head>
 <body id="top">
@@ -115,7 +118,7 @@
     <!-- SCREEN -->
     <section class="screen">
       <!-- Links NAV -->
-      <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
+      <aside id="drawer-left" class="sidebar left" aria-label="A.E.O.N Kortex">
         <nav class="sidecard" role="neuronaler Kortex">
           <div class="sidecard-title">A.E.O.N Kortex</div>
           <a href="#meta"          class="spy" aria-controls="meta"          aria-expanded="false">Metakognition</a>
@@ -331,13 +334,25 @@
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
     const prefersNoMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
+    /* --- Sticky-Offset anhand der Top-Navigation berechnen (für identisches Einrasten rechts/mitte) --- */
+    function setStickTop(){
+      const nav = document.querySelector('.nav');
+      const extra = 12; // kleiner Abstand
+      const top = (nav?.offsetHeight || 48) + extra;
+      document.documentElement.style.setProperty('--stick-top', top + 'px');
+    }
+    setStickTop();
+    window.addEventListener('resize', setStickTop);
+
     /* --- Meta-Toggles --- */
     function show(id){
       const el = document.getElementById(id);
       if (!el) return;
       el.hidden = false;
       $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
-      try{ el.scrollIntoView({ behavior: prefersNoMotion ? 'auto' : 'smooth', block:'start' }); }catch(_){}
+      try{
+        el.scrollIntoView({ behavior: prefersNoMotion ? 'auto' : 'smooth', block:'start' });
+      }catch(_){}
       history.replaceState(null,'','#'+id);
     }
     function hide(id){
