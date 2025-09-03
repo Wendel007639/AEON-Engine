@@ -3,7 +3,12 @@
   --cyan:#23e5ff; --cyan-2:#08bed3; --cyan-glow:rgba(35,229,255,.35);
   --card:#0b1426; --border:rgba(255,255,255,.08);
   --radius:18px; --shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px var(--border);
+
+  /* Mandala – JS setzt diese Werte live; Fallbacks hier */
+  --mandala-size: 1280px;   /* wird dynamisch mind. 1200px, max. 2200px gesetzt */
+  --mandala-top: 0px;       /* exakt auf Hero-Top */
 }
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{height:100%;overflow-x:hidden}
@@ -18,14 +23,9 @@ body{
     linear-gradient(180deg, #071024 0%, #060b17 100%);
   background-color:var(--bg);
 }
-/* Hinweis: globales Bild im Body entfernt, Wasserzeichen hängt jetzt an .center */
-/*
-body::after{
-  content:""; position:fixed; inset:0;
-  background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") center/cover no-repeat;
-  opacity:.18; filter:saturate(1) brightness(1.05); pointer-events:none; z-index:0;
-}
-*/
+
+/* KEIN globales Bild mehr im Body – Mandala hängt an .center */
+/* a11y & Wrap */
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:32px 20px 120px; position:relative; z-index:1}
 .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none}
 /* Sidebars */
 .sidebar{align-self:start;position:sticky;top:18px;z-index:2}
 
-/* Desktop: Sidebars transparent – nur Mitte „als Box“ */
+/* Desktop: Sidebars transparent – nur Mitte als Box */
 .sidecard{
   background:transparent!important;
   border-color:transparent!important;
@@ -91,13 +91,11 @@ a{color:inherit;text-decoration:none}
   body.drawer-left-open  .left,
   body.drawer-right-open .right{
     opacity:1; visibility:visible; pointer-events:auto; transform:translateX(0);
-    transition:transform .25s ease, opacity .2s ease, visibility 0s;
   }
   .scrim{ z-index:40 }
   body.drawer-left-open .scrim,
   body.drawer-right-open .scrim{ opacity:1; pointer-events:auto }
 
-  /* Drawer-Karten dunkel – gute Lesbarkeit */
   .sidebar .sidecard{
     background:var(--card)!important;
     border:1px solid var(--border)!important;
@@ -105,27 +103,23 @@ a{color:inherit;text-decoration:none}
   }
 }
 
-/* Wasserzeichen exakt unter der Mitte, scrollt mit dem Inhalt */
+/* === Mandala exakt unter der Mitte (nicht verkleinern) === */
 .center{ position: relative; z-index: 0; }
 .center::before{
   content:"";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;                                   /* Start: Hero-Top */
-  width: clamp(720px, 85vmin, 1280px);
-  height: clamp(720px, 85vmin, 1280px);
-  background: url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top: var(--mandala-top);                    /* exakt auf Hero-Top */
+  width: var(--mandala-size);
+  height: var(--mandala-size);
+  background: url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") center/contain no-repeat;
   opacity:.35;
   pointer-events:none;
-  z-index:-1;                               /* hinter den Cards */
+  z-index:-1;
 }
 @media (max-width:900px){
-  .center::before{
-    width: clamp(520px, 90vw, 900px);
-    height: clamp(520px, 90vw, 900px);
-    opacity:.25;
-  }
+  .center::before{ opacity:.25; }
 }
 
 /* Hero */
@@ -162,7 +156,6 @@ a{color:inherit;text-decoration:none}
 
 /* News */
 .news-card{position:relative;margin-top:16px;margin-bottom:28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);overflow:visible}
-/* Heller Schimmer unter News entfernt */
 .news-card::after{display:none!important}
 .news-head .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .news-head h3{margin:8px 0 6px;font:700 22px Poppins,Inter,sans-serif;color:var(--cyan)}
@@ -173,10 +166,9 @@ a{color:inherit;text-decoration:none}
 .news-item .body{color:var(--mut);font-size:14px;line-height:1.6}
 .news-item .tag{padding:2px 8px;border-radius:999px;background:rgba(35,229,255,.16);color:var(--cyan);font-weight:700;margin-left:auto}
 
-/* Meta Cards (Mitte sichtbar als Box) */
+/* Meta Cards */
 .meta{margin-top:18px}
 .meta-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:grid;gap:14px;grid-template-columns:1.25fr 1fr;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-/* Heller Overlay der Meta-Karten entfernt */
 .meta-card:before{display:none!important}
 .meta .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(35,229,255,.14);color:var(--cyan);font:700 12px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
 .meta-card h3{margin:4px 0 8px;font:800 22px Poppins,Inter,sans-serif;color:var(--cyan);text-shadow:0 0 22px rgba(35,229,255,.35);border-bottom:1px dashed rgba(35,229,255,.35);padding-bottom:6px}
@@ -225,23 +217,16 @@ footer{margin-top:26px}
   .fire-text{animation:none}
 }
 
-/* === FORCE MOBILE ON DESKTOP (nur für /mobile/index.html oder ?m=1) === */
+/* === FORCE MOBILE ON DESKTOP === */
 body.force-mobile .screen{ grid-template-columns:1fr !important; gap:22px !important; }
-
-/* Topbar wie mobil */
 body.force-mobile .nav{ grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6; }
 body.force-mobile .brand{ grid-column:1; justify-self:center; }
 body.force-mobile .nav-actions{ grid-column:1; justify-self:center; display:flex; gap:10px; }
-/* WICHTIG: Mobile-Buttons sichtbar machen */
 body.force-mobile .nav .btn.mobile{ display:inline-block !important; }
 body.force-mobile .nav .btn{
-  color:var(--fg);
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(2px);
+  color:var(--fg); border:1px solid var(--border);
+  background:rgba(255,255,255,.08); backdrop-filter:blur(2px);
 }
-
-/* Sidebars als Drawer */
 body.force-mobile .sidebar{
   position:fixed; top:0; bottom:0; height:100dvh;
   width:min(86vw,340px); padding:12px; overflow:auto;
@@ -250,22 +235,13 @@ body.force-mobile .sidebar{
   border:none;
 }
 body.force-mobile .right{ transform:translateX(100%) }
-
-/* beim Öffnen sichtbar */
 body.force-mobile.drawer-left-open  .left,
 body.force-mobile.drawer-right-open .right{
   opacity:1; visibility:visible; pointer-events:auto; transform:translateX(0);
-  transition:transform .25s ease, opacity .2s ease, visibility 0s;
 }
-
-/* Scrim aktiv */
 body.force-mobile .scrim{ z-index:40 }
 body.force-mobile.drawer-left-open .scrim,
 body.force-mobile.drawer-right-open .scrim{ opacity:1; pointer-events:auto }
-
-/* Drawer-Karten dunkel */
 body.force-mobile .sidebar .sidecard{
-  background:var(--card) !important;
-  border:1px solid var(--border) !important;
-  box-shadow:var(--shadow) !important;
+  background:var(--card) !important; border:1px solid var(--border) !important; box-shadow:var(--shadow) !important;
 }

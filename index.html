@@ -19,25 +19,24 @@
   <!-- Overrides -->
   <style>
     :root{
-      --stick-top:24px;                    /* wird per JS an Nav-Höhe gekoppelt */
+      --stick-top:24px;                    /* via JS an Nav-Höhe gekoppelt */
       --card-bg: rgba(255,255,255,.04);
       --card-bd: rgba(255,255,255,.08);
       --card-shadow: 0 10px 30px rgba(0,0,0,.18);
+      /* Mandala-Defaults (werden durch JS gesetzt) */
+      --mandala-size: 1600px;
+      --mandala-top: 0px;
     }
     [hidden]{display:none!important}
 
-    /* Einheitlicher Card-Look für Hero, Sidecards und Meta-Karten */
-    .hero,
-    .sidecard,
-    .meta-card{
+    /* Einheitlicher Card-Look */
+    .hero,.sidecard,.meta-card{
       border-radius:14px !important;
       background:var(--card-bg) !important;
       border:1px solid var(--card-bd) !important;
       backdrop-filter:blur(4px) !important;
       box-shadow:var(--card-shadow) !important;
     }
-
-    /* Abstände/Typo in Karten */
     .sidecard{ padding:1rem 1.25rem }
     .meta-card{ position:relative; padding:1rem 2.5rem 1.25rem 1.25rem }
     .meta{ margin:1.25rem auto 0; max-width:min(980px,92vw); scroll-margin-top:calc(var(--stick-top) + 8px) }
@@ -67,13 +66,26 @@
       border-radius:999px; outline:none; color:#37e7ff;
     }
     #drawer-left .more-btn:focus-visible{ box-shadow:0 0 0 3px rgba(55,231,255,.35) }
-
-    /* Titel in beiden Sidecards bitte nicht zwangsweise GROSS */
     .sidecard .sidecard-title{ text-transform:none !important; letter-spacing:0 !important }
 
-    /* Seitenleisten kleben mit identischem Offset wie die Mitte */
+    /* Seitenleisten sticky mit identischem Offset */
     @media (min-width:1024px){
       .sidebar{ position:sticky; top:var(--stick-top); align-self:start }
+    }
+
+    /* Mandala/Wasserzeichen exakt unter der Mitte – kein Verkleinern durch CSS */
+    .center{ position:relative; z-index:0 }
+    .center::before{
+      content:"";
+      position:absolute;
+      left:50%; transform:translateX(-50%);
+      top: var(--mandala-top);
+      width: var(--mandala-size);
+      height: var(--mandala-size);
+      background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain;
+      opacity:.35;
+      pointer-events:none;
+      z-index:-1; /* hinter allen Cards */
     }
   </style>
 </head>
@@ -377,7 +389,7 @@
     });
 
     document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-close]');
+      const btn = e.target.closest('[data-close]'));
       if (!btn) return;
       e.preventDefault();
       hide(btn.getAttribute('data-close'));
@@ -430,6 +442,34 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); }
       });
     })();
+  })();
+  </script>
+
+  <!-- Mandala-Sync: Größe & Top exakt an die Hero koppeln (kein Verkleinern durch CSS) -->
+  <script>
+  (() => {
+    const root = document.documentElement;
+    const center = document.querySelector('.center');
+    const hero = center?.querySelector('.hero');
+    if (!center || !hero) return;
+
+    const update = () => {
+      // Mandala-Größe an Hero-Breite + Luft koppeln
+      const rect = hero.getBoundingClientRect();
+      let size = rect.width + 420;                 // „Bleed“ um den Hero herum
+      size = Math.max(1200, Math.min(size, 2200)); // Minimum hart, Deckel nach oben
+      root.style.setProperty('--mandala-size', size + 'px');
+
+      // Mandala-Top exakt auf Hero-Top relativ zu .center
+      const top = hero.offsetTop;
+      root.style.setProperty('--mandala-top', top + 'px');
+    };
+
+    update();
+    new ResizeObserver(update).observe(hero);
+    window.addEventListener('resize', update, { passive: true });
+    window.addEventListener('load', update, { passive: true });
+    document.fonts?.ready?.then(update);
   })();
   </script>
 </body>
