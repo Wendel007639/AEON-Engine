@@ -205,10 +205,110 @@
     </section>
 
     <button id="toTop" class="to-top" aria-label="Nach oben" type="button">↑</button>
+
+    <footer>
+      <div class="footer-card">
+        <div class="footer-text">
+          © 2025 Timothy Langer – System Architekt von A.E.O.N | A.E.O.N – Adaptives Emotionales Optimiertes Netzwerk. Alle Rechte vorbehalten.
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script defer src="/AEON-Engine/news.js?v=9999"></script>
   <script defer src="/AEON-Engine/main.js?v=9999"></script>
   <script defer src="/AEON-Engine/worker.js?v=9999"></script>
+
+  <script>
+  (() => {
+    const META_IDS = ['meta','introspection','decision'];
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+    const prefersNoMotion = matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+
+    function setStickTop(){
+      const nav = document.querySelector('.nav');
+      const extra = 12;
+      const h = (nav?.offsetHeight || 48) + extra;
+      document.documentElement.style.setProperty('--stick-top', h + 'px');
+    }
+    const ro = new ResizeObserver(setStickTop);
+    const navEl = document.querySelector('.nav');
+    if (navEl) ro.observe(navEl);
+    setStickTop();
+    addEventListener('load', setStickTop);
+    addEventListener('resize', setStickTop);
+    document.fonts?.ready?.then(setStickTop);
+
+    function scrollToWithOffset(el){
+      const cs = getComputedStyle(document.documentElement);
+      const top = parseFloat(cs.getPropertyValue('--stick-top')) || 0;
+      const y = scrollY + el.getBoundingClientRect().top - top - 8;
+      try{ scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' }); }
+      catch(_){ scrollTo(0, y); }
+    }
+
+    function show(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = false;
+      $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
+      scrollToWithOffset(el);
+      history.replaceState(null,'','#'+id);
+    }
+    function hide(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = true;
+      $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','false'));
+      if (location.hash.replace('#','') === id){
+        history.replaceState(null,'',location.pathname + location.search);
+      }
+    }
+    function closeOthers(exceptId){ META_IDS.forEach(x => { if (x !== exceptId) hide(x); }); }
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a.spy');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      const id = href.slice(1);
+      if (!META_IDS.includes(id)) return;
+      e.preventDefault();
+      const target = document.getElementById(id);
+      if (!target) return;
+      const willOpen = target.hidden !== false;
+      closeOthers(id);
+      willOpen ? show(id) : hide(id);
+    });
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-close]'); if (!btn) return;
+      e.preventDefault(); hide(btn.getAttribute('data-close'));
+    });
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') META_IDS.forEach(hide); });
+
+    addEventListener('DOMContentLoaded', () => {
+      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id);
+    });
+    addEventListener('hashchange', () => {
+      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id); else META_IDS.forEach(hide);
+    });
+
+    (function setupLeftNavLimiter(){
+      const leftNav = document.querySelector('#drawer-left .sidecard'); if (!leftNav) return;
+      const links = Array.from(leftNav.querySelectorAll('a.spy')); const MAX_VISIBLE = 5;
+      links.forEach((a, i) => { if (i >= MAX_VISIBLE) a.dataset.extra = "1"; });
+      const hideExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = true; });
+      const showExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = false; });
+      hideExtras();
+      const moreBtn = leftNav.querySelector('.more-btn'); if (!moreBtn) return;
+      const updateBtn = (expanded) => { moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false'); moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …'; };
+      const toggleExtras = () => { const expanded = moreBtn.getAttribute('aria-expanded') === 'true'; if (expanded) { hideExtras(); updateBtn(false); } else { showExtras(); updateBtn(true); } };
+      moreBtn.addEventListener('click', toggleExtras);
+      moreBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); } });
+    })();
+  })();
+  </script>
 </body>
 </html>
