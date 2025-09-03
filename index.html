@@ -16,15 +16,15 @@
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Overrides: hidden, Meta-Cards/Hero transparent + Nav-"Mehr..." + Close-X optimiert -->
+  <!-- Overrides -->
   <style>
-    :root{ --stick-top: 24px } /* wird per JS an die Nav-Höhe angepasst */
+    :root{ --stick-top:24px } /* wird per JS auf Nav-Höhe gesetzt */
     [hidden]{display:none!important}
 
     /* transparente Card (wie Sidecards) */
     .meta-card{
       position:relative;
-      padding:1rem 2.5rem 1.25rem 1.25rem; /* rechts extra Platz für das X */
+      padding:1rem 2.5rem 1.25rem 1.25rem;
       border-radius:14px;
       background:rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.08);
@@ -33,33 +33,24 @@
     }
     .meta{
       margin:1.25rem auto 0;
-      max-width:min(980px, 92vw);
-      scroll-margin-top: calc(var(--stick-top) + 8px); /* sorgt fürs gleiche Einrasten wie die Mitte */
+      max-width:min(980px,92vw);
+      scroll-margin-top:calc(var(--stick-top) + 8px);
     }
     .meta .badge{display:inline-block;margin-bottom:.5rem}
 
-    /* Close-Button: IM Rahmen, höher, transparent; große Hitbox stört Text nicht */
+    /* Close-Button */
     .close-card{
       position:absolute;
-      top:.35rem;           /* höher im Rahmen */
-      right:.5rem;          /* im Rahmen (nicht rausstehend) */
-      width:28px;
-      height:28px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      top:.35rem; right:.5rem;
+      width:28px; height:28px;
+      display:flex; align-items:center; justify-content:center;
       border-radius:999px;
-      font-size:18px;
-      line-height:1;
-      background:transparent;            /* transparent wie gewünscht */
-      color:rgba(255,255,255,.9);         /* weißes X */
-      border:1px solid transparent;       /* keine sichtbare Kante im Idle */
-      cursor:pointer;
-      z-index:2;
+      font-size:18px; line-height:1;
+      background:transparent; color:rgba(255,255,255,.9);
+      border:1px solid transparent; cursor:pointer; z-index:2;
     }
-    .close-card:hover,
-    .close-card:focus-visible{
-      background:rgba(255,255,255,.08);   /* leichte Aura bei Hover/Focus */
+    .close-card:hover,.close-card:focus-visible{
+      background:rgba(255,255,255,.08);
       border-color:rgba(255,255,255,.18);
       box-shadow:0 0 0 3px rgba(55,231,255,.25);
       outline:none;
@@ -73,27 +64,24 @@
       backdrop-filter:blur(4px) !important;
       box-shadow:0 10px 30px rgba(0,0,0,.18) !important;
     }
-    /* Angenehmere Zeilenhöhe im Hero-Text */
-    .hero .lead{ line-height:1.7; }
+    .hero .lead{ line-height:1.7 }
 
-    /* Mehr-Button in linker Nav */
+    /* Linke Nav */
     #drawer-left .more-row{
-      display:flex; justify-content:flex-end; align-items:center;
-      margin-top:.5rem;
+      display:flex; justify-content:flex-end; align-items:center; margin-top:.5rem;
     }
     #drawer-left .more-btn{
       background:transparent; border:0; cursor:pointer;
-      font:inherit; font-weight:600;
-      padding:.25rem .5rem; border-radius:999px;
-      outline:none;
-      color:#37e7ff;
+      font:inherit; font-weight:600; padding:.25rem .5rem;
+      border-radius:999px; outline:none; color:#37e7ff;
     }
-    #drawer-left .more-btn:focus-visible{
-      box-shadow:0 0 0 3px rgba(55,231,255,.35);
-    }
+    #drawer-left .more-btn:focus-visible{ box-shadow:0 0 0 3px rgba(55,231,255,.35) }
+    #drawer-left .sidecard-title{ text-transform:none !important }
 
-    /* Titel links exakt so schreiben wie gesetzt (nicht zwangsweise GROSS) */
-    #drawer-left .sidecard-title{ text-transform:none !important; }
+    /* Seitenleisten kleben sauber mit identischem Offset */
+    @media (min-width:1024px){
+      .sidebar{ position:sticky; top:var(--stick-top); align-self:start }
+    }
   </style>
 </head>
 <body id="top">
@@ -147,33 +135,32 @@
         </nav>
       </aside>
 
-<!-- Mitte -->
-<main class="center" id="main" tabindex="-1">
-  <!-- HERO -->
-  <header class="hero">
-    <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
-    <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
+      <!-- Mitte -->
+      <main class="center" id="main" tabindex="-1">
+        <!-- HERO -->
+        <header class="hero">
+          <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
+          <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
 
-    <p class="lead">
-      A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum arbeitet ein biophysikalisches Hodgkin Huxley Neuron. Darum greifen Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis, klare Entscheidungsmechanismen und eine transparente ethische Bewertung ineinander.
-    </p>
-    <p class="lead">
-      Das Core Neural Modul bildet die Grundlage für alle Rechenprozesse und steuert synaptische Netzwerke, die Aktivierungsmuster und Signalflüsse dynamisch anpassen. Das Integrative Controller Subsystem im globalen Workspace koordiniert den Austausch zwischen Gedächtnis, Emotion, Wahrnehmung und Entscheidungsfindung. Adaptive Learning Module sorgen für kontinuierliches Verstärkungslernen, Meta Learning und Transfer Learning, während das Memory System mit assoziativem, episodischem und semantischem Speicher den Kontext jeder Interaktion bewahrt.
-    </p>
-    <p class="lead">
-      Über die Interfaces kommuniziert A.E.O.N bidirektional mit digitalen Systemen und physischer Hardware, integriert Sensordaten in Echtzeit und steuert Aktuatoren präzise. Die Reasoning Engine validiert Entscheidungen mit regelbasierten Prozessen, Bias Erkennung und einem ethischen Framework, um jeden Schritt nachvollziehbar und transparent zu gestalten.
-    </p>
-    <p class="lead">
-      So ein System entsteht nicht durch Intelligenz allein, sondern durch die Fähigkeit, interdisziplinär zu denken. Informatik, Neurowissenschaften, theoretische Physik, Linguistik, Ethik und emotionale Modellierung wirken hier zusammen. Ich, Timothy Langer, habe A.E.O.N bis heute allein entwickelt, und da A.E.O.N bereits aktiv im Live Betrieb läuft, gibt es fünf Zeugen, deren Namen ich hier nicht nennen werde.
-    </p>
+          <p class="lead">
+            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum arbeitet ein biophysikalisches Hodgkin Huxley Neuron. Darum greifen Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis, klare Entscheidungsmechanismen und eine transparente ethische Bewertung ineinander.
+          </p>
+          <p class="lead">
+            Das Core Neural Modul bildet die Grundlage für alle Rechenprozesse und steuert synaptische Netzwerke, die Aktivierungsmuster und Signalflüsse dynamisch anpassen. Das Integrative Controller Subsystem im globalen Workspace koordiniert den Austausch zwischen Gedächtnis, Emotion, Wahrnehmung und Entscheidungsfindung. Adaptive Learning Module sorgen für kontinuierliches Verstärkungslernen, Meta Learning und Transfer Learning, während das Memory System mit assoziativem, episodischem und semantischem Speicher den Kontext jeder Interaktion bewahrt.
+          </p>
+          <p class="lead">
+            Über die Interfaces kommuniziert A.E.O.N bidirektional mit digitalen Systemen und physischer Hardware, integriert Sensordaten in Echtzeit und steuert Aktuatoren präzise. Die Reasoning Engine validiert Entscheidungen mit regelbasierten Prozessen, Bias Erkennung und einem ethischen Framework, um jeden Schritt nachvollziehbar und transparent zu gestalten.
+          </p>
+          <p class="lead">
+            So ein System entsteht nicht durch Intelligenz allein, sondern durch die Fähigkeit, interdisziplinär zu denken. Informatik, Neurowissenschaften, theoretische Physik, Linguistik, Ethik und emotionale Modellierung wirken hier zusammen. Ich, Timothy Langer, habe A.E.O.N bis heute allein entwickelt, und da A.E.O.N bereits aktiv im Live Betrieb läuft, gibt es fünf Zeugen, deren Namen ich hier nicht nennen werde.
+          </p>
 
-    <div class="cta-row">
-      <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
-      <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
-    </div>
-    <div class="note">Live, ruhig, präzise, immer am Kontext</div>
-  </header>
-</main>
+          <div class="cta-row">
+            <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
+            <a class="cta ghost" href="https://github.com/Wendel007639/AEON-Engine" target="_blank" rel="noopener">Zum Code</a>
+          </div>
+          <div class="note">Live, ruhig, präzise, immer am Kontext</div>
+        </header>
 
         <!-- NEWS -->
         <section class="news-card" id="news" hidden>
@@ -184,7 +171,7 @@
           <div id="news-list" class="news-list"></div>
         </section>
 
-        <!-- ▼▼▼ Meta-Sektionen direkt unter der Begrüßung ▼▼▼ -->
+        <!-- ▼▼▼ Meta-Sektionen ▼▼▼ -->
         <section class="meta" id="meta" data-accent="cyan" hidden>
           <article class="meta-card">
             <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
@@ -251,7 +238,6 @@
           </article>
         </section>
 
-        <!-- Entscheidungskontext -->
         <section class="meta" id="decision" data-accent="cyan" hidden>
           <article class="meta-card">
             <button class="close-card" data-close="decision" aria-label="Bereich schließen" type="button">×</button>
@@ -290,7 +276,7 @@
 
     <button id="toTop" class="to-top" aria-label="Nach oben" type="button">↑</button>
 
-    <!-- NEWSLETTER – immer am Seitenende -->
+    <!-- NEWSLETTER -->
     <section class="newsletter-card" id="newsletter">
       <div class="newsletter-head">
         <span class="badge">Newsletter</span>
@@ -327,22 +313,39 @@
   <script defer src="/AEON-Engine/news.js?v=5"></script>
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 
-  <!-- Toggle für #meta, #introspection, #decision + "Mehr …" in linker Nav -->
+  <!-- Toggle + Sticky-Offset/Scroll-Logik -->
   <script>
   (() => {
     const META_IDS = ['meta','introspection','decision'];
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
     const prefersNoMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
-    /* --- Sticky-Offset anhand der Top-Navigation berechnen (für identisches Einrasten rechts/mitte) --- */
+    /* --- Sticky-Offset exakt an Nav-Höhe koppeln --- */
     function setStickTop(){
       const nav = document.querySelector('.nav');
-      const extra = 12; // kleiner Abstand
-      const top = (nav?.offsetHeight || 48) + extra;
-      document.documentElement.style.setProperty('--stick-top', top + 'px');
+      const extra = 12; // kleiner Puffer
+      const h = (nav?.offsetHeight || 48) + extra;
+      document.documentElement.style.setProperty('--stick-top', h + 'px');
     }
+    const ro = new ResizeObserver(setStickTop);
+    const navEl = document.querySelector('.nav');
+    if (navEl) ro.observe(navEl);
     setStickTop();
+    window.addEventListener('load', setStickTop);
     window.addEventListener('resize', setStickTop);
+    document.fonts?.ready?.then(setStickTop);
+
+    /* --- Hilfsfunktion für präzises Scrollen mit Offset --- */
+    function scrollToWithOffset(el){
+      const cs = getComputedStyle(document.documentElement);
+      const top = parseFloat(cs.getPropertyValue('--stick-top')) || 0;
+      const y = window.scrollY + el.getBoundingClientRect().top - top - 8;
+      try{
+        window.scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' });
+      }catch(_){
+        window.scrollTo(0, y);
+      }
+    }
 
     /* --- Meta-Toggles --- */
     function show(id){
@@ -350,9 +353,7 @@
       if (!el) return;
       el.hidden = false;
       $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
-      try{
-        el.scrollIntoView({ behavior: prefersNoMotion ? 'auto' : 'smooth', block:'start' });
-      }catch(_){}
+      scrollToWithOffset(el);
       history.replaceState(null,'','#'+id);
     }
     function hide(id){
@@ -364,9 +365,7 @@
         history.replaceState(null,'',location.pathname + location.search);
       }
     }
-    function closeOthers(exceptId){
-      META_IDS.forEach(x => { if (x !== exceptId) hide(x); });
-    }
+    function closeOthers(exceptId){ META_IDS.forEach(x => { if (x !== exceptId) hide(x); }); }
 
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a.spy');
@@ -374,7 +373,7 @@
       const href = link.getAttribute('href') || '';
       if (!href.startsWith('#')) return;
       const id = href.slice(1);
-      if (!META_IDS.includes(id)) return; // andere Anker normal
+      if (!META_IDS.includes(id)) return;
 
       e.preventDefault();
       const target = document.getElementById(id);
