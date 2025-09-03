@@ -18,34 +18,37 @@
 
   <!-- Overrides -->
   <style>
-    :root{ --stick-top:24px } /* wird per JS auf Nav-Höhe gesetzt */
+    :root{
+      --stick-top:24px;                    /* wird per JS an Nav-Höhe gekoppelt */
+      --card-bg: rgba(255,255,255,.04);
+      --card-bd: rgba(255,255,255,.08);
+      --card-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
     [hidden]{display:none!important}
 
-    /* transparente Card (wie Sidecards) */
+    /* Einheitlicher Card-Look für Hero, Sidecards und Meta-Karten */
+    .hero,
+    .sidecard,
     .meta-card{
-      position:relative;
-      padding:1rem 2.5rem 1.25rem 1.25rem;
-      border-radius:14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(4px);
-      box-shadow:0 10px 30px rgba(0,0,0,.18);
+      border-radius:14px !important;
+      background:var(--card-bg) !important;
+      border:1px solid var(--card-bd) !important;
+      backdrop-filter:blur(4px) !important;
+      box-shadow:var(--card-shadow) !important;
     }
-    .meta{
-      margin:1.25rem auto 0;
-      max-width:min(980px,92vw);
-      scroll-margin-top:calc(var(--stick-top) + 8px);
-    }
+
+    /* Abstände/Typo in Karten */
+    .sidecard{ padding:1rem 1.25rem }
+    .meta-card{ position:relative; padding:1rem 2.5rem 1.25rem 1.25rem }
+    .meta{ margin:1.25rem auto 0; max-width:min(980px,92vw); scroll-margin-top:calc(var(--stick-top) + 8px) }
     .meta .badge{display:inline-block;margin-bottom:.5rem}
+    .hero .lead{ line-height:1.7 }
 
     /* Close-Button */
     .close-card{
-      position:absolute;
-      top:.35rem; right:.5rem;
-      width:28px; height:28px;
-      display:flex; align-items:center; justify-content:center;
-      border-radius:999px;
-      font-size:18px; line-height:1;
+      position:absolute; top:.35rem; right:.5rem;
+      width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+      border-radius:999px; font-size:18px; line-height:1;
       background:transparent; color:rgba(255,255,255,.9);
       border:1px solid transparent; cursor:pointer; z-index:2;
     }
@@ -56,29 +59,19 @@
       outline:none;
     }
 
-    /* Hero wie Meta-Cards */
-    .hero{
-      border-radius:14px !important;
-      background:rgba(255,255,255,.04) !important;
-      border:1px solid rgba(255,255,255,.08) !important;
-      backdrop-filter:blur(4px) !important;
-      box-shadow:0 10px 30px rgba(0,0,0,.18) !important;
-    }
-    .hero .lead{ line-height:1.7 }
-
-    /* Linke Nav */
-    #drawer-left .more-row{
-      display:flex; justify-content:flex-end; align-items:center; margin-top:.5rem;
-    }
+    /* Linke Nav: "Mehr …" und Titel-Stil */
+    #drawer-left .more-row{ display:flex; justify-content:flex-end; align-items:center; margin-top:.5rem }
     #drawer-left .more-btn{
       background:transparent; border:0; cursor:pointer;
       font:inherit; font-weight:600; padding:.25rem .5rem;
       border-radius:999px; outline:none; color:#37e7ff;
     }
     #drawer-left .more-btn:focus-visible{ box-shadow:0 0 0 3px rgba(55,231,255,.35) }
-    #drawer-left .sidecard-title{ text-transform:none !important }
 
-    /* Seitenleisten kleben sauber mit identischem Offset */
+    /* Titel in beiden Sidecards bitte nicht zwangsweise GROSS */
+    .sidecard .sidecard-title{ text-transform:none !important; letter-spacing:0 !important }
+
+    /* Seitenleisten kleben mit identischem Offset wie die Mitte */
     @media (min-width:1024px){
       .sidebar{ position:sticky; top:var(--stick-top); align-self:start }
     }
