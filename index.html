@@ -14,8 +14,30 @@
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
+
   <!-- Mobile-Redirect -->
-  <script src="/AEON-Engine/mobile-redirect.js?v=1"></script>
+  <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
+
+  <!-- Kleine, sichere Defaults -->
+  <style>
+    :root { scroll-behavior: smooth; }
+    [hidden] { display: none !important; }
+    .scrim {
+      position: fixed; inset: 0; background: rgba(0,0,0,.35);
+      opacity: 0; pointer-events: none; transition: opacity .2s ease;
+      z-index: 40;
+    }
+    .scrim.is-open { opacity: 1; pointer-events: auto; }
+    .sidebar { transition: transform .2s ease; z-index: 50; }
+    .sidebar.left { transform: translateX(-100%); }
+    .sidebar.right { transform: translateX(100%); }
+    .sidebar.is-open { transform: translateX(0); }
+    .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 60; }
+    .meta-card { position: relative; }
+    .close-card { position: absolute; top: .5rem; right: .5rem; }
+    /* Stelle sicher, dass klickbare Elemente nicht vom Scrim verdeckt werden */
+    .meta { z-index: 55; position: relative; }
+  </style>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -42,8 +64,8 @@
       <aside id="drawer-left" class="sidebar left" aria-label="Inhaltsnavigation">
         <nav class="sidecard" role="neuronaler Kortex">
           <div class="sidecard-title">Navigation</div>
-          <a href="#meta"          class="spy">Metakognition</a>
-          <a href="#introspection" class="spy">Introspektion</a>
+          <a href="#meta"          class="spy" aria-controls="meta"          aria-expanded="false">Metakognition</a>
+          <a href="#introspection" class="spy" aria-controls="introspection" aria-expanded="false">Introspektion</a>
           <a href="#decision"      class="spy">Entscheidungskontext</a>
           <a href="#metalearning"  class="spy">Metalernen</a>
           <a href="#episodic"      class="spy">Episodisches Gedächtnis</a>
@@ -106,76 +128,76 @@
       </aside>
     </section>
 
-<!-- SEKTIONEN -->
-<section class="meta" id="meta" data-accent="cyan" hidden>
-  <article class="meta-card">
-    <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
-    <div>
-      <span class="badge">Metakognition</span>
-      <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-      <p>
-        <code>metacognition.py</code> bildet ein bewusstes Innenleben ab. A.E.O.N beobachtet jede Runde sehr genau.
-        Leistung, Stimmung, Zweifel und typische Denkfehler fließen zusammen. Daraus entsteht eine kurze innere
-        Stimme mit ehrlichem Rückblick. Diese Stimme benennt, was gut lief und wo es hakte, sie erinnert an frühere
-        Situationen und sagt klar, was als Nächstes sinnvoll ist. Zahlen und Gefühl gehören zusammen, Lernen bleibt
-        ruhig, transparent und wirksam.
-      </p>
-      <p>
-        Der Selbstzweifel ist ein Regler für Tempo und Risiko. Klare Lage heißt ruhig vorwärts, unklare Lage heißt
-        prüfen und verlangsamen. Verzerrungen werden offen benannt. Optimismus, Pessimismus, Bestätigungsneigung,
-        Risikoaversion, Überkonfidenz und Imposter. Der Trend der letzten Runden zählt, die aktuelle Stimmung zählt,
-        die Strategie passt sich an. Ziel ist Klarheit, Schutz und Wirkung, immer am Kontext.
-      </p>
-    </div>
-    <ul class="meta-list">
-      <li><strong>Monitor</strong>: Durchschnittsleistung und Streuung je Aufgabe</li>
-      <li><strong>Emotionen</strong>: Verlauf der Stimmung und Erinnerungen</li>
-      <li><strong>Selbstzweifel</strong>: dynamisch von 0,01 bis 0,95</li>
-      <li><strong>Bias</strong>: Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz, Imposter</li>
-      <li><strong>Reflexion</strong>: innere Stimme mit Rückblick und kurzer Empfehlung</li>
-      <li><strong>Strategie</strong>: Anpassung an Trend, Emotion und Bias</li>
-      <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback mit aktueller Lage</li>
-      <li><strong>Dialogcheck</strong>: Bewertung von Wechseln in der Emotion</li>
-    </ul>
-  </article>
-</section>
+    <!-- SEKTIONEN -->
+    <section class="meta" id="meta" data-accent="cyan" hidden>
+      <article class="meta-card">
+        <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
+        <div>
+          <span class="badge">Metakognition</span>
+          <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
+          <p>
+            <code>metacognition.py</code> bildet ein bewusstes Innenleben ab. A.E.O.N beobachtet jede Runde sehr genau.
+            Leistung, Stimmung, Zweifel und typische Denkfehler fließen zusammen. Daraus entsteht eine kurze innere
+            Stimme mit ehrlichem Rückblick. Diese Stimme benennt, was gut lief und wo es hakte, sie erinnert an frühere
+            Situationen und sagt klar, was als Nächstes sinnvoll ist. Zahlen und Gefühl gehören zusammen, Lernen bleibt
+            ruhig, transparent und wirksam.
+          </p>
+          <p>
+            Der Selbstzweifel ist ein Regler für Tempo und Risiko. Klare Lage heißt ruhig vorwärts, unklare Lage heißt
+            prüfen und verlangsamen. Verzerrungen werden offen benannt. Optimismus, Pessimismus, Bestätigungsneigung,
+            Risikoaversion, Überkonfidenz und Imposter. Der Trend der letzten Runden zählt, die aktuelle Stimmung zählt,
+            die Strategie passt sich an. Ziel ist Klarheit, Schutz und Wirkung, immer am Kontext.
+          </p>
+        </div>
+        <ul class="meta-list">
+          <li><strong>Monitor</strong>: Durchschnittsleistung und Streuung je Aufgabe</li>
+          <li><strong>Emotionen</strong>: Verlauf der Stimmung und Erinnerungen</li>
+          <li><strong>Selbstzweifel</strong>: dynamisch von 0,01 bis 0,95</li>
+          <li><strong>Bias</strong>: Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz, Imposter</li>
+          <li><strong>Reflexion</strong>: innere Stimme mit Rückblick und kurzer Empfehlung</li>
+          <li><strong>Strategie</strong>: Anpassung an Trend, Emotion und Bias</li>
+          <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback mit aktueller Lage</li>
+          <li><strong>Dialogcheck</strong>: Bewertung von Wechseln in der Emotion</li>
+        </ul>
+      </article>
+    </section>
 
-<section class="meta" id="introspection" data-accent="cyan" hidden>
-  <article class="meta-card">
-    <button class="close-card" data-close="introspection" aria-label="Bereich schließen" type="button">×</button>
-    <div>
-      <span class="badge">Introspektion</span>
-      <h3>Muster, Gegenstimmen und Rückblick, Introspektion mit A.E.O.N</h3>
-      <p>
-        Das Introspektionsmodul liest innere Muster, erkennt Gegenstimmen und verknüpft Gegenwart mit Erinnerung.
-        Jede Runde entsteht eine dichte und verständliche Einordnung. Wenn die Stimmung kippt, wird es benannt.
-        Wenn eine Verzerrung dominiert, wird sie sichtbar gemacht. Klare Lage erlaubt Tempo, unsichere Lage fordert
-        Ruhe. Die Empfehlung ist kurz, begründet und menschlich lesbar.
-      </p>
-      <p>
-        Einsicht ist Zahl und Kontext. Leistung, Trend, Gefühl und Erinnerung. Gute Lage erlaubt kleine Experimente,
-        Risiko verlangt kleine Schritte. A.E.O.N prüft die eigene Stimme, hört auf Gegenstimmen und fasst am Ende
-        zusammen, was jetzt wirklich zählt. So wächst Vertrauen in die nächste Entscheidung.
-      </p>
-    </div>
-    <ul class="meta-list">
-      <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
-      <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstaplergefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
-      <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
-      <li><strong>Selbstzweifel</strong>: Startwert von 0,15 bis 0,60, später dynamisch von 0,01 bis 0,99</li>
-      <li><strong>Ambivalenz</strong>: von 0,00 bis 1,00</li>
-      <li><strong>Komplexität</strong>: Startwert von 0,30 bis 0,90, weiterer Verlauf je nach Runde</li>
-      <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel, Rückblenden und Vergleich mit der Gegenwart</li>
-      <li><strong>Einsichten</strong>: Reflexion mit Zeitmarke, klare innere Stimme</li>
-      <li><strong>Metareflexion</strong>: Gesamtbild mit Trend, Verzerrungen, Gegenstimmen und Fazit</li>
-      <li><strong>Eigendynamik</strong>: kleine Änderungen pro Runde, spürbar und erklärbar</li>
-    </ul>
-  </article>
-</section>
+    <section class="meta" id="introspection" data-accent="cyan" hidden>
+      <article class="meta-card">
+        <button class="close-card" data-close="introspection" aria-label="Bereich schließen" type="button">×</button>
+        <div>
+          <span class="badge">Introspektion</span>
+          <h3>Muster, Gegenstimmen und Rückblick, Introspektion mit A.E.O.N</h3>
+          <p>
+            Das Introspektionsmodul liest innere Muster, erkennt Gegenstimmen und verknüpft Gegenwart mit Erinnerung.
+            Jede Runde entsteht eine dichte und verständliche Einordnung. Wenn die Stimmung kippt, wird es benannt.
+            Wenn eine Verzerrung dominiert, wird sie sichtbar gemacht. Klare Lage erlaubt Tempo, unsichere Lage fordert
+            Ruhe. Die Empfehlung ist kurz, begründet und menschlich lesbar.
+          </p>
+          <p>
+            Einsicht ist Zahl und Kontext. Leistung, Trend, Gefühl und Erinnerung. Gute Lage erlaubt kleine Experimente,
+            Risiko verlangt kleine Schritte. A.E.O.N prüft die eigene Stimme, hört auf Gegenstimmen und fasst am Ende
+            zusammen, was jetzt wirklich zählt. So wächst Vertrauen in die nächste Entscheidung.
+          </p>
+        </div>
+        <ul class="meta-list">
+          <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
+          <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstaplergefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
+          <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
+          <li><strong>Selbstzweifel</strong>: Startwert von 0,15 bis 0,60, später dynamisch von 0,01 bis 0,99</li>
+          <li><strong>Ambivalenz</strong>: von 0,00 bis 1,00</li>
+          <li><strong>Komplexität</strong>: Startwert von 0,30 bis 0,90, weiterer Verlauf je nach Runde</li>
+          <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel, Rückblenden und Vergleich mit der Gegenwart</li>
+          <li><strong>Einsichten</strong>: Reflexion mit Zeitmarke, klare innere Stimme</li>
+          <li><strong>Metareflexion</strong>: Gesamtbild mit Trend, Verzerrungen, Gegenstimmen und Fazit</li>
+          <li><strong>Eigendynamik</strong>: kleine Änderungen pro Runde, spürbar und erklärbar</li>
+        </ul>
+      </article>
+    </section>
 
     <button id="toTop" class="to-top" aria-label="Nach oben" type="button">↑</button>
 
-    <!-- NEWSLETTER – jetzt immer am Seitenende -->
+    <!-- NEWSLETTER – immer am Seitenende -->
     <section class="newsletter-card" id="newsletter">
       <div class="newsletter-head">
         <span class="badge">Newsletter</span>
@@ -208,8 +230,184 @@
     </footer>
   </div>
 
-  <!-- Daten zuerst, dann Logik -->
+  <!-- Daten zuerst, dann Logik (defer bleibt ok) -->
   <script defer src="/AEON-Engine/news.js?v=5"></script>
+  <!-- Dein bestehendes main.js kann bleiben – der folgende Inline-Code fixiert die Öffnen/Schließen-Logik zuverlässig. -->
+  <script>
+    (function () {
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+      const scrim = $('.scrim');
+      const leftDrawer  = $('#drawer-left');
+      const rightDrawer = $('#drawer-right');
+      const btnLeft  = $('.toggle-left');
+      const btnRight = $('.toggle-right');
+      const toTopBtn = $('#toTop');
+
+      const META_IDS = ['meta','introspection'];
+
+      // ---- Helpers
+      const openDrawer = (which) => {
+        if (which === 'left') {
+          leftDrawer.classList.add('is-open');
+          btnLeft?.setAttribute('aria-expanded','true');
+        } else {
+          rightDrawer.classList.add('is-open');
+          btnRight?.setAttribute('aria-expanded','true');
+        }
+        scrim.classList.add('is-open');
+      };
+      const closeDrawers = () => {
+        leftDrawer.classList.remove('is-open');
+        rightDrawer.classList.remove('is-open');
+        btnLeft?.setAttribute('aria-expanded','false');
+        btnRight?.setAttribute('aria-expanded','false');
+        // Scrim ggf. später auch von Meta schließt – dort separat gehandhabt
+        if ($$('.meta:not([hidden])').length === 0) {
+          scrim.classList.remove('is-open');
+        }
+      };
+
+      const showSection = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.hidden = false;
+        // Setze aria-expanded an alle passenden Trigger
+        $$(`[href="#${id}"][aria-controls="${id}"], [data-open="${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
+        // Scrim an, damit Fokus im Kontext bleibt
+        scrim.classList.add('is-open');
+        // Scroll ins Sichtfeld
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Hash aktualisieren (ohne zu springen)
+        history.replaceState(null, '', `#${id}`);
+      };
+
+      const hideSection = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.hidden = true;
+        $$(`[href="#${id}"][aria-controls="${id}"], [data-open="${id}"]`).forEach(a => a.setAttribute('aria-expanded','false'));
+        // Scrim aus, wenn keine anderen Metas/Drawe r offen
+        if ($$('.meta:not([hidden])').length === 0 && !leftDrawer.classList.contains('is-open') && !rightDrawer.classList.contains('is-open')) {
+          scrim.classList.remove('is-open');
+        }
+        // Hash zurücksetzen, wenn wir gerade diesen offen hatten
+        if (location.hash.replace('#','') === id) {
+          history.replaceState(null, '', location.pathname + location.search);
+        }
+      };
+
+      const hideAllMeta = () => META_IDS.forEach(hideSection);
+
+      // ---- Event Delegation (Klicks)
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+
+        // Mobile Drawer toggles
+        const leftToggle = t.closest('.toggle-left');
+        const rightToggle = t.closest('.toggle-right');
+        if (leftToggle) {
+          e.preventDefault();
+          const open = leftDrawer.classList.contains('is-open');
+          open ? closeDrawers() : openDrawer('left');
+          return;
+        }
+        if (rightToggle) {
+          e.preventDefault();
+          const open = rightDrawer.classList.contains('is-open');
+          open ? closeDrawers() : openDrawer('right');
+          return;
+        }
+
+        // Scrim schließt alles Offene
+        if (t === scrim) {
+          hideAllMeta();
+          closeDrawers();
+          return;
+        }
+
+        // Close-Buttons auf den Meta-Cards
+        const closeBtn = t.closest('[data-close]');
+        if (closeBtn) {
+          e.preventDefault();
+          const id = closeBtn.getAttribute('data-close');
+          hideSection(id);
+          return;
+        }
+
+        // Sidebar-Links: Wenn Link auf eine Meta-Sektion zeigt, öffnen statt nur scrollen
+        const spy = t.closest('a.spy');
+        if (spy) {
+          const href = spy.getAttribute('href') || '';
+          if (href.startsWith('#')) {
+            const id = href.slice(1);
+            const target = document.getElementById(id);
+            if (target && target.matches('.meta')) {
+              e.preventDefault();
+              // Drawer sofort schließen, damit Fokus auf Content
+              closeDrawers();
+              showSection(id);
+              return;
+            }
+          }
+        }
+      });
+
+      // ESC schließt offene Dinge
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          let closedSomething = false;
+          if (leftDrawer.classList.contains('is-open') || rightDrawer.classList.contains('is-open')) {
+            closeDrawers(); closedSomething = true;
+          }
+          if ($$('.meta:not([hidden])').length) { hideAllMeta(); closedSomething = true; }
+          if (closedSomething) e.preventDefault();
+        }
+      });
+
+      // „Nach oben“-Button
+      toTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // Hash-Deep-Linking: beim Laden ggf. Sektion öffnen
+      window.addEventListener('DOMContentLoaded', () => {
+        const id = location.hash.replace('#','');
+        if (id && META_IDS.includes(id)) {
+          showSection(id);
+        }
+      });
+
+      // Wenn der User manuell zum Hash scrollt (z. B. aus externem Link), reagiere
+      window.addEventListener('hashchange', () => {
+        const id = location.hash.replace('#','');
+        if (META_IDS.includes(id)) {
+          showSection(id);
+        } else {
+          // Unbekannter/anderer Hash – Meta einklappen
+          hideAllMeta();
+          if (!leftDrawer.classList.contains('is-open') && !rightDrawer.classList.contains('is-open')) {
+            scrim.classList.remove('is-open');
+          }
+        }
+      });
+
+      // Newsletter Dummy-Handler (Frontend-Feedback)
+      const form = $('#aeon-news-form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const email = $('#aeon-news-email').value.trim();
+          const honeypot = form.querySelector('input.hp')?.value || '';
+          const ok = email.includes('@') && !honeypot;
+          $('.form-msg').hidden = !ok;
+          $('.form-err').hidden = ok;
+          if (ok) form.reset();
+        });
+      }
+    })();
+  </script>
+
+  <!-- Dein bestehendes Script kann bleiben; wenn es ähnliche Handler hat, entferne dort doppelte Logik. -->
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 </body>
 </html>
