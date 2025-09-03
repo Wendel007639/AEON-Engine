@@ -195,6 +195,7 @@ footer{margin-top:26px}
   .fire-text{animation:none}
 }
 
+/* Debug: Desktop als Mobile erzwingen */
 body.force-mobile .screen{ grid-template-columns:1fr !important; gap:22px !important }
 body.force-mobile .nav{ grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6 }
 body.force-mobile .brand{ grid-column:1; justify-self:center }

@@ -1,4 +1,4 @@
-// AEON News – Beispiel-Eintrag (kannst du frei ersetzen/erweitern)
+// AEON News – Beispiel-Eintrag (ersetz-/erweiterbar)
 (function(){
   const today = new Date();
   const yyyy = today.getFullYear();

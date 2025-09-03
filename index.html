@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="de">
 <head>
   <meta charset="utf-8" />
@@ -20,7 +19,7 @@
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=9999" />
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=10002" />
 
   <style>
     :root{
@@ -68,8 +67,8 @@
     .screen > *{ position:relative; z-index:1 }
   </style>
 
-  <script src="/AEON-Engine/mobile-redirect.js?v=9999" defer></script>
-  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=9999" defer></script>
+  <script src="/AEON-Engine/mobile-redirect.js?v=10002" defer></script>
+  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=10002" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -215,25 +214,26 @@
     </footer>
   </div>
 
-  <script defer src="/AEON-Engine/news.js?v=9999"></script>
-  <script defer src="/AEON-Engine/main.js?v=9999"></script>
-  <script defer src="/AEON-Engine/worker.js?v=9999"></script>
+  <!-- Daten zuerst, dann Logik -->
+  <script defer src="/AEON-Engine/news.js?v=10002"></script>
+  <script defer src="/AEON-Engine/main.js?v=10002"></script>
+  <script defer src="/AEON-Engine/worker.js?v=10002"></script>
 
   <script>
   (() => {
+    'use strict';
     const META_IDS = ['meta','introspection','decision'];
+    const $  = (s, r=document) => r.querySelector(s);
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
     const prefersNoMotion = matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
     function setStickTop(){
-      const nav = document.querySelector('.nav');
+      const nav = $('.nav');
       const extra = 12;
       const h = (nav?.offsetHeight || 48) + extra;
       document.documentElement.style.setProperty('--stick-top', h + 'px');
     }
-    const ro = new ResizeObserver(setStickTop);
-    const navEl = document.querySelector('.nav');
-    if (navEl) ro.observe(navEl);
+    (window.ResizeObserver ? new ResizeObserver(setStickTop) : {observe:()=>{}}).observe?.($('.nav')||document.body);
     setStickTop();
     addEventListener('load', setStickTop);
     addEventListener('resize', setStickTop);
@@ -304,7 +304,11 @@
       hideExtras();
       const moreBtn = leftNav.querySelector('.more-btn'); if (!moreBtn) return;
       const updateBtn = (expanded) => { moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false'); moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …'; };
-      const toggleExtras = () => { const expanded = moreBtn.getAttribute('aria-expanded') === 'true'; if (expanded) { hideExtras(); updateBtn(false); } else { showExtras(); updateBtn(true); } };
+      const toggleExtras = () => {
+        const expanded = moreBtn.getAttribute('aria-expanded') === 'true';
+        if (expanded) { hideExtras(); updateBtn(false); }
+        else { showExtras(); updateBtn(true); }
+      };
       moreBtn.addEventListener('click', toggleExtras);
       moreBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); } });
     })();
