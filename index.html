@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Bump die Version, damit Strg+F5 sofort zieht -->
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2310" />
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2311" />
 
   <style>
     :root{
@@ -55,8 +55,8 @@
     .screen > *{ position:relative; z-index:1 }
   </style>
 
-  <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
-  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=3" defer></script>
+  <script src="/AEON-Engine/mobile-redirect.js?v=2" defer></script>
+  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=4" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -222,8 +222,9 @@
   </div>
 
   <!-- Daten zuerst, dann Logik -->
-  <script defer src="/AEON-Engine/news.js?v=5"></script>
-  <script defer src="/AEON-Engine/main.js?v=8"></script>
+  <script defer src="/AEON-Engine/news.js?v=6"></script>
+  <script defer src="/AEON-Engine/main.js?v=9"></script>
+  <script defer src="/AEON-Engine/worker.js?v=2"></script>
 
   <!-- Toggles, Sticky-Offset, Link-Limiter -->
   <script>
@@ -274,48 +275,4 @@
     function closeOthers(exceptId){ META_IDS.forEach(x => { if (x !== exceptId) hide(x); }); }
 
     document.addEventListener('click', (e) => {
-      const link = e.target.closest('a.spy');
-      if (!link) return;
-      const href = link.getAttribute('href') || '';
-      if (!href.startsWith('#')) return;
-      const id = href.slice(1);
-      if (!META_IDS.includes(id)) return;
-      e.preventDefault();
-      const target = document.getElementById(id);
-      if (!target) return;
-      const willOpen = target.hidden !== false;
-      closeOthers(id);
-      willOpen ? show(id) : hide(id);
-    });
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-close]'); if (!btn) return;
-      e.preventDefault(); hide(btn.getAttribute('data-close'));
-    });
-
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') META_IDS.forEach(hide); });
-
-    addEventListener('DOMContentLoaded', () => {
-      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id);
-    });
-    addEventListener('hashchange', () => {
-      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id); else META_IDS.forEach(hide);
-    });
-
-    (function setupLeftNavLimiter(){
-      const leftNav = document.querySelector('#drawer-left .sidecard'); if (!leftNav) return;
-      const links = Array.from(leftNav.querySelectorAll('a.spy')); const MAX_VISIBLE = 5;
-      links.forEach((a, i) => { if (i >= MAX_VISIBLE) a.dataset.extra = "1"; });
-      const hideExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = true; });
-      const showExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = false; });
-      hideExtras();
-      const moreBtn = leftNav.querySelector('.more-btn'); if (!moreBtn) return;
-      const updateBtn = (expanded) => { moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false'); moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …'; };
-      const toggleExtras = () => { const expanded = moreBtn.getAttribute('aria-expanded') === 'true'; if (expanded) { hideExtras(); updateBtn(false); } else { showExtras(); updateBtn(true); } };
-      moreBtn.addEventListener('click', toggleExtras);
-      moreBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); } });
-    })();
-  })();
-  </script>
-</body>
-</html>
+      const link = e
