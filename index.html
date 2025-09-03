@@ -16,11 +16,11 @@
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Minimal: hidden respektieren + Meta-Card im Fluss, transparent wie Nav -->
+  <!-- Overrides: hidden, Meta-Cards und HERO gleich transparent -->
   <style>
     [hidden]{display:none!important}
 
-    /* transparente Card (ähnlich zu deinen Sidecards) */
+    /* transparente Card (wie Sidecards) */
     .meta-card{
       position:relative;
       padding:1rem 1.25rem 1.25rem;
@@ -31,14 +31,23 @@
       box-shadow:0 10px 30px rgba(0,0,0,.18);
     }
     .meta{
-      margin:1.25rem auto 0;        /* unter der Begrüßung einreihen */
-      max-width:min(980px, 92vw);   /* mittig im Content */
+      margin:1.25rem auto 0;
+      max-width:min(980px, 92vw);
     }
     .meta .badge{display:inline-block;margin-bottom:.5rem}
     .close-card{
       position:absolute; top:.5rem; right:.6rem;
       font-size:1.25rem; line-height:1;
       background:transparent; border:0; color:inherit; cursor:pointer;
+    }
+
+    /* >>> Hero oben genauso transparent wie die Meta-Cards <<< */
+    .hero{
+      border-radius:14px !important;
+      background:rgba(255,255,255,.04) !important;
+      border:1px solid rgba(255,255,255,.08) !important;
+      backdrop-filter:blur(4px) !important;
+      box-shadow:0 10px 30px rgba(0,0,0,.18) !important;
     }
   </style>
 </head>
@@ -186,7 +195,7 @@
           </article>
         </section>
 
-        <!-- NEU: Entscheidungskontext -->
+        <!-- Entscheidungskontext -->
         <section class="meta" id="decision" data-accent="cyan" hidden>
           <article class="meta-card">
             <button class="close-card" data-close="decision" aria-label="Bereich schließen" type="button">×</button>
