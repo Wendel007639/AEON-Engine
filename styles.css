@@ -4,10 +4,10 @@
   --card:#0b1426; --border:rgba(255,255,255,.08);
   --radius:18px; --shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px var(--border);
 
-  /* Mandala – Fallbacks (JS setzt live) */
-  --mandala-size: 1600px;
-  --mandala-top: 0px;
-  --mandala-anchor: 0.36; /* Anteil der Hero-Höhe, der auf das Mandala-Zentrum zeigt */
+  /* Wasserzeichen – wird via JS live gesetzt */
+  --wm-size: 1600px;         /* Breite/Höhe des 4k-Wallpapers (quadratisch) */
+  --wm-top:  0px;            /* Y-Position relativ zum Dokument */
+  --wm-anchor: .36;          /* Anteil der Hero-Höhe zum Mittelpunkt */
 }
 
 *{box-sizing:border-box}
@@ -16,13 +16,34 @@ html,body{height:100%;overflow-x:hidden}
 [hidden]{display:none!important}
 .visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px)!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;white-space:nowrap!important}
 
+/* === Globaler Hintergrund + Wasserzeichen ================================ */
 body{
   margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--fg);
+  /* Gradienten bleiben erhalten */
   background:
     radial-gradient(1200px 600px at 70% -10%, rgba(8,190,211,.12), transparent 60%),
     radial-gradient(900px 500px at 20% 110%, rgba(35,229,255,.10), transparent 60%),
     linear-gradient(180deg, #071024 0%, #060b17 100%);
   background-color:var(--bg);
+}
+
+/* Das 4K-Wallpaper als globales “Wasserzeichen”.
+   Wichtig: position:absolute; damit es mit dem Dokument mitscrollt.
+   Es liegt UNTER allen Inhalten, ist dezent (opacity) und klick-transparent. */
+html{ position:relative; }
+html::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:var(--wm-top);
+  width:var(--wm-size);
+  height:var(--wm-size);
+  background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain;
+  opacity:.28;                 /* Wasserzeichen-Stärke */
+  filter: drop-shadow(0 40px 120px rgba(0,0,0,.35));
+  pointer-events:none;
+  z-index:0;
 }
 
 /* a11y & Wrap */
@@ -49,7 +70,7 @@ a{color:inherit;text-decoration:none}
 @media (max-width:900px){.nav .btn.mobile{display:inline-block}}
 
 /* Layout */
-.screen{display:grid;gap:18px;margin-top:18px;grid-template-columns:280px 1fr 280px; position:relative;}
+.screen{display:grid;gap:18px;margin-top:18px;grid-template-columns:280px 1fr 280px; position:relative; z-index:1;}
 @media (max-width:1100px){ .screen{ grid-template-columns: 240px 1fr 240px } }
 @media (max-width:900px){ .screen{ grid-template-columns: 1fr } }
 
@@ -101,11 +122,6 @@ a{color:inherit;text-decoration:none}
     border:1px solid var(--border)!important;
     box-shadow:var(--shadow)!important;
   }
-}
-
-/* Mandala (an .screen, nicht .center) – immer komplett sichtbar */
-.screen::before{
-  /* Werte kommen aus :root (werden von JS gesetzt) */
 }
 
 /* Hero */
@@ -203,7 +219,7 @@ footer{margin-top:26px}
   .fire-text{animation:none}
 }
 
-/* FORCE MOBILE ON DESKTOP */
+/* FORCE MOBILE ON DESKTOP (Debug) */
 body.force-mobile .screen{ grid-template-columns:1fr !important; gap:22px !important; }
 body.force-mobile .nav{ grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6; }
 body.force-mobile .brand{ grid-column:1; justify-self:center; }
