@@ -14,29 +14,41 @@
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
-
-  <!-- Mobile-Redirect -->
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Kleine, sichere Defaults -->
+  <!-- Minimal: hidden respektieren + Meta zentriert in der Mitte anzeigen -->
   <style>
-    :root { scroll-behavior: smooth; }
-    [hidden] { display: none !important; }
-    .scrim {
-      position: fixed; inset: 0; background: rgba(0,0,0,.35);
-      opacity: 0; pointer-events: none; transition: opacity .2s ease;
-      z-index: 40;
+    [hidden]{display:none!important}
+    /* Meta-Card mittig, ohne Overlay, oberhalb des Layouts (Navi bleibt sichtbar) */
+    .meta{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      top:4.5rem;                 /* Abstand unterhalb Header */
+      width:min(900px,92vw);
+      max-height:80vh;
+      overflow:auto;
+      z-index:999;               /* über Sidebars/Content */
     }
-    .scrim.is-open { opacity: 1; pointer-events: auto; }
-    .sidebar { transition: transform .2s ease; z-index: 50; }
-    .sidebar.left { transform: translateX(-100%); }
-    .sidebar.right { transform: translateX(100%); }
-    .sidebar.is-open { transform: translateX(0); }
-    .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 60; }
-    .meta-card { position: relative; }
-    .close-card { position: absolute; top: .5rem; right: .5rem; }
-    /* Stelle sicher, dass klickbare Elemente nicht vom Scrim verdeckt werden */
-    .meta { z-index: 55; position: relative; }
+    .meta-card{
+      position:relative;
+      padding:1.25rem 1.25rem 1.5rem;
+      border-radius:14px;
+      background:rgba(20,24,28,.9);      /* dunkle, halbtransparente Card */
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(6px);
+      box-shadow:0 12px 32px rgba(0,0,0,.35);
+    }
+    .meta .badge{display:inline-block;margin-bottom:.5rem}
+    .close-card{
+      position:absolute; top:.5rem; right:.6rem;
+      font-size:1.25rem; line-height:1;
+      background:transparent; border:0; color:inherit; cursor:pointer;
+    }
+    /* Optional: auf sehr kleinen Displays etwas tiefer, damit Header nicht überlappt */
+    @media (max-width: 520px){
+      .meta{ top:5.5rem; width:min(96vw, 640px); }
+    }
   </style>
 </head>
 <body id="top">
@@ -128,7 +140,7 @@
       </aside>
     </section>
 
-    <!-- SEKTIONEN -->
+    <!-- SEKTIONEN (bleiben außerhalb von .screen – wir verschieben NICHTS) -->
     <section class="meta" id="meta" data-accent="cyan" hidden>
       <article class="meta-card">
         <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
@@ -230,184 +242,68 @@
     </footer>
   </div>
 
-  <!-- Daten zuerst, dann Logik (defer bleibt ok) -->
+  <!-- Daten zuerst, dann Logik -->
   <script defer src="/AEON-Engine/news.js?v=5"></script>
-  <!-- Dein bestehendes main.js kann bleiben – der folgende Inline-Code fixiert die Öffnen/Schließen-Logik zuverlässig. -->
-  <script>
-    (function () {
-      const $ = (sel, root=document) => root.querySelector(sel);
-      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-
-      const scrim = $('.scrim');
-      const leftDrawer  = $('#drawer-left');
-      const rightDrawer = $('#drawer-right');
-      const btnLeft  = $('.toggle-left');
-      const btnRight = $('.toggle-right');
-      const toTopBtn = $('#toTop');
-
-      const META_IDS = ['meta','introspection'];
-
-      // ---- Helpers
-      const openDrawer = (which) => {
-        if (which === 'left') {
-          leftDrawer.classList.add('is-open');
-          btnLeft?.setAttribute('aria-expanded','true');
-        } else {
-          rightDrawer.classList.add('is-open');
-          btnRight?.setAttribute('aria-expanded','true');
-        }
-        scrim.classList.add('is-open');
-      };
-      const closeDrawers = () => {
-        leftDrawer.classList.remove('is-open');
-        rightDrawer.classList.remove('is-open');
-        btnLeft?.setAttribute('aria-expanded','false');
-        btnRight?.setAttribute('aria-expanded','false');
-        // Scrim ggf. später auch von Meta schließt – dort separat gehandhabt
-        if ($$('.meta:not([hidden])').length === 0) {
-          scrim.classList.remove('is-open');
-        }
-      };
-
-      const showSection = (id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.hidden = false;
-        // Setze aria-expanded an alle passenden Trigger
-        $$(`[href="#${id}"][aria-controls="${id}"], [data-open="${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
-        // Scrim an, damit Fokus im Kontext bleibt
-        scrim.classList.add('is-open');
-        // Scroll ins Sichtfeld
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Hash aktualisieren (ohne zu springen)
-        history.replaceState(null, '', `#${id}`);
-      };
-
-      const hideSection = (id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.hidden = true;
-        $$(`[href="#${id}"][aria-controls="${id}"], [data-open="${id}"]`).forEach(a => a.setAttribute('aria-expanded','false'));
-        // Scrim aus, wenn keine anderen Metas/Drawe r offen
-        if ($$('.meta:not([hidden])').length === 0 && !leftDrawer.classList.contains('is-open') && !rightDrawer.classList.contains('is-open')) {
-          scrim.classList.remove('is-open');
-        }
-        // Hash zurücksetzen, wenn wir gerade diesen offen hatten
-        if (location.hash.replace('#','') === id) {
-          history.replaceState(null, '', location.pathname + location.search);
-        }
-      };
-
-      const hideAllMeta = () => META_IDS.forEach(hideSection);
-
-      // ---- Event Delegation (Klicks)
-      document.addEventListener('click', (e) => {
-        const t = e.target;
-
-        // Mobile Drawer toggles
-        const leftToggle = t.closest('.toggle-left');
-        const rightToggle = t.closest('.toggle-right');
-        if (leftToggle) {
-          e.preventDefault();
-          const open = leftDrawer.classList.contains('is-open');
-          open ? closeDrawers() : openDrawer('left');
-          return;
-        }
-        if (rightToggle) {
-          e.preventDefault();
-          const open = rightDrawer.classList.contains('is-open');
-          open ? closeDrawers() : openDrawer('right');
-          return;
-        }
-
-        // Scrim schließt alles Offene
-        if (t === scrim) {
-          hideAllMeta();
-          closeDrawers();
-          return;
-        }
-
-        // Close-Buttons auf den Meta-Cards
-        const closeBtn = t.closest('[data-close]');
-        if (closeBtn) {
-          e.preventDefault();
-          const id = closeBtn.getAttribute('data-close');
-          hideSection(id);
-          return;
-        }
-
-        // Sidebar-Links: Wenn Link auf eine Meta-Sektion zeigt, öffnen statt nur scrollen
-        const spy = t.closest('a.spy');
-        if (spy) {
-          const href = spy.getAttribute('href') || '';
-          if (href.startsWith('#')) {
-            const id = href.slice(1);
-            const target = document.getElementById(id);
-            if (target && target.matches('.meta')) {
-              e.preventDefault();
-              // Drawer sofort schließen, damit Fokus auf Content
-              closeDrawers();
-              showSection(id);
-              return;
-            }
-          }
-        }
-      });
-
-      // ESC schließt offene Dinge
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          let closedSomething = false;
-          if (leftDrawer.classList.contains('is-open') || rightDrawer.classList.contains('is-open')) {
-            closeDrawers(); closedSomething = true;
-          }
-          if ($$('.meta:not([hidden])').length) { hideAllMeta(); closedSomething = true; }
-          if (closedSomething) e.preventDefault();
-        }
-      });
-
-      // „Nach oben“-Button
-      toTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-      // Hash-Deep-Linking: beim Laden ggf. Sektion öffnen
-      window.addEventListener('DOMContentLoaded', () => {
-        const id = location.hash.replace('#','');
-        if (id && META_IDS.includes(id)) {
-          showSection(id);
-        }
-      });
-
-      // Wenn der User manuell zum Hash scrollt (z. B. aus externem Link), reagiere
-      window.addEventListener('hashchange', () => {
-        const id = location.hash.replace('#','');
-        if (META_IDS.includes(id)) {
-          showSection(id);
-        } else {
-          // Unbekannter/anderer Hash – Meta einklappen
-          hideAllMeta();
-          if (!leftDrawer.classList.contains('is-open') && !rightDrawer.classList.contains('is-open')) {
-            scrim.classList.remove('is-open');
-          }
-        }
-      });
-
-      // Newsletter Dummy-Handler (Frontend-Feedback)
-      const form = $('#aeon-news-form');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const email = $('#aeon-news-email').value.trim();
-          const honeypot = form.querySelector('input.hp')?.value || '';
-          const ok = email.includes('@') && !honeypot;
-          $('.form-msg').hidden = !ok;
-          $('.form-err').hidden = ok;
-          if (ok) form.reset();
-        });
-      }
-    })();
-  </script>
-
-  <!-- Dein bestehendes Script kann bleiben; wenn es ähnliche Handler hat, entferne dort doppelte Logik. -->
   <script defer src="/AEON-Engine/main.js?v=8"></script>
+
+  <!-- Toggle nur für #meta und #introspection | keine Strukturänderung -->
+  <script>
+  (() => {
+    const META_IDS = ['meta','introspection'];
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    function show(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = false;
+      $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','true'));
+      // kein scrollIntoView: Card ist fixed in der Mitte
+    }
+    function hide(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = true;
+      $$(`[href="#${id}"]`).forEach(a => a.setAttribute('aria-expanded','false'));
+    }
+    function closeOthers(exceptId){
+      META_IDS.forEach(x => { if (x !== exceptId) hide(x); });
+    }
+
+    // Navi-Links: nur meta/introspection togglen
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a.spy');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      const id = href.slice(1);
+      if (!META_IDS.includes(id)) return;
+
+      e.preventDefault();
+      const target = document.getElementById(id);
+      const willOpen = target?.hidden !== false;
+      closeOthers(id);
+      if (willOpen) show(id); else hide(id);
+    });
+
+    // „×“ schließt
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-close]');
+      if (!btn) return;
+      e.preventDefault();
+      hide(btn.getAttribute('data-close'));
+    });
+
+    // ESC schließt
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') META_IDS.forEach(hide);
+    });
+
+    // Deep-Link beim Laden
+    window.addEventListener('DOMContentLoaded', () => {
+      const id = location.hash.replace('#','');
+      if (META_IDS.includes(id)) show(id);
+    });
+  })();
+  </script>
 </body>
 </html>
