@@ -6,14 +6,24 @@
   <title>A.E.O.N | Adaptives Emotionales Optimiertes Netzwerk</title>
   <meta name="description" content="A.E.O.N ist eine adaptive Neuro Reasoning Engine mit Hodgkin Huxley Neuron. Fokus auf Kontext, Emotion und Präzision.">
   <link rel="icon" href="/AEON-Engine/img/favicon.png">
+
+  <!-- Social -->
   <meta property="og:title" content="A.E.O.N Adaptives Emotionales Optimiertes Netzwerk">
   <meta property="og:description" content="Klarer Kern, Kontext, Emotion, Präzision.">
   <meta property="og:image" content="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <meta property="og:type" content="website">
+
+  <!-- Cache-Hard-Refresh -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2301" />
+
+  <!-- Bump die Version, damit Strg+F5 sofort zieht -->
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2310" />
 
   <style>
     :root{
@@ -46,7 +56,7 @@
   </style>
 
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
-  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=2" defer></script>
+  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=3" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -211,14 +221,16 @@
     </footer>
   </div>
 
+  <!-- Daten zuerst, dann Logik -->
   <script defer src="/AEON-Engine/news.js?v=5"></script>
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 
+  <!-- Toggles, Sticky-Offset, Link-Limiter -->
   <script>
   (() => {
     const META_IDS = ['meta','introspection','decision'];
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-    const prefersNoMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    const prefersNoMotion = matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
     function setStickTop(){
       const nav = document.querySelector('.nav');
@@ -277,54 +289,31 @@
     });
 
     document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-close]');
-      if (!btn) return;
-      e.preventDefault();
-      hide(btn.getAttribute('data-close'));
+      const btn = e.target.closest('[data-close]'); if (!btn) return;
+      e.preventDefault(); hide(btn.getAttribute('data-close'));
     });
 
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') META_IDS.forEach(hide); });
 
     addEventListener('DOMContentLoaded', () => {
-      const id = location.hash.replace('#','');
-      if (META_IDS.includes(id)) show(id);
+      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id);
     });
     addEventListener('hashchange', () => {
-      const id = location.hash.replace('#','');
-      if (META_IDS.includes(id)) show(id);
-      else META_IDS.forEach(hide);
+      const id = location.hash.replace('#',''); if (META_IDS.includes(id)) show(id); else META_IDS.forEach(hide);
     });
 
     (function setupLeftNavLimiter(){
-      const leftNav = document.querySelector('#drawer-left .sidecard');
-      if (!leftNav) return;
-      const links = Array.from(leftNav.querySelectorAll('a.spy'));
-      const MAX_VISIBLE = 5;
-
+      const leftNav = document.querySelector('#drawer-left .sidecard'); if (!leftNav) return;
+      const links = Array.from(leftNav.querySelectorAll('a.spy')); const MAX_VISIBLE = 5;
       links.forEach((a, i) => { if (i >= MAX_VISIBLE) a.dataset.extra = "1"; });
       const hideExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = true; });
       const showExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = false; });
-
       hideExtras();
-
-      const moreBtn = leftNav.querySelector('.more-btn');
-      if (!moreBtn) return;
-
-      const updateBtn = (expanded) => {
-        moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-        moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …';
-      };
-
-      const toggleExtras = () => {
-        const expanded = moreBtn.getAttribute('aria-expanded') === 'true';
-        if (expanded) { hideExtras(); updateBtn(false); }
-        else { showExtras(); updateBtn(true); }
-      };
-
+      const moreBtn = leftNav.querySelector('.more-btn'); if (!moreBtn) return;
+      const updateBtn = (expanded) => { moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false'); moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …'; };
+      const toggleExtras = () => { const expanded = moreBtn.getAttribute('aria-expanded') === 'true'; if (expanded) { hideExtras(); updateBtn(false); } else { showExtras(); updateBtn(true); } };
       moreBtn.addEventListener('click', toggleExtras);
-      moreBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); }
-      });
+      moreBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); } });
     })();
   })();
   </script>
