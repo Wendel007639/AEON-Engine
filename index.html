@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Overrides: hidden, Meta-Cards und HERO gleich transparent -->
+  <!-- Overrides: hidden, Meta-Cards und HERO gleich transparent + Nav-"Mehr..." -->
   <style>
     [hidden]{display:none!important}
 
@@ -41,13 +41,30 @@
       background:transparent; border:0; color:inherit; cursor:pointer;
     }
 
-    /* >>> Hero oben genauso transparent wie die Meta-Cards <<< */
+    /* Hero wie Meta-Cards */
     .hero{
       border-radius:14px !important;
       background:rgba(255,255,255,.04) !important;
       border:1px solid rgba(255,255,255,.08) !important;
       backdrop-filter:blur(4px) !important;
       box-shadow:0 10px 30px rgba(0,0,0,.18) !important;
+    }
+
+    /* Mehr-Button in linker Nav */
+    #drawer-left .more-row{
+      display:flex; justify-content:flex-end; align-items:center;
+      margin-top:.5rem;
+    }
+    #drawer-left .more-btn{
+      background:transparent; border:0; cursor:pointer;
+      font:inherit; font-weight:600;
+      padding:.25rem .5rem; border-radius:999px;
+      outline:none;
+      /* Farbe an Akzent angelehnt */
+      color:#37e7ff; 
+    }
+    #drawer-left .more-btn:focus-visible{
+      box-shadow:0 0 0 3px rgba(55,231,255,.35);
     }
   </style>
 </head>
@@ -98,6 +115,8 @@
           <a href="#knowledge"     class="spy">Wissensgraph</a>
           <a href="#AEON64basen"   class="spy">64 Basen mit Emotion Meta Speicherung</a>
           <a href="#API"           class="spy">API Server</a>
+          <!-- Mehr...-Zeile (wird per JS befüllt/aktiviert) -->
+          <div class="more-row"><button class="more-btn" type="button" aria-expanded="false">Mehr …</button></div>
         </nav>
       </aside>
 
@@ -271,12 +290,13 @@
   <script defer src="/AEON-Engine/news.js?v=5"></script>
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 
-  <!-- Toggle für #meta, #introspection, #decision -->
+  <!-- Toggle für #meta, #introspection, #decision + "Mehr …" in linker Nav -->
   <script>
   (() => {
     const META_IDS = ['meta','introspection','decision'];
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 
+    /* --- Meta-Toggles --- */
     function show(id){
       const el = document.getElementById(id);
       if (!el) return;
@@ -294,7 +314,6 @@
       META_IDS.forEach(x => { if (x !== exceptId) hide(x); });
     }
 
-    // Navi-Links: nur diese drei Sektionen togglen
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a.spy');
       if (!link) return;
@@ -310,7 +329,6 @@
       if (willOpen) show(id); else hide(id);
     });
 
-    // „×“ schließt
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-close]');
       if (!btn) return;
@@ -318,16 +336,47 @@
       hide(btn.getAttribute('data-close'));
     });
 
-    // ESC schließt
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') META_IDS.forEach(hide);
     });
 
-    // Deep-Link beim Laden
     window.addEventListener('DOMContentLoaded', () => {
       const id = location.hash.replace('#','');
       if (META_IDS.includes(id)) show(id, {scroll:false});
     });
+
+    /* --- Linke Nav: nur erste 5 zeigen + Mehr/Weniger --- */
+    (function setupLeftNavLimiter(){
+      const leftNav = document.querySelector('#drawer-left .sidecard');
+      if (!leftNav) return;
+
+      const links = Array.from(leftNav.querySelectorAll('a.spy'));
+      const MAX_VISIBLE = 5;
+
+      // Markiere und verstecke alles ab Index 5
+      links.forEach((a, i) => {
+        if (i >= MAX_VISIBLE) a.dataset.extra = "1";
+      });
+      const hideExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = true; });
+      const showExtras = () => links.forEach(a => { if (a.dataset.extra) a.hidden = false; });
+
+      hideExtras();
+
+      // Mehr-Button (im HTML vorhanden)
+      const moreBtn = leftNav.querySelector('.more-btn');
+      if (!moreBtn) return;
+
+      const updateBtn = (expanded) => {
+        moreBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        moreBtn.textContent = expanded ? 'Weniger …' : 'Mehr …';
+      };
+
+      moreBtn.addEventListener('click', () => {
+        const expanded = moreBtn.getAttribute('aria-expanded') === 'true';
+        if (expanded) { hideExtras(); updateBtn(false); }
+        else { showExtras(); updateBtn(true); }
+      });
+    })();
   })();
   </script>
 </body>
