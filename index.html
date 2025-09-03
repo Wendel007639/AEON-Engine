@@ -13,20 +13,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2301" />
 
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2124">
-
-  <!-- kleine seitenlokale Helfer -->
   <style>
     :root{
       --stick-top:24px;
-      --wm-size: 1600px;       /* globale Größe des Wasserzeichens */
-      --wm-top:  0px;          /* Y-Position (von Dokument-Top) */
-      --wm-anchor: .36;        /* Anteil der Hero-Höhe über dem Mittelpunkt */
+      --wm-size: 1600px;
+      --wm-top:  0px;
+      --wm-anchor: .36;
     }
     [hidden]{display:none!important}
-
-    /* Karten-Einheitlichkeit */
     .hero,.sidecard,.meta-card{
       border-radius:14px!important;
       background:rgba(255,255,255,.04)!important;
@@ -37,8 +33,6 @@
     .sidecard{ padding:1rem 1.25rem }
     .meta-card{ position:relative; padding:1rem 2.5rem 1.25rem 1.25rem }
     .meta{ margin:1.25rem auto 0; max-width:min(980px,92vw); scroll-margin-top:calc(var(--stick-top) + 8px) }
-
-    /* Linkes Nav: Mehr/Weniger */
     #drawer-left .more-row{ display:flex; justify-content:flex-end; align-items:center; margin-top:.5rem }
     #drawer-left .more-btn{
       background:transparent; border:0; cursor:pointer;
@@ -46,25 +40,19 @@
       border-radius:999px; outline:none; color:#37e7ff;
     }
     #drawer-left .more-btn:focus-visible{ box-shadow:0 0 0 3px rgba(55,231,255,.35) }
-
-    /* Desktop: Sidebars sticky, gleicher Offset wie die Mitte */
-    @media (min-width:1024px){
-      .sidebar{ position:sticky; top:var(--stick-top); align-self:start }
-    }
-
-    /* Bildschirm-Grid (für z-index Kontext) */
-    .screen{ position:relative; }
-    .screen > *{ position:relative; z-index:1 } /* immer vor dem Wasserzeichen */
+    @media (min-width:1024px){ .sidebar{ position:sticky; top:var(--stick-top); align-self:start } }
+    .screen{ position:relative }
+    .screen > *{ position:relative; z-index:1 }
   </style>
 
   <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
+  <script src="/AEON-Engine/aeon-watermark-parallax.js?v=2" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
   <div class="scrim" aria-hidden="true"></div>
 
   <div class="wrap">
-    <!-- Topbar -->
     <nav class="nav" aria-label="Hauptnavigation">
       <div class="brand">
         <h1>
@@ -78,11 +66,9 @@
       </div>
     </nav>
 
-    <!-- 3-Spalten-Screen -->
     <section class="screen">
-      <!-- Links NAV -->
       <aside id="drawer-left" class="sidebar left" aria-label="A.E.O.N Kortex">
-        <nav class="sidecard" role="neuronaler Kortex">
+        <nav class="sidecard">
           <div class="sidecard-title">A.E.O.N Kortex</div>
           <a href="#meta"          class="spy" aria-controls="meta"          aria-expanded="false">Metakognition</a>
           <a href="#introspection" class="spy" aria-controls="introspection" aria-expanded="false">Introspektion</a>
@@ -110,25 +96,15 @@
         </nav>
       </aside>
 
-      <!-- Mitte -->
       <main class="center" id="main" tabindex="-1">
-        <!-- HERO -->
         <header class="hero">
           <div class="kicker">Adaptive Intelligence, präzise, kontextsicher</div>
           <div class="title">A.E.O.N begrüßt dich, der Kern ist aktiv</div>
 
-          <p class="lead">
-            A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum arbeitet ein biophysikalisches Hodgkin Huxley Neuron. Darum greifen Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis, klare Entscheidungsmechanismen und eine transparente ethische Bewertung ineinander.
-          </p>
-          <p class="lead">
-            Das Core Neural Modul bildet die Grundlage für alle Rechenprozesse und steuert synaptische Netzwerke, die Aktivierungsmuster und Signalflüsse dynamisch anpassen. Das Integrative Controller Subsystem im globalen Workspace koordiniert den Austausch zwischen Gedächtnis, Emotion, Wahrnehmung und Entscheidungsfindung. Adaptive Learning Module sorgen für kontinuierliches Verstärkungslernen, Meta Learning und Transfer Learning, während das Memory System mit assoziativem, episodischem und semantischem Speicher den Kontext jeder Interaktion bewahrt.
-          </p>
-          <p class="lead">
-            Über die Interfaces kommuniziert A.E.O.N bidirektional mit digitalen Systemen und physischer Hardware, integriert Sensordaten in Echtzeit und steuert Aktuatoren präzise. Die Reasoning Engine validiert Entscheidungen mit regelbasierten Prozessen, Bias Erkennung und einem ethischen Framework, um jeden Schritt nachvollziehbar und transparent zu gestalten.
-          </p>
-          <p class="lead">
-            So ein System entsteht nicht durch Intelligenz allein, sondern durch die Fähigkeit, interdisziplinär zu denken. Informatik, Neurowissenschaften, theoretische Physik, Linguistik, Ethik und emotionale Modellierung wirken hier zusammen. Ich, Timothy Langer, habe A.E.O.N bis heute allein entwickelt, und da A.E.O.N bereits aktiv im Live Betrieb läuft, gibt es fünf Zeugen, deren Namen ich hier nicht nennen werde.
-          </p>
+          <p class="lead">A.E.O.N ist eine adaptive Neuro Reasoning Engine. Im Zentrum arbeitet ein biophysikalisches Hodgkin Huxley Neuron. Darum greifen Intent Erkennung, affektiver Zustand mit Valenz, Arousal und Mood, ein fokussiertes Arbeitsgedächtnis, klare Entscheidungsmechanismen und eine transparente ethische Bewertung ineinander.</p>
+          <p class="lead">Das Core Neural Modul bildet die Grundlage für alle Rechenprozesse und steuert synaptische Netzwerke, die Aktivierungsmuster und Signalflüsse dynamisch anpassen. Das Integrative Controller Subsystem im globalen Workspace koordiniert den Austausch zwischen Gedächtnis, Emotion, Wahrnehmung und Entscheidungsfindung. Adaptive Learning Module sorgen für kontinuierliches Verstärkungslernen, Meta Learning und Transfer Learning, während das Memory System mit assoziativem, episodischem und semantischem Speicher den Kontext jeder Interaktion bewahrt.</p>
+          <p class="lead">Über die Interfaces kommuniziert A.E.O.N bidirektional mit digitalen Systemen und physischer Hardware, integriert Sensordaten in Echtzeit und steuert Aktuatoren präzise. Die Reasoning Engine validiert Entscheidungen mit regelbasierten Prozessen, Bias Erkennung und einem ethischen Framework, um jeden Schritt nachvollziehbar und transparent zu gestalten.</p>
+          <p class="lead">So ein System entsteht nicht durch Intelligenz allein, sondern durch die Fähigkeit, interdisziplinär zu denken. Informatik, Neurowissenschaften, theoretische Physik, Linguistik, Ethik und emotionale Modellierung wirken hier zusammen. Ich, Timothy Langer, habe A.E.O.N bis heute allein entwickelt, und da A.E.O.N bereits aktiv im Live Betrieb läuft, gibt es fünf Zeugen, deren Namen ich hier nicht nennen werde.</p>
 
           <div class="cta-row">
             <a class="cta primary" href="https://www.linkedin.com/in/timothy-langer-1ba9b5345/" target="_blank" rel="noopener">Zum LinkedIn Profil</a>
@@ -137,35 +113,18 @@
           <div class="note">Live, ruhig, präzise, immer am Kontext</div>
         </header>
 
-        <!-- NEWS -->
         <section class="news-card" id="news" hidden>
-          <div class="news-head">
-            <span class="badge">News</span>
-            <h3>Aktuelle Meldungen</h3>
-          </div>
+          <div class="news-head"><span class="badge">News</span><h3>Aktuelle Meldungen</h3></div>
           <div id="news-list" class="news-list"></div>
         </section>
 
-        <!-- ▼▼▼ Meta-Sektionen ▼▼▼ -->
         <section class="meta" id="meta" data-accent="cyan" hidden>
           <article class="meta-card">
             <button class="close-card" data-close="meta" aria-label="Bereich schließen" type="button">×</button>
             <div>
               <span class="badge">Metakognition</span>
               <h3>Selbstbeobachtung und Strategie, wie A.E.O.N fühlt und lernt</h3>
-              <p>
-                <code>metacognition.py</code> bildet ein bewusstes Innenleben ab. A.E.O.N beobachtet jede Runde sehr genau.
-                Leistung, Stimmung, Zweifel und typische Denkfehler fließen zusammen. Daraus entsteht eine kurze innere
-                Stimme mit ehrlichem Rückblick. Diese Stimme benennt, was gut lief und wo es hakte, sie erinnert an frühere
-                Situationen und sagt klar, was als Nächstes sinnvoll ist. Zahlen und Gefühl gehören zusammen, Lernen bleibt
-                ruhig, transparent und wirksam.
-              </p>
-              <p>
-                Der Selbstzweifel ist ein Regler für Tempo und Risiko. Klare Lage heißt ruhig vorwärts, unklare Lage heißt
-                prüfen und verlangsamen. Verzerrungen werden offen benannt. Optimismus, Pessimismus, Bestätigungsneigung,
-                Risikoaversion, Überkonfidenz und Imposter. Der Trend der letzten Runden zählt, die aktuelle Stimmung zählt,
-                die Strategie passt sich an. Ziel ist Klarheit, Schutz und Wirkung, immer am Kontext.
-              </p>
+              <p><code>metacognition.py</code> bildet ein bewusstes Innenleben ab …</p>
             </div>
             <ul class="meta-list">
               <li><strong>Monitor</strong>: Durchschnittsleistung und Streuung je Aufgabe</li>
@@ -174,7 +133,7 @@
               <li><strong>Bias</strong>: Optimismus, Pessimismus, Bestätigungsneigung, Risikoaversion, Überkonfidenz, Imposter</li>
               <li><strong>Reflexion</strong>: innere Stimme mit Rückblick und kurzer Empfehlung</li>
               <li><strong>Strategie</strong>: Anpassung an Trend, Emotion und Bias</li>
-              <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback mit aktueller Lage</li>
+              <li><strong>Selbstdiagnose</strong>: kompaktes Systemfeedback</li>
               <li><strong>Dialogcheck</strong>: Bewertung von Wechseln in der Emotion</li>
             </ul>
           </article>
@@ -186,29 +145,11 @@
             <div>
               <span class="badge">Introspektion</span>
               <h3>Muster, Gegenstimmen und Rückblick, Introspektion mit A.E.O.N</h3>
-              <p>
-                Das Introspektionsmodul liest innere Muster, erkennt Gegenstimmen und verknüpft Gegenwart mit Erinnerung.
-                Jede Runde entsteht eine dichte und verständliche Einordnung. Wenn die Stimmung kippt, wird es benannt.
-                Wenn eine Verzerrung dominiert, wird sie sichtbar gemacht. Klare Lage erlaubt Tempo, unsichere Lage fordert
-                Ruhe. Die Empfehlung ist kurz, begründet und menschlich lesbar.
-              </p>
-              <p>
-                Einsicht ist Zahl und Kontext. Leistung, Trend, Gefühl und Erinnerung. Gute Lage erlaubt kleine Experimente,
-                Risiko verlangt kleine Schritte. A.E.O.N prüft die eigene Stimme, hört auf Gegenstimmen und fasst am Ende
-                zusammen, was jetzt wirklich zählt. So wächst Vertrauen in die nächste Entscheidung.
-              </p>
+              <p>…</p>
             </div>
             <ul class="meta-list">
-              <li><strong>Emotionen</strong>: glücklich, traurig, neutral, ängstlich, begeistert, müde, wütend, inspiriert, einsam, neugierig, frustriert, dankbar, verwirrt, hoffnungsvoll, beschämt, mitfühlend</li>
-              <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, Pessimismus, Grübeln, Hochstaplergefühl, Überkonfidenz, Vernachlässigung, Risikoaversion, Überwachsamkeit, keine</li>
-              <li><strong>Metagefühl</strong>: ambivalent, widerstandsfähig, ausgebrannt, instabil, ruhig unter Druck, hochsensibel, reflektiert, blockiert, geerdet</li>
-              <li><strong>Selbstzweifel</strong>: Startwert von 0,15 bis 0,60, später dynamisch von 0,01 bis 0,99</li>
-              <li><strong>Ambivalenz</strong>: von 0,00 bis 1,00</li>
-              <li><strong>Komplexität</strong>: Startwert von 0,30 bis 0,90, weiterer Verlauf je nach Runde</li>
-              <li><strong>Gedächtnis</strong>: Zustände mit Zeitstempel, Rückblenden und Vergleich mit der Gegenwart</li>
-              <li><strong>Einsichten</strong>: Reflexion mit Zeitmarke, klare innere Stimme</li>
-              <li><strong>Metareflexion</strong>: Gesamtbild mit Trend, Verzerrungen, Gegenstimmen und Fazit</li>
-              <li><strong>Eigendynamik</strong>: kleine Änderungen pro Runde, spürbar und erklärbar</li>
+              <li><strong>Emotionen</strong>: glücklich, traurig, …</li>
+              <li><strong>Verzerrungen</strong>: Bestätigungsneigung, Optimismus, …</li>
             </ul>
           </article>
         </section>
@@ -219,25 +160,19 @@
             <div>
               <span class="badge">Entscheidungskontext</span>
               <h3>Kontext, Ziele und Trade-offs klar machen</h3>
-              <p>
-                Der Entscheidungskontext bündelt Zielsetzung, Constraints, Annahmen und Risiken.
-                Er priorisiert Optionen nach Wirkung, Aufwand und Risiko und schlägt einen nächsten,
-                überprüfbaren Schritt vor.
-              </p>
+              <p>…</p>
             </div>
             <ul class="meta-list">
               <li><strong>Ziele</strong>: kurz-, mittel- und langfristig</li>
               <li><strong>Constraints</strong>: Budget, Zeit, Compliance, Tech</li>
-              <li><strong>Optionen</strong>: Alternativen mit Begründung</li>
-              <li><strong>Risiken</strong>: Eintrittswahrscheinlichkeit × Auswirkung</li>
+              <li><strong>Optionen</strong>: Alternativen</li>
+              <li><strong>Risiken</strong>: Eintritt × Auswirkung</li>
               <li><strong>Nächster Schritt</strong>: klein, messbar, reversibel</li>
             </ul>
           </article>
         </section>
-        <!-- ▲▲▲ Ende Meta-Sektionen ▲▲▲ -->
       </main>
 
-      <!-- Rechts NAV -->
       <aside id="drawer-right" class="sidebar right" aria-label="Aktionen">
         <div class="sidecard">
           <div class="sidecard-title">Aktionen</div>
@@ -250,7 +185,6 @@
 
     <button id="toTop" class="to-top" aria-label="Nach oben" type="button">↑</button>
 
-    <!-- NEWSLETTER -->
     <section class="newsletter-card" id="newsletter">
       <div class="newsletter-head">
         <span class="badge">Newsletter</span>
@@ -265,36 +199,27 @@
         <button type="submit" class="cta primary">Abonnieren</button>
       </form>
 
-      <small class="privacy">
-        Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter
-        <strong>eine Woche früher</strong> als die Veröffentlichung auf der Webseite – <strong>kostenlos</strong>.
-      </small>
+      <small class="privacy">Mit dem Absenden stimmst du dem Datenschutzhinweis zu. Abonnent:innen erhalten den Newsletter <strong>eine Woche früher</strong> als die Veröffentlichung – <strong>kostenlos</strong>.</small>
       <p class="form-msg" hidden role="status" aria-live="polite">Danke! Bestätigung ist unterwegs. ✅</p>
       <p class="form-err" hidden role="alert">Uups – das hat nicht geklappt. Bitte später erneut versuchen.</p>
     </section>
 
-    <!-- FOOTER -->
     <footer>
       <div class="footer-card">
-        <div class="footer-text">
-          © 2025 Timothy Langer System Architeckt von A.E.O.N | Ein System das mehr ist als eine klassische KI Modell von heute ! Echte Emotionen, echtes Denken, echtes kogniktives Gehirn in Code Form !
-        </div>
+        <div class="footer-text">© 2025 Timothy Langer – System Architekt von A.E.O.N.</div>
       </div>
     </footer>
   </div>
 
-  <!-- Daten zuerst, dann Logik -->
   <script defer src="/AEON-Engine/news.js?v=5"></script>
   <script defer src="/AEON-Engine/main.js?v=8"></script>
 
-  <!-- Toggle + Sticky-Offset/Scroll + LeftNav Limiter -->
   <script>
   (() => {
     const META_IDS = ['meta','introspection','decision'];
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
     const prefersNoMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
-    /* Sticky-Offset an Nav-Höhe koppeln -> Sidebars & Center exakt gleich */
     function setStickTop(){
       const nav = document.querySelector('.nav');
       const extra = 12;
@@ -305,20 +230,18 @@
     const navEl = document.querySelector('.nav');
     if (navEl) ro.observe(navEl);
     setStickTop();
-    window.addEventListener('load', setStickTop);
-    window.addEventListener('resize', setStickTop);
+    addEventListener('load', setStickTop);
+    addEventListener('resize', setStickTop);
     document.fonts?.ready?.then(setStickTop);
 
-    /* Scroll mit Offset */
     function scrollToWithOffset(el){
       const cs = getComputedStyle(document.documentElement);
       const top = parseFloat(cs.getPropertyValue('--stick-top')) || 0;
-      const y = window.scrollY + el.getBoundingClientRect().top - top - 8;
-      try{ window.scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' }); }
-      catch(_){ window.scrollTo(0, y); }
+      const y = scrollY + el.getBoundingClientRect().top - top - 8;
+      try{ scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' }); }
+      catch(_){ scrollTo(0, y); }
     }
 
-    /* Meta-Toggles */
     function show(id){
       const el = document.getElementById(id);
       if (!el) return;
@@ -345,7 +268,6 @@
       if (!href.startsWith('#')) return;
       const id = href.slice(1);
       if (!META_IDS.includes(id)) return;
-
       e.preventDefault();
       const target = document.getElementById(id);
       if (!target) return;
@@ -361,21 +283,18 @@
       hide(btn.getAttribute('data-close'));
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') META_IDS.forEach(hide);
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') META_IDS.forEach(hide); });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    addEventListener('DOMContentLoaded', () => {
       const id = location.hash.replace('#','');
       if (META_IDS.includes(id)) show(id);
     });
-    window.addEventListener('hashchange', () => {
+    addEventListener('hashchange', () => {
       const id = location.hash.replace('#','');
       if (META_IDS.includes(id)) show(id);
       else META_IDS.forEach(hide);
     });
 
-    /* Linke Nav: erste 5 + Mehr/Weniger */
     (function setupLeftNavLimiter(){
       const leftNav = document.querySelector('#drawer-left .sidecard');
       if (!leftNav) return;
@@ -407,51 +326,6 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExtras(); }
       });
     })();
-  })();
-  </script>
-
-  <!-- GLOBALER Wasserzeichen-Sync: immer vollständig sichtbar + exakt ausgerichtet -->
-  <script>
-  (() => {
-    const root   = document.documentElement;
-    const screen = document.querySelector('.screen');
-    const center = document.querySelector('.center');
-    const hero   = center?.querySelector('.hero');
-    if (!screen || !center || !hero) return;
-
-    const clamp = (v,min,max) => Math.max(min, Math.min(max, v));
-
-    const update = () => {
-      const scr   = screen.getBoundingClientRect();
-      const heroR = hero.getBoundingClientRect();
-
-      // Zielgröße: groß genug um den Hero schön zu umrahmen, begrenzt durch Viewport und Screenbreite
-      const minWanted = heroR.width + 420;
-      const maxByW    = scr.width * 1.15;
-      const maxByH    = window.innerHeight * 1.2;
-      const size      = clamp(Math.max(1200, minWanted), 1000, Math.min(2600, maxByW, maxByH));
-      root.style.setProperty('--wm-size', Math.round(size) + 'px');
-
-      // Ankerpunkt ~ 36% der Hero-Höhe
-      const anchor = parseFloat(getComputedStyle(root).getPropertyValue('--wm-anchor')) || 0.36;
-      const docY   = window.scrollY;
-      const scrTop = scr.top + docY;
-      const heroTop= heroR.top + docY;
-
-      // Position in Dokument-Koordinaten -> bewegt sich beim Scrollen natürlich mit
-      const centerY= heroTop - scrTop + (heroR.height * anchor);
-      const top    = Math.round(centerY - (size/2));
-      root.style.setProperty('--wm-top', top + 'px');
-    };
-
-    const ro = new ResizeObserver(update);
-    ro.observe(hero);
-    ro.observe(screen);
-    window.addEventListener('resize', update, { passive:true });
-    window.addEventListener('scroll', update, { passive:true });
-    window.addEventListener('load', update,   { passive:true });
-    document.fonts?.ready?.then(update);
-    update();
   })();
   </script>
 </body>
