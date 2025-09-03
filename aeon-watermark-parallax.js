@@ -12,24 +12,24 @@
     const scr   = screen.getBoundingClientRect();
     const heroR = hero.getBoundingClientRect();
 
-    // Zielgröße: groß genug, um Hero üppig zu umrahmen, aber ohne Clipping
-    const minWanted = heroR.width + 700;      // großzügig
-    const maxByW    = scr.width  * 1.35;
-    const maxByH    = window.innerHeight * 1.6;
-    const size      = clamp(Math.max(1400, minWanted), 1200, Math.min(3200, maxByW, maxByH));
+    // Bild soll KOMPLETT sichtbar sein → contain
+    // Größe: so groß wie möglich, aber voll sichtbar in Screen/Viewport
+    const maxSquare = Math.min(scr.width * 1.05, window.innerHeight * 1.05);
+    const minWanted = Math.max(heroR.width + 400, 1200);
+    const size      = clamp(Math.max(minWanted, maxSquare), 1000, 3600);
+
     root.style.setProperty('--wm-size', Math.round(size) + 'px');
 
-    // Ankerpunkt ~36% der Hero-Höhe – gefühlt „Mitte über Headline“
+    // Ankerpunkt ~36% der Hero-Höhe (wirkt „über der Headline“)
     const anchor = parseFloat(getComputedStyle(root).getPropertyValue('--wm-anchor')) || 0.36;
 
-    // Dokument-Koordinaten -> innerhalb .screen positionieren
+    // Dokument-Koordinaten → relativ zur .screen-Bühne
     const docY   = window.scrollY;
     const scrTop = scr.top  + docY;
     const heroTop= heroR.top + docY;
 
     const centerY= heroTop - scrTop + (heroR.height * anchor);
     const top    = Math.round(centerY - (size / 2));
-
     root.style.setProperty('--wm-top', top + 'px');
   }
 
