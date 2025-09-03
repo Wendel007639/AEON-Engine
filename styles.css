@@ -4,9 +4,10 @@
   --card:#0b1426; --border:rgba(255,255,255,.08);
   --radius:18px; --shadow:0 20px 80px rgba(0,0,0,.35), inset 0 0 0 1px var(--border);
 
-  /* Mandala – JS setzt diese Werte live; Fallbacks hier */
-  --mandala-size: 1280px;   /* wird dynamisch mind. 1200px, max. 2200px gesetzt */
-  --mandala-top: 0px;       /* exakt auf Hero-Top */
+  /* Mandala – Fallbacks (JS setzt live) */
+  --mandala-size: 1600px;
+  --mandala-top: 0px;
+  --mandala-anchor: 0.36; /* Anteil der Hero-Höhe, der auf das Mandala-Zentrum zeigt */
 }
 
 *{box-sizing:border-box}
@@ -24,7 +25,6 @@ body{
   background-color:var(--bg);
 }
 
-/* KEIN globales Bild mehr im Body – Mandala hängt an .center */
 /* a11y & Wrap */
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:32px 20px 120px; position:relative; z-index:1}
@@ -49,7 +49,7 @@ a{color:inherit;text-decoration:none}
 @media (max-width:900px){.nav .btn.mobile{display:inline-block}}
 
 /* Layout */
-.screen{display:grid;gap:18px;margin-top:18px;grid-template-columns:280px 1fr 280px}
+.screen{display:grid;gap:18px;margin-top:18px;grid-template-columns:280px 1fr 280px; position:relative;}
 @media (max-width:1100px){ .screen{ grid-template-columns: 240px 1fr 240px } }
 @media (max-width:900px){ .screen{ grid-template-columns: 1fr } }
 
@@ -103,23 +103,9 @@ a{color:inherit;text-decoration:none}
   }
 }
 
-/* === Mandala exakt unter der Mitte (nicht verkleinern) === */
-.center{ position: relative; z-index: 0; }
-.center::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  top: var(--mandala-top);                    /* exakt auf Hero-Top */
-  width: var(--mandala-size);
-  height: var(--mandala-size);
-  background: url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") center/contain no-repeat;
-  opacity:.35;
-  pointer-events:none;
-  z-index:-1;
-}
-@media (max-width:900px){
-  .center::before{ opacity:.25; }
+/* Mandala (an .screen, nicht .center) – immer komplett sichtbar */
+.screen::before{
+  /* Werte kommen aus :root (werden von JS gesetzt) */
 }
 
 /* Hero */
@@ -217,7 +203,7 @@ footer{margin-top:26px}
   .fire-text{animation:none}
 }
 
-/* === FORCE MOBILE ON DESKTOP === */
+/* FORCE MOBILE ON DESKTOP */
 body.force-mobile .screen{ grid-template-columns:1fr !important; gap:22px !important; }
 body.force-mobile .nav{ grid-template-columns:1fr; row-gap:10px; position:relative; z-index:6; }
 body.force-mobile .brand{ grid-column:1; justify-self:center; }

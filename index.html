@@ -13,23 +13,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/AEON-Engine/img/AEON_4K_neuron_4k_light.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
-  <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 
-  <!-- Overrides -->
+  <!-- Deine Basis-Styles -->
+  <link rel="stylesheet" href="/AEON-Engine/styles.css?v=2123">
+
+  <!-- Kleine, seitenlokale Overrides für einheitliche Cards -->
   <style>
     :root{
-      --stick-top:24px;                    /* via JS an Nav-Höhe gekoppelt */
+      --stick-top:24px;
       --card-bg: rgba(255,255,255,.04);
       --card-bd: rgba(255,255,255,.08);
       --card-shadow: 0 10px 30px rgba(0,0,0,.18);
-      /* Mandala-Defaults (werden durch JS gesetzt) */
+
+      /* Mandala-Defaults (werden von JS live gesetzt) */
       --mandala-size: 1600px;
       --mandala-top: 0px;
+      --mandala-anchor: 0.36; /* Anteil der Hero-Höhe über dem Mandala-Zentrum */
     }
     [hidden]{display:none!important}
 
-    /* Einheitlicher Card-Look */
     .hero,.sidecard,.meta-card{
       border-radius:14px !important;
       background:var(--card-bg) !important;
@@ -43,22 +45,7 @@
     .meta .badge{display:inline-block;margin-bottom:.5rem}
     .hero .lead{ line-height:1.7 }
 
-    /* Close-Button */
-    .close-card{
-      position:absolute; top:.35rem; right:.5rem;
-      width:28px; height:28px; display:flex; align-items:center; justify-content:center;
-      border-radius:999px; font-size:18px; line-height:1;
-      background:transparent; color:rgba(255,255,255,.9);
-      border:1px solid transparent; cursor:pointer; z-index:2;
-    }
-    .close-card:hover,.close-card:focus-visible{
-      background:rgba(255,255,255,.08);
-      border-color:rgba(255,255,255,.18);
-      box-shadow:0 0 0 3px rgba(55,231,255,.25);
-      outline:none;
-    }
-
-    /* Linke Nav: "Mehr …" und Titel-Stil */
+    /* Linke Nav – Mehr… */
     #drawer-left .more-row{ display:flex; justify-content:flex-end; align-items:center; margin-top:.5rem }
     #drawer-left .more-btn{
       background:transparent; border:0; cursor:pointer;
@@ -73,21 +60,25 @@
       .sidebar{ position:sticky; top:var(--stick-top); align-self:start }
     }
 
-    /* Mandala/Wasserzeichen exakt unter der Mitte – kein Verkleinern durch CSS */
-    .center{ position:relative; z-index:0 }
-    .center::before{
+    /* Mandala an .screen (spannt alle 3 Spalten), immer hinter allen Panels */
+    .screen{ position:relative; }
+    .screen::before{
       content:"";
       position:absolute;
-      left:50%; transform:translateX(-50%);
+      left:50%;
+      transform:translateX(-50%);
       top: var(--mandala-top);
       width: var(--mandala-size);
       height: var(--mandala-size);
-      background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain;
+      background:url("/AEON-Engine/img/AEON_4K_neuron_4k_light.png") no-repeat center/contain; /* immer vollständig sichtbar */
       opacity:.35;
       pointer-events:none;
-      z-index:-1; /* hinter allen Cards */
+      z-index:0;
     }
+    .screen > *{ position:relative; z-index:1; } /* Panels sicher vor dem Mandala */
   </style>
+
+  <script src="/AEON-Engine/mobile-redirect.js?v=1" defer></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -108,7 +99,7 @@
       </div>
     </nav>
 
-    <!-- SCREEN -->
+    <!-- SCREEN (3 Spalten + Mandala-Hintergrund) -->
     <section class="screen">
       <!-- Links NAV -->
       <aside id="drawer-left" class="sidebar left" aria-label="A.E.O.N Kortex">
@@ -265,7 +256,6 @@
           </article>
         </section>
         <!-- ▲▲▲ Ende Meta-Sektionen ▲▲▲ -->
-
       </main>
 
       <!-- Rechts NAV -->
@@ -325,10 +315,10 @@
     const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
     const prefersNoMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
-    /* --- Sticky-Offset exakt an Nav-Höhe koppeln --- */
+    /* Sticky-Offset an Nav-Höhe koppeln */
     function setStickTop(){
       const nav = document.querySelector('.nav');
-      const extra = 12; // kleiner Puffer
+      const extra = 12;
       const h = (nav?.offsetHeight || 48) + extra;
       document.documentElement.style.setProperty('--stick-top', h + 'px');
     }
@@ -340,19 +330,16 @@
     window.addEventListener('resize', setStickTop);
     document.fonts?.ready?.then(setStickTop);
 
-    /* --- Hilfsfunktion für präzises Scrollen mit Offset --- */
+    /* Scrollen mit Offset */
     function scrollToWithOffset(el){
       const cs = getComputedStyle(document.documentElement);
       const top = parseFloat(cs.getPropertyValue('--stick-top')) || 0;
       const y = window.scrollY + el.getBoundingClientRect().top - top - 8;
-      try{
-        window.scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' });
-      }catch(_){
-        window.scrollTo(0, y);
-      }
+      try{ window.scrollTo({ top: y, behavior: prefersNoMotion ? 'auto' : 'smooth' }); }
+      catch(_){ window.scrollTo(0, y); }
     }
 
-    /* --- Meta-Toggles --- */
+    /* Meta-Toggles */
     function show(id){
       const el = document.getElementById(id);
       if (!el) return;
@@ -389,7 +376,7 @@
     });
 
     document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-close]'));
+      const btn = e.target.closest('[data-close]'); /* FIX: kein extra ) mehr */
       if (!btn) return;
       e.preventDefault();
       hide(btn.getAttribute('data-close'));
@@ -409,7 +396,7 @@
       else META_IDS.forEach(hide);
     });
 
-    /* --- Linke Nav: nur erste 5 zeigen + Mehr/Weniger --- */
+    /* Linke Nav: erste 5 + Mehr/Weniger */
     (function setupLeftNavLimiter(){
       const leftNav = document.querySelector('#drawer-left .sidecard');
       if (!leftNav) return;
@@ -445,31 +432,44 @@
   })();
   </script>
 
-  <!-- Mandala-Sync: Größe & Top exakt an die Hero koppeln (kein Verkleinern durch CSS) -->
+  <!-- Mandala-Sync: immer vollständig sichtbar + exakt ausgerichtet -->
   <script>
   (() => {
-    const root = document.documentElement;
+    const root   = document.documentElement;
+    const screen = document.querySelector('.screen');
     const center = document.querySelector('.center');
-    const hero = center?.querySelector('.hero');
-    if (!center || !hero) return;
+    const hero   = center?.querySelector('.hero');
+    if (!screen || !center || !hero) return;
 
     const update = () => {
-      // Mandala-Größe an Hero-Breite + Luft koppeln
-      const rect = hero.getBoundingClientRect();
-      let size = rect.width + 420;                 // „Bleed“ um den Hero herum
-      size = Math.max(1200, Math.min(size, 2200)); // Minimum hart, Deckel nach oben
+      const scr  = screen.getBoundingClientRect();
+      const heroR= hero.getBoundingClientRect();
+
+      // Größe: nie größer als Screen-Breite oder Viewport-Höhe (damit 100% sichtbar),
+      // aber mindestens groß genug, um den Hero sauber zu „einfassen“.
+      const minWanted = heroR.width + 420;                     // Bleed um Hero
+      const maxByW    = scr.width - 24;                         // nicht breiter als 3-Spalten-Container
+      const maxByH    = window.innerHeight - 24;                // nicht höher als Viewport
+      let size        = Math.max(1200, Math.min(Math.max(minWanted, 1200), Math.min(maxByW, maxByH, 2600)));
       root.style.setProperty('--mandala-size', size + 'px');
 
-      // Mandala-Top exakt auf Hero-Top relativ zu .center
-      const top = hero.offsetTop;
-      root.style.setProperty('--mandala-top', top + 'px');
+      // Y-Position: Mandala-Zentrum auf einen Anker in der Hero (z.B. 36% der Hero-Höhe)
+      const anchor = parseFloat(getComputedStyle(root).getPropertyValue('--mandala-anchor')) || 0.36;
+      const scrTop = scr.top + window.scrollY;
+      const heroTop= heroR.top + window.scrollY;
+      const centerY= heroTop - scrTop + (heroR.height * anchor); // Anker in .screen-Koordinaten
+      const top    = centerY - (size / 2);                        // top = Mittelpunkt - halbe Größe
+      root.style.setProperty('--mandala-top', `${Math.round(top)}px`);
     };
 
-    update();
-    new ResizeObserver(update).observe(hero);
-    window.addEventListener('resize', update, { passive: true });
-    window.addEventListener('load', update, { passive: true });
+    // Live-Updates
+    const ro = new ResizeObserver(update);
+    ro.observe(hero);
+    ro.observe(screen);
+    window.addEventListener('resize', update, { passive:true });
+    window.addEventListener('load', update,   { passive:true });
     document.fonts?.ready?.then(update);
+    update();
   })();
   </script>
 </body>
